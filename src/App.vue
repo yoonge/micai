@@ -1,24 +1,24 @@
 <template>
   <div id="app">
-    <spinner class="x-spinner" :type="type" :show="loading"></spinner>
+    <loading :show="loading" :text="text1"></loading>
     <x-header :left-options="{ showBack: true }" :right-options="{ showMore: true }" style="background-color:#000;">信果</x-header>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Spinner from 'vux-components/spinner'
+import Loading from 'vux-components/loading'
 import XHeader from 'vux-components/x-header'
 
 export default {
   components: {
-    Spinner,
+    Loading,
     XHeader
   },
   data () {
     return {
-      type: 'bubbles',
-      loading: true
+      loading: true,
+      text1: 'Loading...'
     }
   },
   ready () {
@@ -43,7 +43,7 @@ function tick (i, cb) {
     if (i < 100) {
       tick(i, cb)
     }
-  }, 10)
+  }, 20)
 }
 </script>
 
@@ -52,13 +52,6 @@ function tick (i, cb) {
 
 body {
   background-color: #fbf9fe;
-}
-.x-spinner {
-  margin-top: -14px;
-  margin-left: -14px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
 }
 </style>
 
