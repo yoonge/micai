@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Group from 'vux/src/components/group'
-import Cell from 'vux/src/components/cell'
+import Group from 'vux-components/group'
+import Cell from 'vux-components/cell'
 
 export default {
   components: {

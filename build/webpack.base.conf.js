@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
@@ -6,7 +7,12 @@ var vuxLoader = require('vux-loader')
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    // vendor: [
+    //   'zepto'
+    // ],
+    app: [
+      './src/main.js'
+    ]
   },
   output: {
     path: config.build.assetsRoot,
@@ -14,17 +20,34 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['', '.js', '.vue'],
+    extensions: ['', '.js', '.json', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
+      'vux-components': 'vux/src/components/',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'constants': path.resolve(__dirname, '../src/constants'),
+      'components': path.resolve(__dirname, '../src/components'),
+      'pages': path.resolve(__dirname, '../src/pages'),
+      'styles': path.resolve(__dirname, '../src/styles')
     }
   },
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     $: 'zepto',
+  //     zepto: 'zepto',
+  //     'window.$': 'zepto',
+  //     'window.zepto': 'zepto'
+  //   }),
+  //   new webpack.optimize.CommonsChunkPlugin({
+  //     name: 'vendor',
+  //     filename: 'vendor.[chunkhash:7].js'
+  //     minChunks: Infinity
+  //   })
+  // ],
   module: {
     preLoaders: [
       {
