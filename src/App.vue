@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loading :show="loading" :text="text1"></loading>
-    <x-header :left-options="{ showBack: true }" :right-options="{ showMore: true }" style="background-color:#000;">信果</x-header>
+    <x-header class="x-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header>
     <router-view></router-view>
   </div>
 </template>
@@ -50,8 +50,20 @@ function tick (i, cb) {
 <style lang="less">
 @import '~vux/src/styles/reset';
 
+html,
 body {
-  background-color: #fbf9fe;
+  font-family: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Helvetica", "Arial", "PingFang SC", "PingFang TC", "Hiragino Sans GB", "Microsoft YaHei", "Microsoft JhengHei", sans-serif;
+  width: 100%;
+  height: 100%;
+}
+body {
+  background-image: url('./assets/login_bg@2x.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+}
+.x-header {
+  background-color: #000 !important;
 }
 </style>
 

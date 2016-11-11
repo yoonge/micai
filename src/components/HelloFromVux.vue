@@ -1,6 +1,6 @@
 <template>
   <div class="vux-demo">
-    <img class="logo" src="../assets/vux_logo.png">
+    <img class="logo" src="../assets/logo@2x.png">
     <h1>{{ msg }}</h1>
   </div>
   <group title="cell demo">
@@ -23,7 +23,7 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      msg: 'Hello World!'
+      msg: 'Hello MiCai !'
     }
   }
 }
@@ -35,7 +35,7 @@ export default {
 }
 
 .logo {
-  width: 100px;
-  height: 100px
+  width: 132px;
+  margin-top: 30px;
 }
 </style>
