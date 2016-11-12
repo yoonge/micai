@@ -55,6 +55,7 @@ body {
   font-family: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Helvetica", "Arial", "PingFang SC", "PingFang TC", "Hiragino Sans GB", "Microsoft YaHei", "Microsoft JhengHei", sans-serif;
   width: 100%;
   height: 100%;
+  min-height: 568px;
 }
 body {
   background-image: url('./assets/login_bg@2x.png');
