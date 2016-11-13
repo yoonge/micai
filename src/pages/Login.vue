@@ -2,12 +2,24 @@
   <div class="vux-demo">
     <img class="logo" src="../assets/logo@2x.png">
   </div>
-  <div class="form-wrapper">
+  <div class="form-login">
     <group>
-      <x-input keyboard="number" is-type="china-mobile" placeholder="请输入手机号"></x-input>
       <flexbox :gutter="0">
+        <flexbox-item style="flex: 0 0 20px;">
+          <icon type="search"></icon>
+        </flexbox-item>
+        <flexbox-item>
+          <x-input keyboard="number" is-type="china-mobile" placeholder="请输入手机号"></x-input>
+        </flexbox-item>
+      </flexbox>
+      <flexbox :gutter="0">
+        <flexbox-item style="flex: 0 0 20px;">
+          <icon type="search"></icon>
+        </flexbox-item>
         <flexbox-item><x-input :min="4" :max="5" placeholder="短信验证码"></x-input></flexbox-item>
-        <flexbox-item :span="2/5" style="text-align: right;"><x-button mini>获取验证码</x-button></flexbox-item>
+        <flexbox-item style="flex: 0 0 91px;">
+            <x-button mini>获取验证码</x-button>
+        </flexbox-item>
       </flexbox>
       <x-button class="btn-login" disabled>登录</x-button>
     </group>
@@ -15,7 +27,7 @@
 </template>
 
 <script>
-import { Group, Cell, Flexbox, FlexboxItem, XInput, XButton } from 'vux-components'
+import { Group, Cell, Flexbox, FlexboxItem, XInput, XButton, Icon } from 'vux-components'
 
 export default {
   components: {
@@ -24,7 +36,8 @@ export default {
     Flexbox,
     FlexboxItem,
     XInput,
-    XButton
+    XButton,
+    Icon
   },
   data () {
     return {
@@ -41,9 +54,13 @@ export default {
   text-align: center;
 }
 
-.form-wrapper {
-  padding-left: 25px;
-  padding-right: 25px;
+.form-login {
+  padding-left: 32px;
+  padding-right: 32px;
+  & .weui_cell {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .logo {
