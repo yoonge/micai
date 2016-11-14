@@ -1,27 +1,29 @@
 <template>
-  <div class="vux-demo">
-    <img class="logo" src="../assets/logo@2x.png">
+  <div class="xg-logo-wrapper">
+    <img class="xg-logo" src="../assets/logo@2x.png">
   </div>
-  <div class="form-login">
+  <div class="xg-login">
     <group>
       <flexbox :gutter="0">
-        <flexbox-item style="flex: 0 0 20px;">
-          <icon type="search"></icon>
+        <flexbox-item style="flex: 0 0 32px;">
+          <i class="ui-icon ui-icon-md ui-icon-phone"></i>
         </flexbox-item>
         <flexbox-item>
-          <x-input keyboard="number" is-type="china-mobile" placeholder="请输入手机号"></x-input>
+          <x-input is-type="china-mobile" placeholder="请输入手机号"></x-input>
         </flexbox-item>
       </flexbox>
       <flexbox :gutter="0">
-        <flexbox-item style="flex: 0 0 20px;">
-          <icon type="search"></icon>
+        <flexbox-item style="flex: 0 0 32px;">
+          <i class="ui-icon ui-icon-md ui-icon-captcha"></i>
         </flexbox-item>
-        <flexbox-item><x-input :min="4" :max="5" placeholder="短信验证码"></x-input></flexbox-item>
+        <flexbox-item>
+          <x-input :min="4" :max="4" placeholder="短信验证码"></x-input>
+        </flexbox-item>
         <flexbox-item style="flex: 0 0 91px;">
-            <x-button mini>获取验证码</x-button>
+            <a href="#!" class="btn-link">获取验证码</a>
         </flexbox-item>
       </flexbox>
-      <x-button class="btn-login" disabled>登录</x-button>
+      <x-button disabled>登录</x-button>
     </group>
   </div>
 </template>
@@ -50,26 +52,37 @@ export default {
 <style lang="less">
 @import '~vux/src/styles/1px.less';
 
-.vux-demo {
+.xg-logo-wrapper {
   text-align: center;
 }
 
-.form-login {
+.xg-login {
   padding-left: 32px;
   padding-right: 32px;
-  & .weui_cell {
+  .vux-flexbox {
+    border-bottom: 1px solid #e3e3e3; 
+  }
+  .weui_cell {
     padding-left: 0;
     padding-right: 0;
   }
+  .btn-link {
+    color: #51a5f7;
+  }
+  .weui_btn:after {
+    border: none;
+  }
+  .weui_btn_disabled.weui_btn_default {
+    color: #fff;
+    border-radius: 2px;
+    background-color: #e3e3e3;
+    margin-top: 24px;
+  }
 }
 
-.logo {
+.xg-logo {
   width: 132px;
   margin-top: 30px;
-}
-
-.btn-login {
-  margin-top: 24px;
 }
 
 .weui_cells:before {
