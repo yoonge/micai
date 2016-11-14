@@ -19,7 +19,7 @@
     "vue-router": "^0.7.11",
     "vuex": "^2.0.0",
     "vux": "^0.1.1",
-    "zepto": "^1.2.0"
+    "webpack-zepto": "0.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

@@ -2,7 +2,8 @@
   <div id="app">
     <loading :show="loading" :text="text1"></loading>
     <x-header class="xg-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header>
-    <router-view></router-view>
+    <router-view>
+    </router-view>
   </div>
 </template>
 
@@ -43,7 +44,7 @@ function tick (i, cb) {
     if (i < 100) {
       tick(i, cb)
     }
-  }, 20)
+  }, 10)
 }
 </script>
 

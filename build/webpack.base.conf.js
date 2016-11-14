@@ -7,9 +7,9 @@ var vuxLoader = require('vux-loader')
 
 module.exports = {
   entry: {
-    // vendor: [
-    //   'zepto'
-    // ],
+    vendor: [
+      'webpack-zepto'
+    ],
     app: [
       './src/main.js'
     ]
@@ -35,19 +35,22 @@ module.exports = {
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
-  // plugins: [
-  //   new webpack.ProvidePlugin({
-  //     $: 'zepto',
-  //     zepto: 'zepto',
-  //     'window.$': 'zepto',
-  //     'window.zepto': 'zepto'
-  //   }),
-  //   new webpack.optimize.CommonsChunkPlugin({
-  //     name: 'vendor',
-  //     filename: 'vendor.[chunkhash:7].js'
-  //     minChunks: Infinity
-  //   })
-  // ],
+  // externals: {
+  //   'zepto': 'zepto'
+  // },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'webpack-zepto',
+      zepto: 'webpack-zepto',
+      'window.$': 'webpack-zepto',
+      'window.zepto': 'webpack-zepto'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.[chunkhash:7].js'
+      minChunks: Infinity
+    })
+  ],
   module: {
     preLoaders: [
       {
