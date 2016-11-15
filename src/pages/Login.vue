@@ -37,7 +37,7 @@
       </flexbox>
       <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
     </group>
-    <toast :show.sync="showToast" :time="600000" type="text" width="12em">{{textToast}}</toast>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
@@ -91,6 +91,9 @@ export default {
       if (!(/^1[34578]\d{9}$/.test(phoneNum))) {
         this.textToast = '您填写的手机格式有误！'
         this.showToast = true
+        return false
+      } else {
+        return true
       }
     },
     listenCaptcha () {
@@ -125,9 +128,7 @@ export default {
       } else {
         this.textToast = '您输入的验证码有误！'
         this.showToast = true
-        if (!this.showCaptcha) {
-          this.showCaptcha = true
-        }
+        if (!this.showCaptcha) this.showCaptcha = true
         this.btnDisabled = true
         $('button.btn-login').removeClass('weui_btn_primary').addClass('weui_btn_default')
       }
@@ -140,16 +141,14 @@ export default {
         this.textToast = '短信验证码已成功发送，十分钟内有效！'
         this.showToast = true
         this.linkDisable = true
-        let t = 60
-        this.textLink = t + ' 秒后重发'
+        let t = 30
         let timer = setInterval(function () {
           t--
           if (t === 0) {
-            that.linkDisable = false
+            if (that.checkTelphone()) that.linkDisable = false
             that.textLink = '重发验证码'
             clearInterval(timer)
           } else {
-            console.log(t)
             that.textLink = t + ' 秒后重发'
           }
         }, 1000)
