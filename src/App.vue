@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loading :show="loading" :text="textLoading"></loading>
-    <x-header class="xg-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header>
+    <!-- <x-header class="xg-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header> -->
     <router-view>
     </router-view>
   </div>
@@ -9,12 +9,11 @@
 
 <script>
 import Loading from 'vux-components/loading'
-import XHeader from 'vux-components/x-header'
+// import XHeader from 'vux-components/x-header'
 
 export default {
   components: {
-    Loading,
-    XHeader
+    Loading
   },
   data () {
     return {

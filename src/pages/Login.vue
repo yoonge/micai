@@ -165,6 +165,7 @@ export default {
 }
 
 .xg-login {
+  margin-top: 20px;
   padding-left: 32px;
   padding-right: 32px;
 
