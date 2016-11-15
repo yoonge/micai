@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <loading :show="loading" :text="text1"></loading>
+    <loading :show="loading" :text="textLoading"></loading>
     <x-header class="xg-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header>
     <router-view>
     </router-view>
@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       loading: true,
-      text1: 'Loading...'
+      textLoading: 'Loading...'
     }
   },
   ready () {
@@ -61,7 +61,7 @@ body {
   min-height: 568px;
 }
 body {
-  background-image: url('./assets/login_bg@2x.png');
+  background-image: url('./assets/img/login_bg@2x.png');
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: contain;
