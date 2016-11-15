@@ -37,7 +37,7 @@
       </flexbox>
       <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
     </group>
-    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
+    <toast :show.sync="showToast" :time="600000" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
@@ -219,8 +219,7 @@ export default {
     .weui_toast_content {
       color: rgba(255, 255, 255, .8);
       font-size: 14px;
-      padding-top: 6px;
-      padding-bottom: 6px;
+      padding: 6px 8px;
     }
   }
 }
