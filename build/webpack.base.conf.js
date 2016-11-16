@@ -11,7 +11,8 @@ module.exports = {
       'webpack-zepto'
     ],
     app: [
-      './src/main.js'
+      login: './src/main.js',
+      homepage: './src/main.js'
     ]
   },
   output: {

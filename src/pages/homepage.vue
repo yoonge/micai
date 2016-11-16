@@ -11,6 +11,20 @@
         <li class="xg-info-title">产品经理</li>
       </ul>
     </div>
+    <div class="xg-section">
+      <dl class="xg-manpower-map">
+        <dd><a href="#!"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dt>人力地图</dt>
+        <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
+      </dl>
+    </div>
+    <div class="xg-section">
+      <dl class="xg-manpower-map">
+        <dd><a href="#!"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dt>人力地图</dt>
+        <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
+      </dl>
+    </div>
   </div>
 </template>
 
@@ -45,10 +59,45 @@ export default {
   width: 100%;
   height: 100%;
   min-height: 568px;
+  box-sizing: border-box;
   background-image: url('../assets/img/homepage-bg@2x.png');
   background-repeat: no-repeat;
   background-position: center top;
   background-size: 100% 100%;
+  padding-right: 32px;
+  padding-left: 32px;
+
+  .xg-section {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 2px 2px 7px 1px rgba(0, 0, 0, .19);
+    margin-top: 12px;
+    padding: 12px 12px 24px;
+
+    .xg-manpower-map {
+      color: #626262;
+      font-size: 12px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+
+      dt {
+        font-size: 17px;
+        font-weight: bold;
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
+      dd:first-child > a > img {
+        width: 100%;
+      }
+      dd:last-child {
+        padding-right: 24px;
+        padding-left: 24px;
+      }
+    }
+  }
 }
 
 .xg-avatar-wrapper {
@@ -68,8 +117,8 @@ export default {
     background-position: center bottom;
     background-size: 106px 106px;
     overflow: hidden;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
 
     > img {
       width: 104px;

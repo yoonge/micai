@@ -11,7 +11,7 @@
             <i class="ui-icon ui-icon-md ui-icon-phone"></i>
           </flexbox-item>
           <flexbox-item>
-            <input type="tel" v-model="telphone" placeholder="请输入手机号" @input="listenTelphone()" @blur="checkTelphone()">
+            <input type="tel" v-model="telphone" maxlength="11" placeholder="请输入手机号" @input="listenTelphone()" @blur="checkTelphone()">
           </flexbox-item>
         </flexbox>
         <flexbox :gutter="0">
@@ -184,8 +184,8 @@ export default {
 
 .xg-login {
   margin-top: 20px;
-  padding-left: 32px;
   padding-right: 32px;
+  padding-left: 32px;
 
   .vux-flexbox {
     border-bottom: 1px solid #e3e3e3;
