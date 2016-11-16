@@ -2,8 +2,7 @@
   <div id="app">
     <loading :show="loading" :text="textLoading"></loading>
     <!-- <x-header class="xg-header" :left-options="{ showBack: true }" :right-options="{ showMore: true }">蜜才</x-header> -->
-    <router-view>
-    </router-view>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -57,13 +56,10 @@ body {
   font-family: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Helvetica", "Arial", "PingFang SC", "PingFang TC", "Hiragino Sans GB", "Microsoft YaHei", "Microsoft JhengHei", sans-serif !important;
   width: 100%;
   height: 100%;
-  min-height: 568px;
 }
-body {
-  background-image: url('./assets/img/login_bg@2x.png');
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: contain;
+#app {
+  width: 100%;
+  height: 100%;
 }
 .xg-header {
   background-color: #000 !important;
