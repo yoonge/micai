@@ -55,16 +55,21 @@ export default {
 </script>
 
 <style lang="less">
+@import '~vux/src/styles/reset';
+@import '../styles/reset';
+@import '../styles/icon';
+
+// body {
+//   background-color: rgb(104, 206, 255);
+//   background-image: url('../assets/img/homepage-bg@2x.png');
+//   background-position: center top;
+//   background-size: 100% 100%;
+// }
+
 .xg-homepage {
-  width: 100%;
-  height: 100%;
-  min-height: 568px;
   box-sizing: border-box;
-  background-image: url('../assets/img/homepage-bg@2x.png');
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% 100%;
   padding-right: 32px;
+  padding-bottom: 48px;
   padding-left: 32px;
 
   .xg-section {
@@ -72,9 +77,13 @@ export default {
     box-sizing: border-box;
     border-radius: 8px;
     background-color: #fff;
-    box-shadow: 2px 2px 7px 1px rgba(0, 0, 0, .19);
+    box-shadow: 2px 2px 7px 1px rgba(0, 0, 0, .2);
     margin-top: 12px;
     padding: 12px 12px 24px;
+
+    & + .xg-section {
+      margin-top: 48px;
+    }
 
     .xg-manpower-map {
       color: #626262;

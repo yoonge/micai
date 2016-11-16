@@ -14,4 +14,4 @@ const router = new VueRouter({
 
 Routes(router)
 
-router.start(Login, '#app')
+router.start(Login, '#login')

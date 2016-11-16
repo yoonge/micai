@@ -1,45 +1,43 @@
 <template>
-  <div class="xg-login-wrapper">
-    <loading :show="loading" :text="textLoading"></loading>
-    <div class="xg-logo-wrapper">
-      <img class="xg-logo" src="../assets/img/logo@2x.png">
-    </div>
-    <div class="xg-login">
-      <group>
-        <flexbox :gutter="0">
-          <flexbox-item style="flex: 0 0 32px;">
-            <i class="ui-icon ui-icon-md ui-icon-phone"></i>
-          </flexbox-item>
-          <flexbox-item>
-            <input type="tel" v-model="telphone" maxlength="11" placeholder="请输入手机号" @input="listenTelphone()" @blur="checkTelphone()">
-          </flexbox-item>
-        </flexbox>
-        <flexbox :gutter="0">
-          <flexbox-item style="flex: 0 0 32px;">
-            <i class="ui-icon ui-icon-md ui-icon-sms-code"></i>
-          </flexbox-item>
-          <flexbox-item>
-            <input type="text" v-model="smsCode" maxlength="4" placeholder="短信验证码" @input="listenCaptcha()"></input>
-          </flexbox-item>
-          <flexbox-item style="flex: 0 0 96px; text-align: right;">
-              <a href="#!" class="btn-link" :class="{'btn-link-disable': linkDisable}" @click="getSmsCode()">{{textLink}}</a>
-          </flexbox-item>
-        </flexbox>
-        <flexbox :gutter="0" v-if="showCaptcha">
-          <flexbox-item style="flex: 0 0 32px;">
-            <i class="ui-icon ui-icon-md ui-icon-captcha"></i>
-          </flexbox-item>
-          <flexbox-item>
-            <input type="text" v-model="captcha" maxlength="6" placeholder="校验码" @input="listenCaptcha()">
-          </flexbox-item>
-          <flexbox-item style="flex: 0 0 89px;">
-              <img src="../assets/img/captcha@2x.png" alt="Captcha" width="89">
-          </flexbox-item>
-        </flexbox>
-        <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
-      </group>
-      <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
-    </div>
+  <loading :show="loading" :text="textLoading"></loading>
+  <div class="xg-logo-wrapper">
+    <img class="xg-logo" src="../assets/img/logo@2x.png">
+  </div>
+  <div class="xg-login">
+    <group>
+      <flexbox :gutter="0">
+        <flexbox-item style="flex: 0 0 32px;">
+          <i class="ui-icon ui-icon-md ui-icon-phone"></i>
+        </flexbox-item>
+        <flexbox-item>
+          <input type="tel" v-model="telphone" maxlength="11" placeholder="请输入手机号" @input="listenTelphone()" @blur="checkTelphone()">
+        </flexbox-item>
+      </flexbox>
+      <flexbox :gutter="0">
+        <flexbox-item style="flex: 0 0 32px;">
+          <i class="ui-icon ui-icon-md ui-icon-sms-code"></i>
+        </flexbox-item>
+        <flexbox-item>
+          <input type="text" v-model="smsCode" maxlength="4" placeholder="短信验证码" @input="listenCaptcha()"></input>
+        </flexbox-item>
+        <flexbox-item style="flex: 0 0 96px; text-align: right;">
+            <a href="#!" class="btn-link" :class="{'btn-link-disable': linkDisable}" @click="getSmsCode()">{{textLink}}</a>
+        </flexbox-item>
+      </flexbox>
+      <flexbox :gutter="0" v-if="showCaptcha">
+        <flexbox-item style="flex: 0 0 32px;">
+          <i class="ui-icon ui-icon-md ui-icon-captcha"></i>
+        </flexbox-item>
+        <flexbox-item>
+          <input type="text" v-model="captcha" maxlength="6" placeholder="校验码" @input="listenCaptcha()">
+        </flexbox-item>
+        <flexbox-item style="flex: 0 0 89px;">
+            <img src="../assets/img/captcha@2x.png" alt="Captcha" width="89">
+        </flexbox-item>
+      </flexbox>
+      <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
+    </group>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
@@ -163,12 +161,12 @@ export default {
 </script>
 
 <style lang="less">
-.xg-login-wrapper {
-  width: 100%;
-  height: 100%;
-  min-height: 568px;
+@import '~vux/src/styles/reset';
+@import '../styles/reset';
+@import '../styles/icon';
+
+body {
   background-image: url('../assets/img/login-bg@2x.png');
-  background-repeat: no-repeat;
   background-position: center bottom;
   background-size: contain;
 }
