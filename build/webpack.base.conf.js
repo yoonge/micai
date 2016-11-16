@@ -10,10 +10,8 @@ module.exports = {
     vendor: [
       'webpack-zepto'
     ],
-    app: [
-      login: './src/main.js',
-      homepage: './src/main.js'
-    ]
+    login: './src/module/login/index.js',
+    homepage: './src/module/homepage/index.js'
   },
   output: {
     path: config.build.assetsRoot,

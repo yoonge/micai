@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import Homepage from './pages/Homepage'
+import Homepage from 'pages/Homepage'
 import VueRouter from 'vue-router'
-import Routes from './routes.js'
+import Routes from 'src/routes.js'
 
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
@@ -14,4 +14,4 @@ const router = new VueRouter({
 
 Routes(router)
 
-router.start(Homepage, '#app')
+router.start(Homepage, '#homepage')

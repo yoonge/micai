@@ -15,4 +15,3 @@ const router = new VueRouter({
 Routes(router)
 
 router.start(App, '#app')
-
