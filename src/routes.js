@@ -1,5 +1,5 @@
-import Login from 'module/login/'
-import Homepage from 'module/homepage/'
+import Login from 'module/login/index'
+import Homepage from 'module/homepage/index'
 
 const Routes = function (router) {
   router.map({
