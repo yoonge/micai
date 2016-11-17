@@ -125,7 +125,7 @@ export default {
         this.loading = true
         setTimeout(function () {
           that.loading = false
-          that.$router.go('/homepage')
+          window.location.href = '/module/homepage.html'
         }, 3000)
       } else {
         this.textToast = '您输入的验证码有误！'

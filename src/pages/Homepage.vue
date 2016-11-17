@@ -13,7 +13,7 @@
     </div>
     <div class="xg-section">
       <dl class="xg-manpower-map">
-        <dd><a href="#!"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dd><a href="/module/login.html"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
         <dt>人力地图</dt>
         <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
       </dl>
@@ -59,12 +59,12 @@ export default {
 @import '../styles/reset';
 @import '../styles/icon';
 
-// body {
-//   background-color: rgb(104, 206, 255);
-//   background-image: url('../assets/img/homepage-bg@2x.png');
-//   background-position: center top;
-//   background-size: 100% 100%;
-// }
+body {
+  background-color: rgb(104, 206, 255);
+  background-image: url('../assets/img/homepage-bg@2x.png');
+  background-position: center top;
+  background-size: 100% 100%;
+}
 
 .xg-homepage {
   box-sizing: border-box;
