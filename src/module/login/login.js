@@ -14,6 +14,12 @@ const Routes = function (router) {
       component: Login
     }
   })
+  router.redirect({
+    '/': '/login'
+  })
+  router.alias({
+    '/login': '/module/login.html'
+  })
 }
 
 const router = new VueRouter({
