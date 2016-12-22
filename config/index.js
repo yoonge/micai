@@ -4,11 +4,10 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/login.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    index: path.resolve(__dirname, '../dist/portal/content/weixinPublic/vue/index.html'),
+    assetsRoot: path.resolve(__dirname, '../dist/portal/content/weixinPublic/vue'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    // assetsPublicPath: '/portal/content/weixinPublic/vue/',
+    assetsPublicPath: '/portal/content/weixinPublic/vue/',
     productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -20,6 +19,14 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 8888,
-    proxyTable: {}
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/portal/content/weixinPublic/vue/',
+    proxyTable: {},
+    // CSS Sourcemaps off by default because relative paths are "buggy"
+    // with this option, according to the CSS-Loader README
+    // (https://github.com/webpack/css-loader#sourcemaps)
+    // In our experience, they generally work as expected,
+    // just be aware of this issue when enabling this option.
+    cssSourceMap: false
   }
 }

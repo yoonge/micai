@@ -1,7 +1,7 @@
 <template>
   <loading :show="loading" :text="textLoading"></loading>
   <div class="xg-logo-wrapper">
-    <img class="xg-logo" src="../assets/img/logo@2x.png">
+    <img class="xg-logo" src="~assets/img/logo@2x.png">
   </div>
   <div class="xg-login">
     <group>
@@ -32,7 +32,7 @@
           <input type="text" v-model="captcha" maxlength="6" placeholder="校验码" @input="listenCaptcha()">
         </flexbox-item>
         <flexbox-item style="flex: 0 0 89px;">
-            <img src="../assets/img/captcha@2x.png" alt="Captcha" width="89">
+            <img src="~assets/img/captcha@2x.png" alt="Captcha" width="89">
         </flexbox-item>
       </flexbox>
       <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
@@ -125,7 +125,7 @@ export default {
         this.loading = true
         setTimeout(function () {
           that.loading = false
-          window.location.href = '/module/homepage.html'
+          window.location.href = '/portal/content/weixinPublic/vue/homepage'
         }, 3000)
       } else {
         this.textToast = '您输入的验证码有误！'
@@ -166,7 +166,7 @@ export default {
 @import '../styles/icon';
 
 body {
-  background-image: url('../assets/img/login-bg@2x.png');
+  background-image: url(~assets/img/login-bg@2x.png);
   background-position: center bottom;
   background-size: contain;
 }

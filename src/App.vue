@@ -1,9 +1,15 @@
 <template>
+  <div class="app">
+    <router-view
+      transition
+      transition-mode="out-in">
+    </router-view>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Index',
+  name: 'App',
   ready () {
     this.reqFirst()
   },

@@ -3,7 +3,7 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="xg-avatar-wrapper">
       <div class="xg-avatar">
-        <img src="../assets/img/avatar-default@2x.png" alt="Avatar">
+        <img src="~assets/img/avatar-default@2x.png" alt="Avatar">
       </div>
       <ul class="xg-info">
         <li class="xg-info-mobile">186****4958</li>
@@ -13,14 +13,14 @@
     </div>
     <div class="xg-section">
       <dl class="xg-manpower-map">
-        <dd><a href="/module/login.html"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dd><a href="/portal/content/weixinPublic/vue/login"><img src="~assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
         <dt>人力地图</dt>
         <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
       </dl>
     </div>
     <div class="xg-section">
       <dl class="xg-manpower-map">
-        <dd><a href="#!"><img src="../assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dd><a href="#!"><img src="~assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
         <dt>人力地图</dt>
         <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
       </dl>
@@ -61,7 +61,7 @@ export default {
 
 body {
   background-color: rgb(104, 206, 255);
-  background-image: url('../assets/img/homepage-bg@2x.png');
+  background-image: url(~assets/img/homepage-bg@2x.png);
   background-position: center top;
   background-size: 100% 100%;
 }
@@ -121,7 +121,7 @@ body {
     border-radius: 55px;
     border: 6px solid #9dcbff;
     background-color: #fff;
-    background-image: url(../assets/img/avatar-default@2x.png);
+    background-image: url(~assets/img/avatar-default@2x.png);
     background-repeat: no-repeat;
     background-position: center bottom;
     background-size: 106px 106px;

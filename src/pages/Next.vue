@@ -9,18 +9,21 @@ export default {
   },
   methods: {
     reqSecond () {
-      window.alert(window.location.search)
       const code = this.getRequest('code')
       window.alert(code)
       this.$http({
         url: 'http://www.91micai.com/portal/weixinPublic/login.do',
-        data: {
+        params: {
           code: code
         },
         method: 'GET'
       }).then(res => {
-        console.log(res.data)
         window.alert(res.data)
+        if (res.data.stype === '1') {
+          window.location.href = '/portal/content/weixinPublic/vue/login'
+        } else if (res.data.stype === '0') {
+          window.location.href = '/portal/content/weixinPublic/vue/homepage'
+        }
       }).catch(err => {
         console.error(err.data)
       })
