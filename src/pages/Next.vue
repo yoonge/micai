@@ -1,7 +1,10 @@
 <template>
+  <h2>这里是 Next 的内容</h2>
 </template>
 
-<script>
+<script lang="babel">
+import * as api from 'src/api.js'
+
 export default {
   name: 'Next',
   ready () {
@@ -9,37 +12,39 @@ export default {
   },
   methods: {
     reqSecond () {
-      const code = this.getRequest('code')
-      window.alert(code)
+      // const code = this.getRequest('code')
+      const that = this
       this.$http({
-        url: 'http://www.91micai.com/portal/weixinPublic/login.do',
-        params: {
-          code: code
-        },
+        url: api.getUserInfo,
+        // params: {
+        //   code: code
+        // },
         method: 'GET'
       }).then(res => {
-        window.alert(res.data)
+        console.log(res.data)
         if (res.data.stype === '1') {
-          window.location.href = '/portal/content/weixinPublic/vue/login'
+          console.log(that.$route.path)
+          that.$route.router.go('/login')
         } else if (res.data.stype === '0') {
-          window.location.href = '/portal/content/weixinPublic/vue/homepage'
+          console.log(that.$route.path)
+          that.$route.router.go('/homepage')
         }
       }).catch(err => {
         console.error(err.data)
       })
-    },
-    getRequest (key) {
-      const url = window.location.search
-      let theRequest = {}
-      if (url.indexOf('?') !== -1) {
-        let str = url.substr(1)
-        let strs = str.split('&')
-        for (let i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-        }
-      }
-      return theRequest[key]
     }
+    // getRequest (key) {
+    //   const url = window.location.search
+    //   let theRequest = {}
+    //   if (url.indexOf('?') !== -1) {
+    //     let str = url.substr(1)
+    //     let strs = str.split('&')
+    //     for (let i = 0; i < strs.length; i++) {
+    //       theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+    //     }
+    //   }
+    //   return theRequest[key]
+    // }
   }
 }
 </script>

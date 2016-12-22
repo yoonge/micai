@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Routes from 'src/routes.js'
 
+const VueApp = Vue.extend(App)
+
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
@@ -11,10 +13,9 @@ Vue.use(VueRouter)
 Vue.use(VueResource)
 
 const router = new VueRouter({
-  hashbang: true,
   history: true
 })
 
 Routes(router)
 
-router.start(App, 'app')
+router.start(VueApp, 'app')

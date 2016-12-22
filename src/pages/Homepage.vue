@@ -13,7 +13,7 @@
     </div>
     <div class="xg-section">
       <dl class="xg-manpower-map">
-        <dd><a href="/portal/content/weixinPublic/vue/login"><img src="~assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
+        <dd><a v-link="'/login'"><img src="~assets/img/manpower-map@2x.png" alt="人力地图"></a></dd>
         <dt>人力地图</dt>
         <dd>拉近公司员工关系，增强沟通效率，让日常工作变的事半功倍</dd>
       </dl>
@@ -28,7 +28,8 @@
   </div>
 </template>
 
-<script>
+<script lang="babel">
+import $ from 'webpack-zepto'
 import { Loading } from 'vux-components'
 
 export default {
@@ -50,6 +51,9 @@ export default {
       loading: false,
       textLoading: '登录中...'
     }
+  },
+  ready () {
+    $('body').removeClass('login').addClass('homepage')
   }
 }
 </script>
@@ -59,7 +63,7 @@ export default {
 @import '../styles/reset';
 @import '../styles/icon';
 
-body {
+body.homepage {
   background-color: rgb(104, 206, 255);
   background-image: url(~assets/img/homepage-bg@2x.png);
   background-position: center top;
