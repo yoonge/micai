@@ -17,8 +17,7 @@ export default {
         url: api.getUrl,
         method: 'GET'
       }).then(res => {
-        console.log(that.$route.path)
-        that.$route.router.go(res.data.codeUrl)
+        that.$route.router.replace(res.data.codeUrl)
       }).catch(err => {
         console.error(err.data)
       })

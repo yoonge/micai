@@ -13,20 +13,18 @@ export default {
   methods: {
     reqSecond () {
       // const code = this.getRequest('code')
+      const code = '1234567890'
       const that = this
       this.$http({
         url: api.getUserInfo,
-        // params: {
-        //   code: code
-        // },
+        params: {
+          code: code
+        },
         method: 'GET'
       }).then(res => {
-        console.log(res.data)
         if (res.data.stype === '1') {
-          console.log(that.$route.path)
           that.$route.router.go('/login')
         } else if (res.data.stype === '0') {
-          console.log(that.$route.path)
           that.$route.router.go('/homepage')
         }
       }).catch(err => {

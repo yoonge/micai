@@ -15,3 +15,5 @@ import config from '../config'
 // export const blockList = config.apiPrefix + '/blockList'
 
 export const getUrl = config.apiPrefix + '/getUrl'
+
+export const getUserInfo = config.apiPrefix + '/getUserInfo'
