@@ -16,12 +16,10 @@ export default {
   },
   methods: {
     reqFirst () {
-      // const that = this
       this.$http({
         url: api.getUrl,
         method: 'GET'
       }).then(res => {
-        window.alert(res.data.codeUrl)
         window.location.href = res.data.codeUrl
       }).catch(err => {
         console.error(err.data)
