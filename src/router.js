@@ -1,7 +1,15 @@
+import Vue from 'vue'
+import Router from 'vue-router'
 import Index from 'pages/Index'
-import Next from 'pages/Next'
+// import Next from 'pages/Next'
 import Login from 'pages/Login'
 import Homepage from 'pages/Homepage'
+
+Vue.use(Router)
+
+const router = new Router({
+  hashbang: true
+})
 
 const Routes = router => {
   router.map({
@@ -9,10 +17,10 @@ const Routes = router => {
       name: 'index',
       component: Index
     },
-    '/next': {
-      name: 'next',
-      component: Next
-    },
+    // '/next': {
+    //   name: 'next',
+    //   component: Next
+    // },
     '/login': {
       name: 'login',
       component: Login
@@ -23,9 +31,10 @@ const Routes = router => {
     }
   })
   router.redirect({
-    '*': '/',
     '/': '/index'
   })
 }
 
-export default Routes
+Routes(router)
+
+export default router

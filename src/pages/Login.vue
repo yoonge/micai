@@ -128,7 +128,7 @@ export default {
       const smsCodeInput = this.smsCode
       if (smsCodeInput === '1234') {
         this.loading = true
-        setTimeout(function () {
+        setTimeout(() => {
           that.loading = false
           that.$route.router.go('/homepage')
         }, 3000)
@@ -149,7 +149,7 @@ export default {
         this.showToast = true
         this.linkDisable = true
         let t = 30
-        let timer = setInterval(function () {
+        let timer = setInterval(() => {
           t--
           if (t === 0) {
             if (that.checkTelphone()) that.linkDisable = false

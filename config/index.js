@@ -2,7 +2,7 @@
 var path = require('path')
 
 module.exports = {
-  apiPrefix: 'http://10.8.234.73:3000',
+  apiPrefix: 'http://wx.91micai.com',
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),

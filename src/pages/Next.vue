@@ -1,5 +1,5 @@
 <template>
-  <h2>这里是 Next 的内容</h2>
+  <h1 style="display: none;">Next</h1>
 </template>
 
 <script lang="babel">
@@ -12,8 +12,7 @@ export default {
   },
   methods: {
     reqSecond () {
-      // const code = this.getRequest('code')
-      const code = '1234567890'
+      const code = this.getRequest('code')
       const that = this
       this.$http({
         url: api.getUserInfo,
@@ -30,19 +29,19 @@ export default {
       }).catch(err => {
         console.error(err.data)
       })
+    },
+    getRequest (key) {
+      const url = window.location.search
+      let theRequest = {}
+      if (url.indexOf('?') !== -1) {
+        let str = url.substr(1)
+        let strs = str.split('&')
+        for (let i = 0; i < strs.length; i++) {
+          theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+        }
+      }
+      return theRequest[key]
     }
-    // getRequest (key) {
-    //   const url = window.location.search
-    //   let theRequest = {}
-    //   if (url.indexOf('?') !== -1) {
-    //     let str = url.substr(1)
-    //     let strs = str.split('&')
-    //     for (let i = 0; i < strs.length; i++) {
-    //       theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
-    //     }
-    //   }
-    //   return theRequest[key]
-    // }
   }
 }
 </script>
