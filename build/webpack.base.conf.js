@@ -8,7 +8,7 @@ var vuxLoader = require('vux-loader')
 module.exports = {
   entry: {
     vendor: [
-      'webpack-zepto'
+      'jquery'
     ],
     app: [
       './src/main.js'
@@ -38,10 +38,10 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      $: 'webpack-zepto',
-      zepto: 'webpack-zepto',
-      'window.$': 'webpack-zepto',
-      'window.zepto': 'webpack-zepto'
+      $: 'jquery',
+      jQurey: 'jquery',
+      'window.$': 'jquery',
+      'window.jQuery': 'jquery'
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

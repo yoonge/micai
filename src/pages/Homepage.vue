@@ -29,7 +29,7 @@
 </template>
 
 <script lang="babel">
-import $ from 'webpack-zepto'
+import $ from 'jquery'
 import { Loading } from 'vux-components'
 
 export default {
