@@ -30,10 +30,10 @@
             <i class="ui-icon ui-icon-md ui-icon-captcha"></i>
           </flexbox-item>
           <flexbox-item>
-            <input type="text" v-model="captcha" maxlength="6" placeholder="校验码" @input="listenCaptcha()">
+            <input type="text" v-model="captcha" maxlength="4" placeholder="校验码" @input="listenCaptcha()">
           </flexbox-item>
           <flexbox-item style="flex: 0 0 89px;">
-              <img src="http://wx.91micai.com/portal/captcha/getCaptcha.do" alt="Captcha" width="89">
+              <img :src="captchaSrc" alt="Captcha" width="89" @click="getCaptchaSrc()">
           </flexbox-item>
         </flexbox>
         <x-button class="btn-login" :disabled="btnDisabled" @click="checkSmsCode()">登录</x-button>
@@ -71,12 +71,14 @@ export default {
       linkDisable: true,
       btnDisabled: true,
       showCaptcha: false,
+      captchaSrc: '',
       loading: false,
-      textLoading: '登录中...'
+      textLoading: 'Loading...'
     }
   },
   ready () {
     $('body').removeClass('homepage').addClass('login')
+    this.getCaptchaSrc()
   },
   methods: {
     listenTelphone () {
@@ -84,20 +86,20 @@ export default {
       if (phoneLength === 11) {
         const phoneNum = this.telphone
         if (!(/^1[34578]\d{9}$/.test(phoneNum))) {
-          this.textToast = '您填写的手机格式有误！'
-          this.showToast = true
+          this.$set('textToast', '您填写的手机格式有误！')
+          this.$set('showToast', true)
         } else {
-          this.linkDisable = false
+          this.$set('linkDisable', false)
         }
       } else {
-        this.linkDisable = true
+        this.$set('linkDisable', true)
       }
     },
     checkTelphone () {
       const phoneNum = this.telphone
       if (!(/^1[34578]\d{9}$/.test(phoneNum)) && phoneNum !== '') {
-        this.textToast = '您填写的手机格式有误！'
-        this.showToast = true
+        this.$set('textToast', '您填写的手机格式有误！')
+        this.$set('showToast', true)
         return false
       } else {
         return true
@@ -108,24 +110,25 @@ export default {
       const captchaLength = this.captcha.length
       if (!this.showCaptcha) {
         if (smsCodeLength === 4) {
-          this.btnDisabled = false
+          this.$set('btnDisabled', false)
           $('button.btn-login').removeClass('weui_btn_default').addClass('weui_btn_primary')
         } else {
-          this.btnDisabled = true
+          this.$set('btnDisabled', true)
           $('button.btn-login').removeClass('weui_btn_primary').addClass('weui_btn_default')
         }
       } else {
-        if ((captchaLength === 6) && (smsCodeLength === 4)) {
-          this.btnDisabled = false
+        if ((captchaLength === 4) && (smsCodeLength === 4)) {
+          this.$set('btnDisabled', false)
           $('button.btn-login').removeClass('weui_btn_default').addClass('weui_btn_primary')
         } else {
-          this.btnDisabled = true
+          this.$set('btnDisabled', true)
           $('button.btn-login').removeClass('weui_btn_primary').addClass('weui_btn_default')
         }
       }
     },
     checkSmsCode () {
       const that = this
+      let u = JSON.parse(window.localStorage.getItem('userInfo'))
       this.$http({
         url: api.checkMessage,
         params: {
@@ -135,22 +138,24 @@ export default {
         },
         method: 'GET',
         beforeSend () {
-          that.loading = true
+          console.log('Loading...')
+          that.$set('loading', true)
         }
       }).then(res => {
-        console.log(res.data)
         if (res.data.result) {
-          that.loading = false
+          u.phone = that.telphone
+          window.localStorage.setItem('userInfo', JSON.stringify(u))
+          that.$set('loading', false)
           that.$route.router.go('/homepage')
         } else {
-          that.loading = false
-          that.textToast = '您输入的验证码有误！'
-          that.showToast = true
-          that.btnDisabled = true
+          that.$set('loading', false)
+          that.$set('textToast', '您输入的验证码有误！')
+          that.$set('showToast', true)
+          that.$set('btnDisabled', true)
           $('button.btn-login').removeClass('weui_btn_primary').addClass('weui_btn_default')
         }
       }).catch(err => {
-        console.log(err.data)
+        console.error(err.data)
       })
     },
     getSmsCode () {
@@ -165,30 +170,33 @@ export default {
           },
           method: 'GET'
         }).then(res => {
-          console.log(res.data)
           if (res.data.info) {
-            that.textToast = '短信验证码已成功发送，三十分钟内有效！'
-            that.showToast = true
-            that.linkDisable = true
+            that.$set('textToast', '短信验证码已成功发送，三十分钟内有效！')
+            that.$set('showToast', true)
+            that.$set('linkDisable', true)
             let t = 30
             let timer = setInterval(() => {
               t--
               if (t === 0) {
                 if (that.checkTelphone()) that.linkDisable = false
-                that.textLink = '获取验证码'
+                that.$set('textLink', '获取验证码')
                 clearInterval(timer)
               } else {
-                that.textLink = t + ' 秒后重发'
+                let txt = t + ' 秒后重发'
+                that.$set('textLink', txt)
               }
             }, 1000)
           }
           if (res.data.registerCaptchaSessionToken) {
-            that.showCaptcha = true
+            that.$set('showCaptcha', true)
           }
         }).catch(err => {
-          console.log(err.data)
+          console.error(err.data)
         })
       }
+    },
+    getCaptchaSrc () {
+      this.$set('captchaSrc', api.getCaptcha)
     }
   }
 }
@@ -232,6 +240,8 @@ body.login {
   }
   .btn-link {
     color: #51a5f7;
+    border: none;
+    background-color: transparent;
 
     &.btn-link-disable {
       color: #e3e3e3;

@@ -35,6 +35,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        window.localStorage.setItem('userInfo', JSON.stringify(res.data))
         if (res.data.stype === '1') {
           that.$route.router.go('/login')
         } else if (res.data.stype === '0') {
