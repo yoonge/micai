@@ -5,6 +5,8 @@ import Login from 'pages/Login'
 import Home from 'pages/Home'
 import Homepage from 'pages/Homepage'
 import Employee from 'pages/Employee'
+import employeeCenter from 'pages/EmployeeCenter'
+import EmployeeCompany from 'pages/EmployeeCompany'
 
 Vue.use(Router)
 
@@ -33,14 +35,25 @@ const Routes = router => {
         },
         '/employee': {
           name: 'home.employee',
-          component: Employee
+          component: Employee,
+          subRoutes: {
+            '/employeeCenter': {
+              name: 'home.employee.center',
+              component: employeeCenter
+            },
+            '/employeeCompany': {
+              name: 'home.employee.company',
+              component: EmployeeCompany
+            }
+          }
         }
       }
     }
   })
   router.redirect({
     '/': '/index',
-    '/home': '/home/homepage'
+    '/home': '/home/homepage',
+    '/home/employee': '/home/employee/employeeCenter'
   })
 }
 

@@ -8,30 +8,30 @@
       <div class="xg-info">
         <p class="xg-info-company">{{homepageInfo.companyName}}</p>
         <p class="xg-info-title">{{homepageInfo.jobTitle}}</p>
-        <a class="xg-info-arrow" v-link="'/employee'">
+        <a class="xg-info-arrow" v-link="'/home/employee'">
           <i class="ui-icon ui-icon-md ui-icon-arrow-right"></i>
         </a>
       </div>
-      <a class="xg-message" v-link="'/employee'">
+      <a class="xg-message" v-link="'/home/employee'">
         <i class="ui-icon ui-icon-md ui-icon-ring"></i>
       </a>
     </header>
     <div class="xg-main">
       <flexbox :gutter="0">
         <flexbox-item class="xg-item">
-          <a class="xg-item-human-map" v-link="'/employee'">
+          <a class="xg-item-human-map" v-link="'/home/employee'">
             <i class="ui-icon ui-icon-xlg ui-icon-human-map"></i>
           </a>
           <p>人力地图</p>
         </flexbox-item>
         <flexbox-item class="xg-item">
-          <a class="xg-item-address-book" v-link="'/employee'">
+          <a class="xg-item-address-book" v-link="'/home/employee'">
             <i class="ui-icon ui-icon-xlg ui-icon-address-book"></i>
           </a>
           <p>通讯录</p>
         </flexbox-item>
         <flexbox-item class="xg-item">
-          <a class="xg-item-enterprise-system" v-link="'/employee'">
+          <a class="xg-item-enterprise-system" v-link="'/home/employee'">
             <i class="ui-icon ui-icon-xlg ui-icon-enterprise-system"></i>
           </a>
           <p>企业制度</p>
@@ -39,7 +39,7 @@
       </flexbox>
       <flexbox :gutter="0">
         <flexbox-item class="xg-item">
-          <a class="xg-item-article-wages" v-link="'/employee'">
+          <a class="xg-item-article-wages" v-link="'/home/employee'">
             <i class="ui-icon ui-icon-xlg ui-icon-article-wages"></i>
           </a>
           <p>工资条</p>
@@ -84,7 +84,7 @@ export default {
   methods: {
     fetchHomepageInfo () {
       const that = this
-      const u = JSON.parse(window.localStorage.getItem('userInfo'))
+      let u = JSON.parse(window.localStorage.getItem('userInfo'))
       this.$set('openId', u.openId)
       this.$set('telphone', u.phone)
       this.$set('headImg', u.headImg)
@@ -96,6 +96,8 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        u.currentCompany = res.data.companyName
+        window.localStorage.setItem('userInfo', JSON.stringify(u))
         that.$set('homepageInfo', res.data)
         that.$set('loading', false)
       }).catch(err => {

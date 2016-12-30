@@ -39,7 +39,7 @@ export default {
         if (res.data.stype === '1') {
           that.$route.router.go('/login')
         } else if (res.data.stype === '0') {
-          that.$route.router.go('/homepage')
+          that.$route.router.go('/home')
         }
       }).catch(err => {
         console.error(err.data)

@@ -15,3 +15,7 @@ export const getCaptcha = config.apiPrefix + '/portal/captcha/getCaptcha.do'
 export const checkMessage = config.apiPrefix + '/portal/weixinPublic/weChatCheckMessage.do'
 
 export const getHomepageInfo = config.apiPrefix + '/portal/weixinPublic/toWeChatMain.do'
+
+export const getAllCompany = config.apiPrefix + '/portal/weixinPublic/CompanyChangedInfo.do'
+
+export const SelectACompany = config.apiPrefix + '/portal/weixinPublic/SelectACompany.do'
