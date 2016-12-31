@@ -62,17 +62,18 @@ export default {
       const that = this
       const u = JSON.parse(window.localStorage.getItem('userInfo'))
       const cps = that.allCompany
-      const id = $(e.target).find('span.body-company-name').attr('data-cpid') - 1 + 1
+      const idString = $(e.target).find('span.body-company-name').attr('data-cpid')
       this.$http({
         url: api.SelectACompany,
         params: {
-          companyId: id
+          companyId: idString
         },
         method: 'GET'
       }).then(res => {
         if (res.data.result) {
+          const idNum = idString - 1 + 1
           for (let i = 0; i < cps.length; i++) {
-            if (cps[i]['ID'] === id) {
+            if (cps[i]['ID'] === idNum) {
               that.$set('currentCompany', cps[i]['NAME'])
               u.currentCompany = cps[i]['NAME']
               window.localStorage.setItem('userInfo', JSON.stringify(u))
