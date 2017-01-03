@@ -4,9 +4,14 @@ import Index from 'pages/Index'
 import Login from 'pages/Login'
 import Home from 'pages/Home'
 import Homepage from 'pages/Homepage'
+
 import Employee from 'pages/Employee'
-import employeeCenter from 'pages/EmployeeCenter'
+import EmployeeCenter from 'pages/EmployeeCenter'
 import EmployeeCompany from 'pages/EmployeeCompany'
+
+import Map from 'pages/Map'
+import MapView from 'pages/MapView'
+import MapDepartment from 'pages/MapDepartment'
 
 Vue.use(Router)
 
@@ -33,13 +38,27 @@ const Routes = router => {
           name: 'home.homepage',
           component: Homepage
         },
+        '/map': {
+          name: 'home.map',
+          component: Map,
+          subRoutes: {
+            '/mapView': {
+              name: 'home.map.view',
+              component: MapView
+            },
+            'mapDepartment': {
+              name: 'home.map.department',
+              component: MapDepartment
+            }
+          }
+        },
         '/employee': {
           name: 'home.employee',
           component: Employee,
           subRoutes: {
             '/employeeCenter': {
               name: 'home.employee.center',
-              component: employeeCenter
+              component: EmployeeCenter
             },
             '/employeeCompany': {
               name: 'home.employee.company',
@@ -53,6 +72,7 @@ const Routes = router => {
   router.redirect({
     '/': '/index',
     '/home': '/home/homepage',
+    '/home/map': '/home/map/mapView',
     '/home/employee': '/home/employee/employeeCenter'
   })
 }

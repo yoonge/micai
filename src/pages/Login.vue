@@ -146,7 +146,7 @@ export default {
           u.phone = that.telphone
           window.localStorage.setItem('userInfo', JSON.stringify(u))
           that.$set('loading', false)
-          that.$route.router.go('/homepage')
+          that.$route.router.go('/home')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '您输入的验证码有误！')

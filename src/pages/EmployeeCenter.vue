@@ -2,40 +2,40 @@
   <div class="employee-main">
     <div class="employee-header">
       <span class="header-info">个人资料</span>
-      <div class="header-package">
+      <a class="header-package" v-link="'/home/employee'">
         <span class="header-enter">进入</span>
-        <a class="header-go" v-link="'/home/employee'">
+        <span class="header-go">
           <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
-        </a>
-      </div>
+        </span>
+      </a>
     </div>
     <div class="employee-body">
       <div class="body-phone body-public">
         <span class="body-info">修改手机号</span>
-        <div class="body-package">
+        <a class="body-package" v-link="'/home/employee'">
           <span class="body-enter">{{telphone}}</span>
-          <a class="body-go" v-link="'/home/employee'">
+          <span class="body-go">
             <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
-          </a>
-        </div>
+          </span>
+        </a>
       </div>
       <div class="body-company body-public">
         <div class="body-info">公司切换</div>
-        <div class="body-package">
+        <a class="body-package" v-link="'/home/employee/employeeCompany'">
           <span class="body-enter">修改</span>
-          <a class="body-go" v-link="'/home/employee/employeeCompany'">
+          <span class="body-go">
             <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
-          </a>
-        </div>
+          </span>
+        </a>
       </div>
       <div class="body-password body-public">
         <span class="body-info">密码设置</span>
-        <div class="body-package">
+        <a class="body-package" v-link="'/home/employee'">
           <span class="body-enter">修改</span>
-          <a class="body-go" v-link="'/home/employee'">
+          <span class="body-go">
             <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
-          </a>
-        </div>
+          </span>
+        </a>
       </div>
     </div>
   </div>

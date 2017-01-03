@@ -62,18 +62,17 @@ export default {
       const that = this
       const u = JSON.parse(window.localStorage.getItem('userInfo'))
       const cps = that.allCompany
-      const idString = $(e.target).find('span.body-company-name').attr('data-cpid')
+      const id = $(e.target).find('span.body-company-name').attr('data-cpid') - 1 + 1
       this.$http({
         url: api.SelectACompany,
         params: {
-          companyId: idString
+          companyId: id
         },
         method: 'GET'
       }).then(res => {
         if (res.data.result) {
-          const idNum = idString - 1 + 1
           for (let i = 0; i < cps.length; i++) {
-            if (cps[i]['ID'] === idNum) {
+            if (cps[i]['ID'] === id) {
               that.$set('currentCompany', cps[i]['NAME'])
               u.currentCompany = cps[i]['NAME']
               window.localStorage.setItem('userInfo', JSON.stringify(u))
@@ -82,7 +81,7 @@ export default {
           }
           that.$route.router.go('/home')
         } else {
-          that.$set('textToast', '公司切换失败，请检查您的网络。')
+          that.$set('textToast', '操作失败，请检查您的网络状态后重试。')
           that.$set('showToast', true)
         }
       }).catch(err => {
