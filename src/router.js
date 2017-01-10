@@ -11,7 +11,8 @@ import EmployeeCompany from 'pages/EmployeeCompany'
 
 import Map from 'pages/Map'
 import MapView from 'pages/MapView'
-import MapDepartment from 'pages/MapDepartment'
+import MapSearchResult from 'pages/MapSearchResult'
+import MapPartySearchResult from 'pages/MapPartySearchResult'
 
 Vue.use(Router)
 
@@ -46,9 +47,13 @@ const Routes = router => {
               name: 'home.map.view',
               component: MapView
             },
-            'mapDepartment': {
-              name: 'home.map.department',
-              component: MapDepartment
+            '/mapSearchResult': {
+              name: 'home.map.searchResult',
+              component: MapSearchResult
+            },
+            'mapPartySearchResult': {
+              name: 'home.map.partySearchResult',
+              component: MapPartySearchResult
             }
           }
         },

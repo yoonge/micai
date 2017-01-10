@@ -19,7 +19,7 @@
     <div class="xg-main">
       <flexbox :gutter="0">
         <flexbox-item class="xg-item">
-          <a class="xg-item-human-map" v-link="'/home/employee'">
+          <a class="xg-item-human-map" v-link="'/home/map'">
             <i class="ui-icon ui-icon-xlg ui-icon-human-map"></i>
           </a>
           <p>人力地图</p>
@@ -79,7 +79,7 @@ export default {
   },
   ready () {
     this.fetchHomepageInfo()
-    $('body').removeClass('login').addClass('homepage')
+    $('body').removeAttr('class').addClass('homepage')
   },
   methods: {
     fetchHomepageInfo () {
@@ -96,7 +96,8 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        u.currentCompany = res.data.companyName
+        u.currentCompanyId = res.data.companyId
+        u.currentCompanyName = res.data.companyName
         window.localStorage.setItem('userInfo', JSON.stringify(u))
         that.$set('homepageInfo', res.data)
         that.$set('loading', false)
@@ -109,10 +110,6 @@ export default {
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/reset';
-@import '../styles/reset';
-@import '../styles/icon';
-
 .xg-homepage {
   background-color: #eef3f6;
 }

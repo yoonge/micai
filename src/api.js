@@ -20,6 +20,8 @@ export const getAllCompany = config.apiPrefix + '/portal/weixinPublic/CompanyCha
 
 export const SelectACompany = config.apiPrefix + '/portal/weixinPublic/SelectACompany.do'
 
-export const hrMapInfo = config.apiPrefix + 'portal/weixinPublic/toWeChatHrMap.do'
+export const hrMapInfo = config.apiPrefix + '/portal/weixinPublic/toWeChatHrMap.do'
 
-export const hrMapSearch = config.apiPrefix + 'portal/weixinPublic/searchSingleInfo.do'
+export const hrMapSearch = config.apiPrefix + '/portal/weixinPublic/searchSingleInfo.do'
+
+export const hrMapPartySearch = config.apiPrefix + '/portal/weixinPublic/toSearchPartyInfo.do'

@@ -30,7 +30,8 @@ module.exports = {
       'components': path.resolve(__dirname, '../src/components'),
       'pages': path.resolve(__dirname, '../src/pages'),
       'module': path.resolve(__dirname, '../src/module'),
-      'styles': path.resolve(__dirname, '../src/styles')
+      'styles': path.resolve(__dirname, '../src/styles'),
+      'utils': path.resolve(__dirname, '../src/utils')
     }
   },
   resolveLoader: {

@@ -1,13 +1,13 @@
 <template>
   <div class="company-main">
     <div class="company-header">
-      <span class="header-company">{{currentCompany}}</span>
+      <span class="header-company">{{currentCompanyName}}</span>
       <span class="header-hook">
         <i class="ui-icon ui-icon-md ui-icon-check"></i>
       </span>
     </div>
     <div class="company-body">
-      <div class="body-company" v-for="item in allCompany" @click="switchCompany($event)">
+      <div class="body-company" v-for="item in otherCompany" @click="switchCompany($event)">
         <span class="body-company-name" :data-cpid="item.ID">{{item.NAME}}</span>
       </div>
     </div>
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script lang="babel">
 import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Toast } from 'vux-components'
@@ -28,7 +28,8 @@ export default {
   data () {
     return {
       telphone: '',
-      currentCompany: '',
+      currentCompanyId: '',
+      currentCompanyName: '',
       allCompany: [],
       textToast: '',
       showToast: false
@@ -42,7 +43,8 @@ export default {
     fetchUserInfo () {
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
       this.$set('telphone', u.phone)
-      this.$set('currentCompany', u.currentCompany)
+      this.$set('currentCompanyId', u.currentCompanyId)
+      this.$set('currentCompanyName', u.currentCompanyName)
     },
     fetchAllCompany () {
       const that = this
@@ -73,8 +75,10 @@ export default {
         if (res.data.result) {
           for (let i = 0; i < cps.length; i++) {
             if (cps[i]['ID'] === id) {
-              that.$set('currentCompany', cps[i]['NAME'])
-              u.currentCompany = cps[i]['NAME']
+              that.$set('currentCompanyId', cps[i]['ID'])
+              that.$set('currentCompanyName', cps[i]['NAME'])
+              u.currentCompanyId = cps[i]['ID']
+              u.currentCompanyName = cps[i]['NAME']
               window.localStorage.setItem('userInfo', JSON.stringify(u))
               break
             }
@@ -88,15 +92,22 @@ export default {
         console.error(err.data)
       })
     }
+  },
+  computed: {
+    otherCompany () {
+      const ac = this.allCompany
+      for (let i = 0; i < ac.length; i++) {
+        if (ac[i]['ID'] === this.currentCompanyId) {
+          ac.splice(i, 1)
+        }
+      }
+      return ac
+    }
   }
 }
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/reset';
-@import '../styles/reset';
-@import '../styles/icon';
-
 .company-main{
   width: 100%;
   height: 100%;

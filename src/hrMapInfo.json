@@ -1,0 +1,99 @@
+{
+  "partyTotalCount": 6,
+  "result": true,
+  "partyEntity": {
+    "name": "星河信果信息技术有限公司",
+    "managerName": "张瑞"
+  },
+  "companyId": "407838380408832",
+  "list": [
+    {
+      "parent": {
+        "ID": 407845113757696,
+        "TYPE_ID": 3,
+        "NAME": "总经办",
+        "REF": null,
+        "TENANT_ID": "1",
+        "LEVEL": 2,
+        "COUNT": null,
+        "MANAGER_ID": null,
+        "MANAGER_NAME": null,
+        "STATUS": "00",
+        "CODE": null
+      },
+      "childList": null,
+      "totalCount": 1
+    },
+    {
+      "parent": {
+        "ID": 407845517361152,
+        "TYPE_ID": 3,
+        "NAME": "产品部",
+        "REF": null,
+        "TENANT_ID": "1",
+        "LEVEL": 2,
+        "COUNT": null,
+        "MANAGER_ID": null,
+        "MANAGER_NAME": null,
+        "STATUS": "00",
+        "CODE": null
+      },
+      "childList": null,
+      "totalCount": 0
+    },
+    {
+      "parent": {
+        "ID": 407845635784704,
+        "TYPE_ID": 3,
+        "NAME": "运营部",
+        "REF": null,
+        "TENANT_ID": "1",
+        "LEVEL": 2,
+        "COUNT": null,
+        "MANAGER_ID": null,
+        "MANAGER_NAME": null,
+        "STATUS": "00",
+        "CODE": null
+      },
+      "childList": null,
+      "totalCount": 0
+    },
+    {
+      "parent": {
+        "ID": 407916578439168,
+        "TYPE_ID": 3,
+        "NAME": "研发部",
+        "REF": null,
+        "TENANT_ID": "1",
+        "LEVEL": 2,
+        "COUNT": 16,
+        "MANAGER_ID": 407851922046976,
+        "MANAGER_NAME": "张瑞",
+        "STATUS": "00",
+        "CODE": null
+      },
+      "childList": {
+        "list": [
+          {
+            "parent": {
+              "ID": 409371515486208,
+              "TYPE_ID": 3,
+              "NAME": "研发一部",
+              "REF": null,
+              "TENANT_ID": "1",
+              "LEVEL": 3,
+              "COUNT": null,
+              "MANAGER_ID": null,
+              "MANAGER_NAME": null,
+              "STATUS": "00",
+              "CODE": null
+            },
+            "childList": null,
+            "totalCount": 1
+          }
+        ]
+      },
+      "totalCount": 3
+    }
+  ]
+}
