@@ -13,13 +13,13 @@
         </flexbox-item>
         <flexbox-item class="employee-more">
           <ul class="clearfix">
-            <li v-if="has_detail" class="employee-detail-toggle"><i class="ui-icon ui-icon-sm ui-icon-arrow-down-sm"></i></li>
-            <li><i class="ui-icon ui-icon-lg ui-icon-telphone"></i></li>
+            <li @click="toggleDetail()"><i v-if="has_detail" :class="['ui-icon', 'ui-icon-sm', 'ui-icon-arrow-down-sm', {'ui-icon-arrow-up-sm': showDetail}]"></i></li>
+            <li><a href="tel:{{employee_info.mobile}}"><i class="ui-icon ui-icon-lg ui-icon-telphone"></i></a></li>
           </ul>
         </flexbox-item>
       </flexbox>
-      <div v-if="has_detail" class="employee-detail">
-        <flexbox :gutter="0">
+      <template v-if="has_detail">
+        <flexbox :gutter="0" class="employee-detail" v-show="showDetail">
           <flexbox-item style="flex: 0 0 72px;"></flexbox-item>
           <flexbox-item>
             <ul class="employee-detail-list">
@@ -29,13 +29,12 @@
             </ul>
           </flexbox-item>
         </flexbox>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="babel">
-import $ from 'jquery'
 import { Flexbox, FlexboxItem } from 'vux-components'
 
 export default {
@@ -48,17 +47,19 @@ export default {
     has_detail: '',
     employee_info: {}
   },
-  ready () {
-    $('body').on('click', 'li.employee-detail-toggle', function () {
-      const ico = $(this).find('i.ui-icon')
-      const ed = $(this).parents('div.employee-item').find('div.employee-detail')
-      if (ico.hasClass('ui-icon-arrow-up-sm')) {
-        ico.removeClass('ui-icon-arrow-up-sm').addClass('ui-icon-arrow-down-sm')
+  data () {
+    return {
+      showDetail: false
+    }
+  },
+  methods: {
+    toggleDetail () {
+      if (this.showDetail === false) {
+        this.$set('showDetail', true)
       } else {
-        ico.removeClass('ui-icon-arrow-down-sm').addClass('ui-icon-arrow-up-sm')
+        this.$set('showDetail', false)
       }
-      $(ed).toggle()
-    })
+    }
   },
   computed: {
     lastname () {
@@ -71,6 +72,11 @@ export default {
 <style lang="less">
 .employee-item-wrapper {
   width: 100%;
+  border-top: 1px solid #e4e4e4;
+
+  + .employee-item-wrapper {
+    border-top: none;
+  }
 
   .employee-item {
     border-bottom: 1px solid #e4e4e4;
@@ -130,31 +136,27 @@ export default {
         }
       }
     }
-    .employee-detail {
-      display: none;
+    .employee-detail .employee-detail-list {
+      color: #333;
+      line-height: 32px;
+      border-top: 1px solid #e4e4e4;
+      padding: 12px 12px 12px 0;
 
-      .employee-detail-list {
-        color: #333;
-        line-height: 32px;
-        border-top: 1px solid #e4e4e4;
-        padding: 12px 12px 12px 0;
+      > li {
+        word-break: break-all;
+        background-repeat: no-repeat;
+        background-position: left 3px;
+        background-size: 24px 24px;
+        padding-left: 30px;
 
-        > li {
-          word-break: break-all;
-          background-repeat: no-repeat;
-          background-position: left 3px;
-          background-size: 24px 24px;
-          padding-left: 30px;
-
-          &.employee-detail-email {
-            background-image: url(~assets/img/ui-icon-email@2x.png);
-          }
-          &.employee-detail-address {
-            background-image: url(~assets/img/ui-icon-address@2x.png);
-          }
-          &.employee-detail-mobile {
-            background-image: url(~assets/img/ui-icon-mobile@2x.png);
-          }
+        &.employee-detail-email {
+          background-image: url(~assets/img/ui-icon-email@2x.png);
+        }
+        &.employee-detail-address {
+          background-image: url(~assets/img/ui-icon-address@2x.png);
+        }
+        &.employee-detail-mobile {
+          background-image: url(~assets/img/ui-icon-mobile@2x.png);
         }
       }
     }

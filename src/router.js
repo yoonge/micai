@@ -14,6 +14,9 @@ import MapView from 'pages/MapView'
 import MapSearchResult from 'pages/MapSearchResult'
 import MapPartySearchResult from 'pages/MapPartySearchResult'
 
+import Address from 'pages/Address'
+import AddressList from 'pages/AddressList'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -57,6 +60,16 @@ const Routes = router => {
             }
           }
         },
+        '/address': {
+          name: 'home.address',
+          component: Address,
+          subRoutes: {
+            '/addressList': {
+              name: 'home.address.list',
+              component: AddressList
+            }
+          }
+        },
         '/employee': {
           name: 'home.employee',
           component: Employee,
@@ -78,6 +91,7 @@ const Routes = router => {
     '/': '/index',
     '/home': '/home/homepage',
     '/home/map': '/home/map/mapView',
+    '/home/address': '/home/address/addressList',
     '/home/employee': '/home/employee/employeeCenter'
   })
 }

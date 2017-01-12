@@ -25,3 +25,5 @@ export const hrMapInfo = config.apiPrefix + '/portal/weixinPublic/toWeChatHrMap.
 export const hrMapSearch = config.apiPrefix + '/portal/weixinPublic/searchSingleInfo.do'
 
 export const hrMapPartySearch = config.apiPrefix + '/portal/weixinPublic/toSearchPartyInfo.do'
+
+export const queryPhoneBook = config.apiPrefix + '/portal/weixinPublic/queryPhoneBook.do'

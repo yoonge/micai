@@ -25,7 +25,7 @@
           <p>人力地图</p>
         </flexbox-item>
         <flexbox-item class="xg-item">
-          <a class="xg-item-address-book" v-link="'/home/employee'">
+          <a class="xg-item-address-book" v-link="'/home/address'">
             <i class="ui-icon ui-icon-xlg ui-icon-address-book"></i>
           </a>
           <p>通讯录</p>
@@ -96,6 +96,8 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        console.log(res.data)
+        u.cpUserId = res.data.cpUserId
         u.currentCompanyId = res.data.companyId
         u.currentCompanyName = res.data.companyName
         window.localStorage.setItem('userInfo', JSON.stringify(u))

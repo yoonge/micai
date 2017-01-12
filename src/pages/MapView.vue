@@ -1,5 +1,6 @@
 <template>
   <div class="map-page">
+    <loading :show="loading" :text="textLoading"></loading>
     <form class="map-searchbox" @submit="saveMapSearchKeyword()">
       <span class="map-search-icon"></span>
       <input type="search" placeholder="请输入员工姓名或工号" class="map-search-input" v-model="mapSearchKeyword">
@@ -19,15 +20,18 @@
 import $ from 'jquery'
 import 'orgchart'
 import * as api from 'src/api.js'
-import { Toast } from 'vux-components'
+import { Loading, Toast } from 'vux-components'
 
 export default {
   name: 'MapView',
   components: {
+    Loading,
     Toast
   },
   data () {
     return {
+      loading: true,
+      textLoading: 'Loading...',
       textToast: '',
       showToast: false,
       currentCompanyId: '',
@@ -56,6 +60,7 @@ export default {
       }).then(res => {
         this.$set('hrMapInfo', res.data)
         this.parseDataScoure()
+        this.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
       })
@@ -104,8 +109,14 @@ export default {
       }
     },
     saveMapSearchKeyword () {
-      window.localStorage.setItem('mapSearchKeyword', this.mapSearchKeyword)
-      this.$route.router.go('/home/map/mapSearchResult')
+      let msk = $.trim(this.mapSearchKeyword)
+      if (msk !== '') {
+        window.localStorage.setItem('mapSearchKeyword', msk)
+        this.$route.router.go('/home/map/mapSearchResult')
+      } else {
+        this.$set('textToast', '搜索关键词不能为空。')
+        this.$set('showToast', true)
+      }
     }
   }
 }
