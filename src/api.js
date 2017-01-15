@@ -1,9 +1,5 @@
 import config from '../config'
 
-// export const getUrl = config.apiPrefix + '/getUrl'
-
-// export const getUserInfo = config.apiPrefix + '/getUserInfo'
-
 export const getUrl = config.apiPrefix + '/portal/weixinPublic/weixinToLogin.do'
 
 export const getUserInfo = config.apiPrefix + '/portal/weixinPublic/login.do'
@@ -27,3 +23,16 @@ export const hrMapSearch = config.apiPrefix + '/portal/weixinPublic/searchSingle
 export const hrMapPartySearch = config.apiPrefix + '/portal/weixinPublic/toSearchPartyInfo.do'
 
 export const queryPhoneBook = config.apiPrefix + '/portal/weixinPublic/queryPhoneBook.do'
+
+export const getDocumentAddress = config.apiPrefix + '/portal/weixinPublic/ReadDocumentAddress.do'
+
+// wage
+export const checkWagePassword = config.apiPrefix + '/portal/weixinPublic/ValidateSalaryPassword.do'
+
+export const setWagePassword = config.apiPrefix + '/portal/weixinPublic/SalaryQuePassword.do'
+
+export const getWageInfo = config.apiPrefix + '/portal/weixinPublic/ShowSalaryInfo.do'
+
+export const checkWageSmsCode = config.apiPrefix + '/portal/weixinPublic/CheckTestGetCode.do'
+
+export const getWageSmsCode = config.apiPrefix + '/portal/weixinPublic/TestGetCode.do'

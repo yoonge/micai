@@ -2,173 +2,175 @@
   <div class="address-list">
     <loading :show="loading" :text="textLoading"></loading>
     <sticky class="sticky">
-      <input type="search" placeholder="请输入员工姓名或工号" class="address-search-input" v-model="addressSearchKeyword">
+      <div class="address-search-wrapper" @click="focusInput($event)">
+        <input type="search" placeholder="请输入员工姓名或工号" class="address-search-input" v-model="addressSearchKeyword">
+      </div>
     </sticky>
-    <div v-show="result">
-      <div v-show="show_other">
-        <p class="letter">0 ~ 9</p>
+    <div v-if="result">
+      <div v-if="address_list.other.length !== 0">
+        <p class="letter" id="other">0 ~ 9</p>
         <template v-for="address_item in address_list.other">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_a">
+      <div v-if="address_list.a.length !== 0">
         <p class="letter" id="A">A</p>
         <template v-for="address_item in address_list.a">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_b">
+      <div v-if="address_list.b.length !== 0">
         <p class="letter" id="B">B</p>
         <template v-for="address_item in address_list.b">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_c">
+      <div v-if="address_list.c.length !== 0">
         <p class="letter" id="C">C</p>
         <template v-for="address_item in address_list.c">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_d">
+      <div v-if="address_list.d.length !== 0">
         <p class="letter" id="D">D</p>
         <template v-for="address_item in address_list.d">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_e">
+      <div v-if="address_list.e.length !== 0">
         <p class="letter" id="E">E</p>
         <template v-for="address_item in address_list.e">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_f">
+      <div v-if="address_list.f.length !== 0">
         <p class="letter" id="F">F</p>
         <template v-for="address_item in address_list.f">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_g">
+      <div v-if="address_list.g.length !== 0">
         <p class="letter" id="G">G</p>
         <template v-for="address_item in address_list.g">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_h">
+      <div v-if="address_list.h.length !== 0">
         <p class="letter" id="H">H</p>
         <template v-for="address_item in address_list.h">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_i">
+      <div v-if="address_list.i.length !== 0">
         <p class="letter" id="I">I</p>
         <template v-for="address_item in address_list.i">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_j">
+      <div v-if="address_list.j.length !== 0">
         <p class="letter" id="J">J</p>
         <template v-for="address_item in address_list.j">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_k">
+      <div v-if="address_list.k.length !== 0">
         <p class="letter" id="K">K</p>
         <template v-for="address_item in address_list.k">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_l">
+      <div v-if="address_list.l.length !== 0">
         <p class="letter" id="L">L</p>
         <template v-for="address_item in address_list.l">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_m">
+      <div v-if="address_list.m.length !== 0">
         <p class="letter" id="M">M</p>
         <template v-for="address_item in address_list.m">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_n">
+      <div v-if="address_list.n.length !== 0">
         <p class="letter" id="N">N</p>
         <template v-for="address_item in address_list.n">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_o">
+      <div v-if="address_list.o.length !== 0">
         <p class="letter" id="O">O</p>
         <template v-for="address_item in address_list.o">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_p">
+      <div v-if="address_list.p.length !== 0">
         <p class="letter" id="P">P</p>
         <template v-for="address_item in address_list.p">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_q">
+      <div v-if="address_list.q.length !== 0">
         <p class="letter" id="Q">Q</p>
         <template v-for="address_item in address_list.q">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_r">
+      <div v-if="address_list.r.length !== 0">
         <p class="letter" id="R">R</p>
         <template v-for="address_item in address_list.r">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_s">
+      <div v-if="address_list.s.length !== 0">
         <p class="letter" id="S">S</p>
         <template v-for="address_item in address_list.s">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_t">
+      <div v-if="address_list.t.length !== 0">
         <p class="letter" id="T">T</p>
         <template v-for="address_item in address_list.t">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_u">
+      <div v-if="address_list.u.length !== 0">
         <p class="letter" id="U">U</p>
         <template v-for="address_item in address_list.u">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_v">
+      <div v-if="address_list.v.length !== 0">
         <p class="letter" id="V">V</p>
         <template v-for="address_item in address_list.v">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_w">
+      <div v-if="address_list.w.length !== 0">
         <p class="letter" id="W">W</p>
         <template v-for="address_item in address_list.w">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_x">
+      <div v-if="address_list.x.length !== 0">
         <p class="letter" id="X">X</p>
         <template v-for="address_item in address_list.x">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_y">
+      <div v-if="address_list.y.length !== 0">
         <p class="letter" id="Y">Y</p>
         <template v-for="address_item in address_list.y">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
-      <div v-show="show_z">
+      <div v-if="address_list.z.length !== 0">
         <p class="letter" id="Z">Z</p>
         <template v-for="address_item in address_list.z">
-          <employee-item :employee_info="address_item" :has_detail="has_detail"></employee-item>
+          <address-item :address_info="address_item"></address-item>
         </template>
       </div>
     </div>
-    <h3 class="nobody" v-show="nobody">您的通讯录里还没有联系人，赶快去人力地图添加吧！</h3>
+    <h3 v-if="nobody" class="nobody">您的通讯录里还没有联系人，赶快去人力地图添加吧！</h3>
   </div>
 </template>
 
@@ -176,20 +178,19 @@
 import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Loading, Sticky } from 'vux-components'
-import EmployeeItem from 'components/EmployeeItem'
+import AddressItem from 'components/AddressItem'
 
 export default {
   name: 'AddressList',
   components: {
     Loading,
     Sticky,
-    EmployeeItem
+    AddressItem
   },
   data () {
     return {
       loading: true,
       textLoading: 'Loading...',
-      has_detail: false,
       cpUserId: '',
       result: false,
       nobody: false,
@@ -251,6 +252,8 @@ export default {
           that.$set('nobody', true)
         }
         that.$set('loading', false)
+      }).catch(err => {
+        console.error(err.data)
       })
     },
     parseData (data) {
@@ -339,89 +342,9 @@ export default {
             break
         }
       }
-    }
-  },
-  computed: {
-    show_other () {
-      return this.address_list.other.length !== 0
     },
-    show_a () {
-      return this.address_list.a.length !== 0
-    },
-    show_b () {
-      return this.address_list.b.length !== 0
-    },
-    show_c () {
-      return this.address_list.c.length !== 0
-    },
-    show_d () {
-      return this.address_list.d.length !== 0
-    },
-    show_e () {
-      return this.address_list.e.length !== 0
-    },
-    show_f () {
-      return this.address_list.f.length !== 0
-    },
-    show_g () {
-      return this.address_list.g.length !== 0
-    },
-    show_h () {
-      return this.address_list.h.length !== 0
-    },
-    show_i () {
-      return this.address_list.i.length !== 0
-    },
-    show_j () {
-      return this.address_list.j.length !== 0
-    },
-    show_k () {
-      return this.address_list.k.length !== 0
-    },
-    show_l () {
-      return this.address_list.l.length !== 0
-    },
-    show_m () {
-      return this.address_list.m.length !== 0
-    },
-    show_n () {
-      return this.address_list.n.length !== 0
-    },
-    show_o () {
-      return this.address_list.o.length !== 0
-    },
-    show_p () {
-      return this.address_list.p.length !== 0
-    },
-    show_q () {
-      return this.address_list.q.length !== 0
-    },
-    show_r () {
-      return this.address_list.r.length !== 0
-    },
-    show_s () {
-      return this.address_list.s.length !== 0
-    },
-    show_t () {
-      return this.address_list.t.length !== 0
-    },
-    show_u () {
-      return this.address_list.u.length !== 0
-    },
-    show_v () {
-      return this.address_list.v.length !== 0
-    },
-    show_w () {
-      return this.address_list.w.length !== 0
-    },
-    show_x () {
-      return this.address_list.x.length !== 0
-    },
-    show_y () {
-      return this.address_list.y.length !== 0
-    },
-    show_z () {
-      return this.address_list.z.length !== 0
+    focusInput (e) {
+      $(e.target).find('input.address-search-input').focus()
     }
   }
 }
@@ -432,6 +355,7 @@ export default {
   background-color: #eef3f6;
 }
 .nobody {
+  font-weight: normal;
   text-align: center;
   padding-top: 24px;
 }
@@ -443,40 +367,53 @@ export default {
   background-color: #fff;
   padding: 16px;
 
-  .address-search-input {
-    color: #abb2b7;
-    font-size: 14px;
+  .address-search-wrapper {
+    box-sizing: border-box;
     width: 100%;
     height: 32px;
-    line-height: 32px;
+    text-align: center;
     border-radius: 2px;
-    border: none;
     background-color: #eef3f6;
     padding: 0 12px;
-  
-    &::-webkit-input-placeholder {
+
+    .address-search-input {
       color: #abb2b7;
       font-size: 14px;
-      font-weight: normal;
-      text-align: center;
-    }
-    &:-moz-placeholder {
-      color: #abb2b7;
-      font-size: 14px;
-      font-weight: normal;
-      text-align: center;
-    }
-    &::-moz-placeholder {
-      color: #abb2b7;
-      font-size: 14px;
-      font-weight: normal;
-      text-align: center;
-    }
-    &:-ms-input-placeholder {
-      color: #abb2b7;
-      font-size: 14px;
-      font-weight: normal;
-      text-align: center;
+      width: 170px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 2px;
+      border: none;
+      background-color: lightblue;
+      background: url(~assets/img/ui-icon-search-sm@2x.png) no-repeat left center;
+      background-size: 16px 16px;
+      padding-left: 24px;
+      transition: width .4s;
+
+      &:focus {
+        width: 100%;
+      }
+    
+      &::-webkit-input-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: normal;
+      }
+      &:-moz-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: normal;
+      }
+      &::-moz-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: normal;
+      }
+      &:-ms-input-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: normal;
+      }
     }
   }
 }

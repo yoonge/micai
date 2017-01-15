@@ -3,7 +3,7 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div v-show="result">
       <template v-for="cp_user in cp_users">
-        <employee-item :employee_info="cp_user" :has_detail="has_detail"></employee-item>
+        <employee-item :employee_info="cp_user"></employee-item>
       </template>
     </div>
     <h3 class="nobody" v-show="nobody">该部门还没有员工。</h3>
@@ -26,7 +26,6 @@ export default {
     return {
       loading: true,
       textLoading: 'Loading...',
-      has_detail: true,
       currentCompanyId: '',
       currentPartyId: '',
       result: false,
@@ -76,6 +75,7 @@ export default {
   background-color: #eef3f6;
 }
 .nobody {
+  font-weight: normal;
   text-align: center;
   padding-top: 24px;
 }

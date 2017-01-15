@@ -130,36 +130,38 @@ export default {
   background-size: 100% 100%;
 }
 .map-page {
+  box-sizing: border-box;
   width: 100%;
-  padding-top: 20px;
+  height: 100%;
   text-align: center;
+  padding-top: 20px;
 }
 .map-searchbox {
   position: relative;
 }
 .map-search-icon {
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  background: url(~assets/img/search-lg.png);
+  background-size: 100% 100%;
   position: absolute;
   top: 8px;
   left: 35px;
-  color:#ffffff;
-  background: url(~assets/img/search-lg.png);
-  background-size: 100% 100%;
-  width:24px;
-  height:24px;
 }
 .map-search-input {
-  background-color:rgba(255,255,255,0.36);
-  border-radius:2px;
-  width:90%;
-  height:37px;
-  border:none;
+  color: #fff;
+  width: 90%;
+  height: 37px;
+  border: none;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, .36);
   padding-left: 75px;
-  color:#fff;
 }
 ::-webkit-input-placeholder {
-  font-size:16px;
-  color:#ffffff;
-  text-align:left;
+  font-size: 16px;
+  color: #fff;
+  text-align: left;
 }
 .map-no {
   display: none;
@@ -179,7 +181,7 @@ export default {
 }
 .chart-wrapper {
   width: 100%;
-  height: 100%;
+  min-height: 90%;
   overflow: auto;
 }
 </style>

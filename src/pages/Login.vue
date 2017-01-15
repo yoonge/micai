@@ -171,14 +171,14 @@ export default {
           method: 'GET'
         }).then(res => {
           if (res.data.info) {
-            that.$set('textToast', '短信验证码已成功发送，三十分钟内有效！')
+            that.$set('textToast', '短信验证码已成功发送，15 分钟内有效！')
             that.$set('showToast', true)
             that.$set('linkDisable', true)
-            let t = 30
+            let t = 60
             let timer = setInterval(() => {
               t--
               if (t === 0) {
-                if (that.checkTelphone()) that.linkDisable = false
+                if (that.checkTelphone()) that.$set('linkDisable', false)
                 that.$set('textLink', '获取验证码')
                 clearInterval(timer)
               } else {

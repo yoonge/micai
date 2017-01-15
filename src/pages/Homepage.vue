@@ -31,7 +31,7 @@
           <p>通讯录</p>
         </flexbox-item>
         <flexbox-item class="xg-item">
-          <a class="xg-item-enterprise-system" v-link="'/home/employee'">
+          <a class="xg-item-enterprise-system" v-link="'/home/system'">
             <i class="ui-icon ui-icon-xlg ui-icon-enterprise-system"></i>
           </a>
           <p>企业制度</p>
@@ -39,7 +39,7 @@
       </flexbox>
       <flexbox :gutter="0">
         <flexbox-item class="xg-item">
-          <a class="xg-item-article-wages" v-link="'/home/employee'">
+          <a class="xg-item-article-wages" v-link="'/home/wage'">
             <i class="ui-icon ui-icon-xlg ui-icon-article-wages"></i>
           </a>
           <p>工资条</p>
@@ -96,7 +96,6 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        console.log(res.data)
         u.cpUserId = res.data.cpUserId
         u.currentCompanyId = res.data.companyId
         u.currentCompanyName = res.data.companyName

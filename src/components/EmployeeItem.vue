@@ -3,7 +3,7 @@
     <div class="employee-item">
       <flexbox :gutter="0" class="employee-item-summary">
         <flexbox-item class="employee-avatar">
-          <span>{{lastname}}</span>
+          <span :style="{backgroundColor: bgColor}">{{lastname}}</span>
         </flexbox-item>
         <flexbox-item class="employee-info">
           <dl>
@@ -13,23 +13,21 @@
         </flexbox-item>
         <flexbox-item class="employee-more">
           <ul class="clearfix">
-            <li @click="toggleDetail()"><i v-if="has_detail" :class="['ui-icon', 'ui-icon-sm', 'ui-icon-arrow-down-sm', {'ui-icon-arrow-up-sm': showDetail}]"></i></li>
+            <li @click="toggleDetail()"><i :class="['ui-icon', 'ui-icon-sm', 'ui-icon-arrow-down-sm', {'ui-icon-arrow-up-sm': showDetail}]"></i></li>
             <li><a href="tel:{{employee_info.mobile}}"><i class="ui-icon ui-icon-lg ui-icon-telphone"></i></a></li>
           </ul>
         </flexbox-item>
       </flexbox>
-      <template v-if="has_detail">
-        <flexbox :gutter="0" class="employee-detail" v-show="showDetail">
-          <flexbox-item style="flex: 0 0 72px;"></flexbox-item>
-          <flexbox-item>
-            <ul class="employee-detail-list">
-              <li class="employee-detail-email">{{employee_info.email}}</li>
-              <li class="employee-detail-address">{{employee_info.address}}</li>
-              <li class="employee-detail-mobile">{{employee_info.phone}}</li>
-            </ul>
-          </flexbox-item>
-        </flexbox>
-      </template>
+      <flexbox :gutter="0" class="employee-detail" v-show="showDetail">
+        <flexbox-item style="flex: 0 0 72px;"></flexbox-item>
+        <flexbox-item>
+          <ul class="employee-detail-list">
+            <li class="employee-detail-email">{{employee_info.email}}</li>
+            <li class="employee-detail-address">{{employee_info.address}}</li>
+            <li class="employee-detail-mobile">{{employee_info.mobile}}</li>
+          </ul>
+        </flexbox-item>
+      </flexbox>
     </div>
   </div>
 </template>
@@ -44,26 +42,31 @@ export default {
     FlexboxItem
   },
   props: {
-    has_detail: '',
     employee_info: {}
   },
   data () {
     return {
-      showDetail: false
+      showDetail: false,
+      bgColors: [
+        '#40affc',
+        '#28c196',
+        '#fd8474',
+        '#fd9448'
+      ]
     }
   },
   methods: {
     toggleDetail () {
-      if (this.showDetail === false) {
-        this.$set('showDetail', true)
-      } else {
-        this.$set('showDetail', false)
-      }
+      this.showDetail === false ? this.$set('showDetail', true) : this.$set('showDetail', false)
     }
   },
   computed: {
     lastname () {
       return this.employee_info.name.toString()[0]
+    },
+    bgColor () {
+      const r = Math.floor(Math.random() * 4)
+      return this.bgColors[r]
     }
   }
 }
@@ -100,7 +103,6 @@ export default {
           line-height: 45px;
           text-align: center;
           border-radius: 50%;
-          background-color: #4ad1ba;
           margin-right: 12px;
         }
       }
