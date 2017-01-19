@@ -138,7 +138,6 @@ export default {
         },
         method: 'GET',
         beforeSend () {
-          console.log('Loading...')
           that.$set('loading', true)
         }
       }).then(res => {
@@ -171,7 +170,7 @@ export default {
           method: 'GET'
         }).then(res => {
           if (res.data.info) {
-            that.$set('textToast', '短信验证码已成功发送，15 分钟内有效！')
+            that.$set('textToast', '短信验证码已成功发送，30 分钟内有效！')
             that.$set('showToast', true)
             that.$set('linkDisable', true)
             let t = 60

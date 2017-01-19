@@ -29,7 +29,6 @@ export default {
       openId: '',
       headImg: '',
       password: '',
-      cpUserId: '',
       currentCompanyName: '',
       textToast: '密码错误！',
       showToast: false,
@@ -41,7 +40,6 @@ export default {
     this.$set('openId', u.openId)
     this.$set('telphone', u.phone)
     this.$set('headImg', u.headImg)
-    this.$set('cpUserId', u.cpUserId)
     this.$set('currentCompanyName', u.currentCompanyName)
   },
   methods: {
@@ -58,12 +56,11 @@ export default {
       this.$http({
         url: api.checkWagePassword,
         params: {
-          cpUserId: that.cpUserId,
+          phoneNo: that.telphone,
           salaryPassword: that.password
         },
         method: 'GET'
       }).then(res => {
-        console.log(res.data)
         if (res.data.result) {
           that.$router.go('/home/wage/wageInfo')
         } else {

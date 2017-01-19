@@ -3,29 +3,33 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div v-show="result">
       <template v-for="employee in employees">
-        <employee-item :employee_info="employee"></employee-item>
+        <employee-item :employee_info="employee" v-on:showtoast="showtoast"></employee-item>
       </template>
     </div>
     <h3 class="nobody" v-show="nobody">未查询到此员工。</h3>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
 <script lang="babel">
 import $ from 'jquery'
 import * as api from 'src/api.js'
-import { Loading } from 'vux-components'
+import { Loading, Toast } from 'vux-components'
 import EmployeeItem from 'components/EmployeeItem'
 
 export default {
   name: 'MapSearchResult',
   components: {
     Loading,
+    Toast,
     EmployeeItem
   },
   data () {
     return {
       loading: true,
       textLoading: 'Loading...',
+      textToast: '',
+      showToast: false,
       currentCompanyId: '',
       mapSearchKeyword: '',
       result: false,
@@ -64,6 +68,14 @@ export default {
       }).catch(err => {
         console.error(err.data)
       })
+    },
+    showtoast (iArg) {
+      if (iArg) {
+        this.$set('textToast', '添加成功！')
+      } else {
+        this.$set('textToast', '添加失败！')
+      }
+      this.$set('showToast', true)
     }
   }
 }

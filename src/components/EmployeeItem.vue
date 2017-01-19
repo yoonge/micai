@@ -25,7 +25,9 @@
             <li class="employee-detail-email">{{employee_info.email}}</li>
             <li class="employee-detail-address">{{employee_info.address}}</li>
             <li class="employee-detail-mobile">{{employee_info.mobile}}</li>
+            <input type="hidden" data-id="{{employee_info.cpUserId}}">
           </ul>
+          <button type="button" class="btn-add-to-address" @click="addToAddressList($event)">添加到通讯录</button>
         </flexbox-item>
       </flexbox>
     </div>
@@ -33,6 +35,8 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
+import * as api from 'src/api.js'
 import { Flexbox, FlexboxItem } from 'vux-components'
 
 export default {
@@ -58,6 +62,24 @@ export default {
   methods: {
     toggleDetail () {
       this.showDetail === false ? this.$set('showDetail', true) : this.$set('showDetail', false)
+    },
+    addToAddressList (e) {
+      let u = JSON.parse(window.localStorage.getItem('userInfo'))
+      const rcpuId = $(e.target).prev('ul.employee-detail-list').find('input[type="hidden"]').attr('data-id')
+      this.$http({
+        url: api.savePhoneBook,
+        params: {
+          cpuId: u.cpUserId,
+          rcpuId: rcpuId
+        },
+        method: 'GET'
+      }).then(res => {
+        if (res.data.result) {
+          this.$emit('showtoast', true)
+        } else {
+          this.$emit('showtoast', false)
+        }
+      })
     }
   },
   computed: {
@@ -138,27 +160,45 @@ export default {
         }
       }
     }
-    .employee-detail .employee-detail-list {
-      color: #333;
-      line-height: 32px;
-      border-top: 1px solid #e4e4e4;
-      padding: 12px 12px 12px 0;
+    .employee-detail {
+      position: relative;
 
-      > li {
-        word-break: break-all;
-        background-repeat: no-repeat;
-        background-position: left 3px;
-        background-size: 24px 24px;
-        padding-left: 30px;
+      .btn-add-to-address {
+        color: #d0d0d0;
+        font-size: 14px;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 2px;
+        border: 1px solid #dedede;
+        background-color: #fff;
+        padding: 0 12px;
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+      }
 
-        &.employee-detail-email {
-          background-image: url(~assets/img/ui-icon-email@2x.png);
-        }
-        &.employee-detail-address {
-          background-image: url(~assets/img/ui-icon-address@2x.png);
-        }
-        &.employee-detail-mobile {
-          background-image: url(~assets/img/ui-icon-mobile@2x.png);
+      .employee-detail-list {
+        color: #333;
+        line-height: 32px;
+        border-top: 1px solid #e4e4e4;
+        padding: 12px 12px 12px 0;
+
+        > li {
+          word-break: break-all;
+          background-repeat: no-repeat;
+          background-position: left 3px;
+          background-size: 24px 24px;
+          padding-left: 30px;
+
+          &.employee-detail-email {
+            background-image: url(~assets/img/ui-icon-email@2x.png);
+          }
+          &.employee-detail-address {
+            background-image: url(~assets/img/ui-icon-address@2x.png);
+          }
+          &.employee-detail-mobile {
+            background-image: url(~assets/img/ui-icon-mobile@2x.png);
+          }
         }
       }
     }

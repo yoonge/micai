@@ -3,7 +3,7 @@
     <header class="xg-header">
       <loading :show="loading" :text="textLoading"></loading>
       <div class="xg-avatar">
-        <img :src="headImg" :alt="telphone">
+        <span :style="{'background-image': 'url(' + headImg + ')'}" :alt="telphone"></span>
       </div>
       <div class="xg-info">
         <p class="xg-info-company">{{homepageInfo.companyName}}</p>
@@ -12,8 +12,8 @@
           <i class="ui-icon ui-icon-md ui-icon-arrow-right"></i>
         </a>
       </div>
-      <a class="xg-message" v-link="'/home/employee'">
-        <i class="ui-icon ui-icon-md ui-icon-ring"></i>
+      <a class="xg-message" v-link="'/home/notice'">
+        <i class="ui-icon ui-icon-md ui-icon-ring" :class="{'ui-icon-ring': !noticeNoRead, 'ui-icon-ring-dot': noticeNoRead}"></i>
       </a>
     </header>
     <div class="xg-main">
@@ -74,7 +74,9 @@ export default {
       telphone: '',
       openId: '',
       headImg: '',
-      homepageInfo: {}
+      homepageInfo: {},
+      cpUserId: '',
+      noticeNoRead: false
     }
   },
   ready () {
@@ -96,12 +98,30 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        that.$set('cpUserId', res.data.cpUserId)
         u.cpUserId = res.data.cpUserId
         u.currentCompanyId = res.data.companyId
         u.currentCompanyName = res.data.companyName
         window.localStorage.setItem('userInfo', JSON.stringify(u))
         that.$set('homepageInfo', res.data)
         that.$set('loading', false)
+        that.fetchNoticeAmount()
+      }).catch(err => {
+        console.error(err.data)
+      })
+    },
+    fetchNoticeAmount () {
+      const that = this
+      this.$http({
+        url: api.getNoticeNoRead,
+        params: {
+          cpUserId: that.cpUserId
+        },
+        method: 'GET'
+      }).then(res => {
+        if (res.data.result && res.data.NoReadAmount > 0) {
+          that.$set('noticeNoRead', true)
+        }
       }).catch(err => {
         console.error(err.data)
       })
@@ -141,25 +161,32 @@ export default {
     text-align: center;
     vertical-align:middle;
 
-    > img {
+    > span {
+      display: inline-block;
       width: 72px;
-      border: 2px solid #fff;
+      height: 72px;
       border-radius: 50%;
+      border: 2px solid #fff;
+      background-color: transparent;
+      background-position: center center;
+      background-size: cover;
     }
   }
 
   .xg-info {
     position: relative;
+    padding-top: 17px;
 
     .xg-info-company {
       color: #fff;
       font-size: 17px;
-      width: 166px;
-      line-height: 17px;
+      width: 220px;
+      line-height: 1em;
       text-overflow:ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      margin: 17px auto 7px;
+      margin: 0 auto;
+      padding-bottom: 7px;
     }
     .xg-info-title {
       color: #fff;

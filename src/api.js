@@ -22,7 +22,11 @@ export const hrMapSearch = config.apiPrefix + '/portal/weixinPublic/searchSingle
 
 export const hrMapPartySearch = config.apiPrefix + '/portal/weixinPublic/toSearchPartyInfo.do'
 
+export const savePhoneBook = config.apiPrefix + '/portal/weixinPublic/savePhoneBook.do'
+
 export const queryPhoneBook = config.apiPrefix + '/portal/weixinPublic/queryPhoneBook.do'
+
+export const searchSinglePhone = config.apiPrefix + '/portal/weixinPublic/searchSinglePhone.do'
 
 export const getDocumentAddress = config.apiPrefix + '/portal/weixinPublic/ReadDocumentAddress.do'
 
@@ -36,3 +40,9 @@ export const getWageInfo = config.apiPrefix + '/portal/weixinPublic/ShowSalaryIn
 export const checkWageSmsCode = config.apiPrefix + '/portal/weixinPublic/CheckTestGetCode.do'
 
 export const getWageSmsCode = config.apiPrefix + '/portal/weixinPublic/TestGetCode.do'
+
+export const getNoticeList = config.apiPrefix + '/portal/weixinPublic/queryNotices.do'
+
+export const getNoticeInfo = config.apiPrefix + '/portal/weixinPublic/queryNoticeDetail.do'
+
+export const getNoticeNoRead = config.apiPrefix + '/portal/weixinPublic/queryNoReadAmount.do'

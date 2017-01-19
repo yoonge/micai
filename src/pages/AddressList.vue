@@ -1,11 +1,13 @@
 <template>
   <div class="address-list">
     <loading :show="loading" :text="textLoading"></loading>
-    <sticky class="sticky">
-      <div class="address-search-wrapper" @click="focusInput($event)">
-        <input type="search" placeholder="请输入员工姓名或工号" class="address-search-input" v-model="addressSearchKeyword">
-      </div>
-    </sticky>
+    <form @submit="saveAddressSearchKeyword()">
+      <sticky class="sticky">
+        <div class="address-search-wrapper" @click="focusInput($event)">
+          <input type="search" placeholder="请输入员工姓名或工号" class="address-search-input" v-model="addressSearchKeyword">
+        </div>
+      </sticky>
+    </form>
     <div v-if="result">
       <div v-if="address_list.other.length !== 0">
         <p class="letter" id="other">0 ~ 9</p>
@@ -171,19 +173,21 @@
       </div>
     </div>
     <h3 v-if="nobody" class="nobody">您的通讯录里还没有联系人，赶快去人力地图添加吧！</h3>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
 <script lang="babel">
 import $ from 'jquery'
 import * as api from 'src/api.js'
-import { Loading, Sticky } from 'vux-components'
+import { Loading, Toast, Sticky } from 'vux-components'
 import AddressItem from 'components/AddressItem'
 
 export default {
   name: 'AddressList',
   components: {
     Loading,
+    Toast,
     Sticky,
     AddressItem
   },
@@ -191,6 +195,8 @@ export default {
     return {
       loading: true,
       textLoading: 'Loading...',
+      textToast: '',
+      showToast: false,
       cpUserId: '',
       result: false,
       nobody: false,
@@ -345,6 +351,16 @@ export default {
     },
     focusInput (e) {
       $(e.target).find('input.address-search-input').focus()
+    },
+    saveAddressSearchKeyword () {
+      let ask = $.trim(this.addressSearchKeyword)
+      if (ask !== '') {
+        window.localStorage.setItem('addressSearchKeyword', ask)
+        this.$route.router.go('/home/address/addressSearchResult')
+      } else {
+        this.$set('textToast', '搜索关键词不能为空。')
+        this.$set('showToast', true)
+      }
     }
   }
 }

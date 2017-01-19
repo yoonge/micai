@@ -60,7 +60,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        that.$set('textToast', '短信验证码已成功发送，15 分钟内有效！')
+        that.$set('textToast', '短信验证码已成功发送，30 分钟内有效！')
         that.$set('showToast', true)
         that.$set('linkDisable', true)
         let t = 60

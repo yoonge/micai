@@ -82,7 +82,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        if (res.data) {
+        if (res.data.result) {
           this.$set('info', res.data.institution_info)
           for (let i = 0; i < this.info.length; i++) {
             this.info[i]['color'] = this.colors[i]

@@ -67,7 +67,7 @@ export default {
     },
     getWageInfo () {
       const that = this
-      const dataStr = this.year + '-' + this.month
+      const dataStr = this.year + '-' + this.formatMonth
       this.$http({
         url: api.getWageInfo,
         params: {
@@ -121,6 +121,15 @@ export default {
       this.getWageInfo()
       this.$set('yearData', this.year + '年')
       this.$set('monthData', this.month + '月份工资单')
+    }
+  },
+  computed: {
+    formatMonth () {
+      if (this.month < 10) {
+        return '0' + this.month
+      } else {
+        return this.month
+      }
     }
   }
 }

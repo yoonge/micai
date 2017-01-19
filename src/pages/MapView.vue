@@ -69,7 +69,7 @@ export default {
       const that = this
       const ceo = this.hrMapInfo.partyEntity.managerName === null ? this.hrMapInfo.partyEntity.managerName : '负责人：' + this.hrMapInfo.partyEntity.managerName
       let dataJson = {
-        'name': this.hrMapInfo.partyEntity.name,
+        'name': this.hrMapInfo.partyEntity.name + ' ' + this.hrMapInfo.partyTotalCount + '人',
         'title': ceo,
         'children': []
       }
@@ -96,14 +96,14 @@ export default {
       for (let i in data) {
         json['children'][i] = {}
         json['children'][i]['id'] = data[i].parent.ID
-        json['children'][i]['name'] = data[i].parent.NAME
+        json['children'][i]['name'] = data[i].parent.NAME + ' ' + data[i].totalCount + '人'
         if (data[i].parent.MANAGER_NAME !== null) json['children'][i]['title'] = '负责人：' + data[i].parent.MANAGER_NAME
         if (data[i].childList !== null) {
           json['children'][i]['children'] = []
           this.recursionData(data[i].childList.list, json['children'][i])
         } else {
           json['children'][i]['id'] = data[i].parent.ID
-          json['children'][i]['name'] = data[i].parent.NAME
+          json['children'][i]['name'] = data[i].parent.NAME + ' ' + data[i].totalCount + '人'
           if (data[i].parent.MANAGER_NAME !== null) json['children'][i]['title'] = '负责人：' + data[i].parent.MANAGER_NAME
         }
       }

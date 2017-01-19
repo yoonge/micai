@@ -16,6 +16,7 @@ import MapPartySearchResult from 'pages/MapPartySearchResult'
 
 import Address from 'pages/Address'
 import AddressList from 'pages/AddressList'
+import AddressSearchResult from 'pages/AddressSearchResult'
 
 import System from 'pages/System'
 import SystemView from 'pages/SystemView'
@@ -26,6 +27,10 @@ import WagePassword from 'pages/WagePassword'
 import WageSetPassword from 'pages/WageSetPassword'
 import WageSuccess from 'pages/WageSuccess'
 import WageInfo from 'pages/WageInfo'
+
+import Notice from 'pages/Notice'
+import NoticeView from 'pages/NoticeView'
+import NoticeInfo from 'pages/NoticeInfo'
 
 Vue.use(Router)
 
@@ -77,6 +82,10 @@ const Routes = router => {
             '/addressList': {
               name: 'home.address.list',
               component: AddressList
+            },
+            '/addressSearchResult': {
+              name: 'home.address.searchResult',
+              component: AddressSearchResult
             }
           }
         },
@@ -129,6 +138,20 @@ const Routes = router => {
               component: EmployeeCompany
             }
           }
+        },
+        '/notice': {
+          name: 'home.notice',
+          component: Notice,
+          subRoutes: {
+            '/noticeView': {
+              name: 'home.notice.view',
+              component: NoticeView
+            },
+            '/noticeInfo/:cpUserId/:noticeId': {
+              name: 'home.notice.info',
+              component: NoticeInfo
+            }
+          }
         }
       }
     }
@@ -140,7 +163,8 @@ const Routes = router => {
     '/home/address': '/home/address/addressList',
     '/home/system': '/home/system/systemView',
     '/home/wage': '/home/wage/wageView',
-    '/home/employee': '/home/employee/employeeCenter'
+    '/home/employee': '/home/employee/employeeCenter',
+    '/home/notice': '/home/notice/noticeView'
   })
 }
 

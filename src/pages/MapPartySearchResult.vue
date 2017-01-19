@@ -3,29 +3,33 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div v-show="result">
       <template v-for="cp_user in cp_users">
-        <employee-item :employee_info="cp_user"></employee-item>
+        <employee-item :employee_info="cp_user" v-on:showtoast="showtoast"></employee-item>
       </template>
     </div>
     <h3 class="nobody" v-show="nobody">该部门还没有员工。</h3>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
 
 <script lang="babel">
 import $ from 'jquery'
 import * as api from 'src/api.js'
-import { Loading } from 'vux-components'
+import { Loading, Toast } from 'vux-components'
 import EmployeeItem from 'components/EmployeeItem'
 
 export default {
   name: 'MapPartySearchResult',
   components: {
     Loading,
+    Toast,
     EmployeeItem
   },
   data () {
     return {
       loading: true,
       textLoading: 'Loading...',
+      textToast: '',
+      showToast: false,
       currentCompanyId: '',
       currentPartyId: '',
       result: false,
@@ -65,6 +69,14 @@ export default {
       }).catch(err => {
         console.error(err.data)
       })
+    },
+    showtoast (iArg) {
+      if (iArg) {
+        this.$set('textToast', '添加成功！')
+      } else {
+        this.$set('textToast', '添加失败！')
+      }
+      this.$set('showToast', true)
     }
   }
 }

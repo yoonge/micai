@@ -2,11 +2,10 @@
   <div class="password-second-step">
     <flexbox :gutter="0">
       <flexbox-item style="flex: 0 0 32px;">
-        <i class="ui-icon ui-icon-md ui-icon-sms-code"></i>
+        <i class="ui-icon ui-icon-md ui-icon-lock"></i>
       </flexbox-item>
       <flexbox-item>
-        <input type="password" class="password-true" v-model="password" @input="checkPassword" placeholder="请输入 6～16 位含字母及数字的密码" maxlength="16">
-      </flexbox-item>
+        <input type="password" v-model="password" @input="checkPassword" placeholder="请输入6～16位含字母及数字的密码" maxlength="16" class="password-true">
     </flexbox>
     <button class="password-btn weui_btn" :class="{'btn-disabled': btnDisabled}" disabled="{{btnDisabled}}" @click="setPassword()">下一步</button>
     <p class="password-instruction">该密码将应用于修改手机，工资单查询等功能</p>
@@ -43,12 +42,12 @@ export default {
   methods: {
     checkPassword () {
       const reg = /^([0-9a-zA-Z]){6,16}$/
-      this.password.match(reg) ? this.$set('btnDisabled', false) : this.$set('btnDisabled', true)
+      reg.test(this.password) ? this.$set('btnDisabled', false) : this.$set('btnDisabled', true)
     },
     setPassword () {
       const that = this
-      const reg = /^([0-9a-zA-Z]){4,16}$/
-      const flag = that.password.match(reg)
+      const reg = /^([0-9a-zA-Z]){6,16}$/
+      const flag = reg.test(that.password)
       if (flag) {
         that.$http({
           url: api.setWagePassword,
@@ -87,6 +86,27 @@ export default {
       border: none;
       padding-top: 10px;
       padding-bottom: 10px;
+    
+      &::-webkit-input-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: lighter;
+      }
+      &:-moz-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: lighter;
+      }
+      &::-moz-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: lighter;
+      }
+      &:-ms-input-placeholder {
+        color: #abb2b7;
+        font-size: 14px;
+        font-weight: lighter;
+      }
     }
   }
   .password-btn {
