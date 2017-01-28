@@ -132,7 +132,6 @@ export default {
 
         .body-enter {
           font-size: 14px;
-          font-weight: lighter;
           color: #6D6C6C;
           display: inline-block;
         }

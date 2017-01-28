@@ -10,7 +10,10 @@
         </div>
       </template>
     </div>
-    <h3 class="none" v-show="none">你还没有消息。</h3>
+    <div class="notice-nobody" v-show="none">
+      <img src="../assets/img/notice-no.png">
+      <p>还没有通知</p>
+    </div>
   </div>
 </template>
 
@@ -72,38 +75,58 @@ export default {
 </script>
 
 <style lang="less">
-.noticeView{
+.noticeView {
   width: 100%;
   min-height: 100%;
-  background-color: #EEF3F6;
+  background-color: #eef3f6;
   padding-top: 10px;
   
-  .notice-border{
+  .notice-nobody {
+    text-align: center;
+    padding-top: 170px;
+
+    img {
+      width: 120px;
+      height: 168px;
+    }
+
+    p {
+      color: #b1b6b8;
+      font-size: 18px;
+      line-height: 25px;
+    }
+  }
+  
+  .notice-border {
     width: 100%;
     background-color: #fff;
-    border-top: 1px solid #DEDEDE;
+    border-top: 1px solid #dedede;
 
-    .notice-list{
-      width: 100%;
+    .notice-list {
       width: 100%;
       height: 46px;
       line-height: 46px;
-      border-bottom: 1px solid #DEDEDE;
+      border-bottom: 1px solid #dedede;
 
-      .notice-name{
+      .notice-name {
         font-size: 15px;
         color: #4F4F4F;
+        float: left;
+        width: 196px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin-left: 30px;
       }
 
-      .notice-date{
+      .notice-date {
         float: right;
         font-size: 14px;
-        color: #BCBCBC;
+        color: #bcbcbc;
         margin-right: 30px;
       }
 
-      .notice-arrow{
+      .notice-arrow {
         float: right;
         display: inline-block;
         width: 8px;
@@ -115,14 +138,9 @@ export default {
     }
   }
 }
-.notice-noread{
+.notice-noread {
   background: url('../assets/img/notice-noread.png') no-repeat;
   background-position: 15px center;
   background-size: 6px 6px;
-}
-.none {
-  font-weight: normal;
-  text-align: center;
-  padding-top: 24px;
 }
 </style>

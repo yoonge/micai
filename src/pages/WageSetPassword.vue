@@ -75,7 +75,6 @@ export default {
   width: 100%;
   height: 100%;
   padding: 25px 5% 0 5%;
-  font-weight: lighter;
 
   .vux-flexbox {
     border-bottom: 1px solid #e3e3e3;
@@ -90,22 +89,18 @@ export default {
       &::-webkit-input-placeholder {
         color: #abb2b7;
         font-size: 14px;
-        font-weight: lighter;
       }
       &:-moz-placeholder {
         color: #abb2b7;
         font-size: 14px;
-        font-weight: lighter;
       }
       &::-moz-placeholder {
         color: #abb2b7;
         font-size: 14px;
-        font-weight: lighter;
       }
       &:-ms-input-placeholder {
         color: #abb2b7;
         font-size: 14px;
-        font-weight: lighter;
       }
     }
   }

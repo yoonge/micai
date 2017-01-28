@@ -1,22 +1,22 @@
 <template>
   <div class="address-item-wrapper clearfix">
     <div class="address-item">
-      <div class="address-item-summary">
-        <div class="address-avatar">
+      <flexbox :gutter="0" class="address-item-summary">
+        <flexbox-item class="address-avatar">
           <span :style="{'background-color': bgColor}">{{lastname}}</span>
-        </div>
-        <div class="address-info">
+        </flexbox-item>
+        <flexbox-item class="address-info">
           <dl>
             <dt>{{address_info.name}}<span>{{address_info.jobTitle}}</span></dt>
             <dd>{{address_info.mobile}}</dd>
           </dl>
-        </div>
-        <div class="address-more">
+        </flexbox-item>
+        <flexbox-item class="address-more">
           <ul class="clearfix">
             <li><a href="tel:{{address_info.mobile}}"><i class="ui-icon ui-icon-lg ui-icon-telphone"></i></a></li>
           </ul>
-        </div>
-      </div>
+        </flexbox-item>
+      </flexbox>
     </div>
   </div>
 </template>
@@ -74,7 +74,7 @@ export default {
       overflow: hidden;
 
       .address-avatar {
-        float: left;
+        flex: 0 0 45px;
         height: 45px;
         padding: 13px 12px 12px 15px;
 
@@ -92,7 +92,6 @@ export default {
       }
 
       .address-info {
-        float: left;
         padding: 13px 0 12px;
 
         dl {
@@ -125,6 +124,7 @@ export default {
     }
   }
   .address-more {
+    flex: 0 0 90px;
     height: 70px;
     text-align: right;
 

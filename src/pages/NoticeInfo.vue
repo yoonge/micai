@@ -2,13 +2,17 @@
   <div class ="noticeInfo">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="notice-info-main" v-show="result">
-      <div class="notice-main-title">
-        <span class="notice-title-bg"></span>
-        <div class="notice-title-group">
-          <p class="notice-title-name">{{ info.title }}</p>
-          <p class="notice-title-date">{{ info.releaseTime }}</p>
-        </div>
-      </div>
+      <table class="notice-header">
+        <tbody>
+          <tr>
+            <th rowspan="2" valign="top" class="notice-title-icon"><span class="notice-title-bg"></span></th>
+            <td class="notice-title-name">{{ info.title }}</td>
+          </tr>
+          <tr>
+            <td class="notice-title-date">{{ info.releaseTime }}</td>
+          </tr>
+        </tbody>
+      </table>
       <div class="notice-main-message">
         <div class="notice-main-content">
           <i class="notice-content-bg"></i>
@@ -72,66 +76,57 @@ export default {
 </script>
 
 <style lang="less">
-.noticeInfo{
+.notice-title-bg {
+  display: inline-block;
+  width: 42px;
+  height: 44px;
+  background: url(../assets/img/notice.png) center center no-repeat;
+  background-size: 42px 44px;
+}
+
+.notice-header {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #dedede;
+
+  .notice-title-icon {
+    width: 42px;
+    padding: 16px 12px;
+  }
+  .notice-title-name {
+    height: 25px;
+    padding-top: 14px;
+    padding-right: 12px;
+  }
+  .notice-title-date {
+    color: #bcbcbc;
+    font-size: 14px;
+    padding-bottom: 12px;
+  }
+}
+
+.noticeInfo {
   width: 100%;
   height: 100%;
-  background-color: #EEF3F6;
+  background-color: #eef3f6;
 
-  .notice-info-main{
+  .notice-info-main {
     width: 100%;
     background-color: #fff;
 
-    .notice-main-title{
-      display: flex;
-      width: 100%;
-      height: 72px;
-      padding-left: 4%;
-      background-color: #fff;
-      border-bottom: 1px solid #DEDEDE;
-
-      .notice-title-bg{
-        display: inline-block;
-        width: 58px;
-        height: 72px;
-        background: url(../assets/img/notice.png) 0 center no-repeat;
-        background-size: 42px 42px;
-      }
-
-      .notice-title-group {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        
-        p{
-          padding: 0;
-        }
-        .notice-title-name {
-          font-size: 18px;
-          line-height: 24px;
-          color: #4F4F4F;
-        }
-        .notice-title-date {
-          color: #bcbcbc;
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: 300;
-        }
-      }
-    }
-
-    .notice-main-message{
+    .notice-main-message {
       padding-left: 12%;
       padding-top: 18px;
       border-bottom: 1px solid #dedede;
 
-      .notice-main-content{
+      .notice-main-content {
+        box-sizing: border-box;
         width: 100%;
         position: relative;
         padding-bottom: 24px;
-        padding-right: 4%;
+        padding-right: 12px;
         
-        .notice-content-bg{
+        .notice-content-bg {
           position: absolute;
           top: 0;
           left: -30px;
@@ -140,11 +135,11 @@ export default {
           background: url(../assets/img/notice-content.png) no-repeat;
           background-size: 18px 18px;
         }
-        p{
+        p {
           padding: 0;
           font-size: 14px;
           line-height: 20px;
-          color: #4B4B4B;
+          color: #4b4b4b;
         }
       }
 
@@ -154,21 +149,21 @@ export default {
         height: 44px;
         line-height: 44px;
         
-        .notice-date-bg{
-          position: absolute;
-          top: 50%;
-          left: -30px;
-          margin-top: -9px;
+        .notice-date-bg {
           width: 18px;
           height: 18px;
           background: url(../assets/img/notice-date.png) no-repeat;
           background-size: 18px 18px;
+          margin-top: -9px;
+          position: absolute;
+          top: 50%;
+          left: -30px;
         }
 
-        p{
+        p {
           padding: 0;
           font-size: 14px;
-          color: #4B4B4B;
+          color: #4b4b4b;
         }
       }
     }

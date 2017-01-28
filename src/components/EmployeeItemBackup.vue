@@ -1,36 +1,35 @@
 <template>
   <div class="employee-item-wrapper clearfix">
     <div class="employee-item">
-      <div class="employee-item-summary">
-        <div class="employee-avatar">
+      <flexbox :gutter="0" class="employee-item-summary">
+        <flexbox-item class="employee-avatar">
           <span :style="{backgroundColor: bgColor}">{{lastname}}</span>
-        </div>
-        <div class="employee-info">
+        </flexbox-item>
+        <flexbox-item class="employee-info">
           <dl>
             <dt>{{employee_info.name}}<span>{{employee_info.jobTitle}}</span></dt>
             <dd>{{employee_info.email}}</dd>
           </dl>
-        </div>
-        <div class="employee-more">
+        </flexbox-item>
+        <flexbox-item class="employee-more">
           <ul class="clearfix">
             <li @click="toggleDetail()"><i :class="['ui-icon', 'ui-icon-sm', 'ui-icon-arrow-down-sm', {'ui-icon-arrow-up-sm': showDetail}]"></i></li>
             <li><a href="tel:{{employee_info.mobile}}"><i class="ui-icon ui-icon-lg ui-icon-telphone"></i></a></li>
           </ul>
-        </div>
-      </div>
-      <div class="employee-detail" v-show="showDetail">
-        <div style="flex: 0 0 72px;"></div>
-        <div>
+        </flexbox-item>
+      </flexbox>
+      <flexbox :gutter="0" class="employee-detail" v-show="showDetail">
+        <flexbox-item style="flex: 0 0 72px;"></flexbox-item>
+        <flexbox-item>
           <ul class="employee-detail-list">
             <li class="employee-detail-email">{{employee_info.email}}</li>
             <li class="employee-detail-address">{{employee_info.address}}</li>
             <li class="employee-detail-mobile">{{employee_info.mobile}}</li>
             <input type="hidden" data-id="{{employee_info.cpUserId}}">
           </ul>
-          <button v-if="1 === status" type="button" class="btn-add-to-address" @click="addToAddressList($event)">添加到通讯录</button>
-          <button v-if="0 === status" type="button" class="btn-added">已添加</button>
-        </div>
-      </div>
+          <button type="button" class="btn-add-to-address" @click="addToAddressList($event)">添加到通讯录</button>
+        </flexbox-item>
+      </flexbox>
     </div>
   </div>
 </template>
@@ -57,12 +56,8 @@ export default {
         '#28c196',
         '#fd8474',
         '#fd9448'
-      ],
-      status: null
+      ]
     }
-  },
-  ready () {
-    this.$set('status', this.employee_info.status)
   },
   methods: {
     toggleDetail () {
@@ -80,7 +75,6 @@ export default {
         method: 'GET'
       }).then(res => {
         if (res.data.result) {
-          this.$set('status', 0)
           this.$emit('showtoast', true)
         } else {
           this.$emit('showtoast', false)
@@ -118,7 +112,7 @@ export default {
       overflow: hidden;
 
       .employee-avatar {
-        float: left; 
+        flex: 0 0 45px;
         height: 45px;
         padding: 13px 12px 12px 15px;
 
@@ -136,8 +130,6 @@ export default {
       }
 
       .employee-info {
-        width: 42%;
-        float: left;
         padding: 13px 0 12px;
 
         dl {
@@ -185,25 +177,11 @@ export default {
         bottom: 12px;
       }
 
-      .btn-added {
-        color: #c1c1c1;
-        font-size: 14px;
-        height: 32px;
-        line-height: 32px;
-        border-radius: 2px;
-        border: 1px solid #c1c1c1;
-        background-color: #fff;
-        padding: 0 12px;
-        position: absolute;
-        right: 12px;
-        bottom: 12px;
-      }
-
       .employee-detail-list {
         color: #333;
         line-height: 32px;
         border-top: 1px solid #e4e4e4;
-        padding: 12px 12px 12px 84px;
+        padding: 12px 12px 12px 0;
 
         > li {
           word-break: break-all;
@@ -226,7 +204,7 @@ export default {
     }
   }
   .employee-more {
-    float: right;
+    flex: 0 0 96px;
     height: 70px;
     text-align: right;
 

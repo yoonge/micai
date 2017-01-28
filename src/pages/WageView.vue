@@ -143,7 +143,6 @@ export default {
     color: #51a5f7;
     font-size: 14px;
     line-height: 21px;
-    font-weight: lighter;
     text-align: right;
     margin-top: 12px;
     padding: 0;
@@ -151,7 +150,6 @@ export default {
   .wage-set {
     color: #51a5f7;
     font-size: 14px;
-    font-weight: lighter;
     width: 80%;
     height: 44px;
     line-height: 44px;

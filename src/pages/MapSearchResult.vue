@@ -6,7 +6,9 @@
         <employee-item :employee_info="employee" v-on:showtoast="showtoast"></employee-item>
       </template>
     </div>
-    <h3 class="nobody" v-show="nobody">未查询到此员工。</h3>
+    <div class="map-result-nobody" v-show="nobody">
+      <img src="../assets/img/search-no.png">
+    </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
@@ -85,10 +87,15 @@ export default {
 .list-view {
   background-color: #eef3f6;
 }
-.nobody {
+.map-result-nobody {
   font-weight: normal;
   text-align: center;
-  padding-top: 24px;
+  padding-top: 148px;
+
+  img{
+    width: 158px;
+    height: 138px;
+  }
 }
 </style>
 

@@ -242,5 +242,13 @@ body.login {
       color: #e3e3e3;
     }
   }
+
+  .weui_btn_primary {
+    background-color: #38acfd;
+  }
+
+  .weui_cells:before {
+    border-top: none !important;
+  }
 }
 </style>

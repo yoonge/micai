@@ -1,8 +1,8 @@
 <template>
-  <div class="system-view">
+  <div class="system-view"  :class="{ systemBg: nobody }">
     <loading :show="loading" :text="textLoading"></loading>
     <div v-show="result">
-      <scroller lock-y :scrollbar-x="false" v-ref:scroller>
+      <div class="wrapper">
         <div class="system-poster" :style="{width: systemWidth}">
           <template v-for="item in info">
             <a :href="item.institution_url" class="system-poster-item" :style="{backgroundColor: item.color}">
@@ -11,10 +11,21 @@
             </a>
           </template>
         </div>
-      </scroller>
+        <div class="system-white-side"></div>
+      </div>
+      <!-- <scroller lock-y :scrollbar-x="false" v-ref:scroller>
+        <div class="system-poster" :style="{width: systemWidth}">
+          <template v-for="item in info">
+            <a :href="item.institution_url" class="system-poster-item" :style="{backgroundColor: item.color}">
+              <p class="system-item-title">{{item.institution_name}}</p>
+              <p class="system-item-date">{{item.issue_time}}</p>
+            </a>
+          </template>
+        </div>
+      </scroller> -->
       <div class="system-bg"></div>
       <section class="system-list">
-        <template v-for="item in info">
+        <!-- <template v-for="item in info">
           <a :href="item.institution_url" class="system-list-item">
             <flexbox :gutter="0">
               <flexbox-item class="system-list-avatar">
@@ -29,24 +40,38 @@
               </flexbox-item>
             </flexbox>
           </a>
+        </template> -->
+        <template v-for="item in info">
+          <a :href="item.institution_url" class="system-list-item">
+              <div class="system-list-avatar">
+                <span :style="{backgroundColor: item.color}">{{item.firstWord}}</span>
+              </div>
+              <div class="system-list-summary">
+                  <div class="system-list-title">{{item.institution_name}}</div>
+                  <div class="system-list-arrow"><i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i></div>
+                  <div class="system-list-date">{{item.issue_time}}</div>
+              </div>
+          </a>
         </template>
       </section>
     </div>
-    <h3 class="nobody" v-show="nobody">抱歉，HR 还没有上传公司相关制度。</h3>
+    <div class="nobaby" v-show="nobody">
+      <img src="../assets/img/system-no.png">
+      <p class="nobaby-p">还没有添加企业制度</p>
+    </div>
   </div>
 </template>
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Flexbox, FlexboxItem, Scroller } from 'vux-components'
+import { Loading, Flexbox, FlexboxItem } from 'vux-components'
 
 export default {
   name: 'SystemView',
   components: {
     Loading,
     Flexbox,
-    FlexboxItem,
-    Scroller
+    FlexboxItem
   },
   data () {
     return {
@@ -89,9 +114,9 @@ export default {
             this.info[i]['firstWord'] = this.info[i].institution_name.substr(0, 1)
           }
           this.$set('result', true)
-          this.$nextTick(() => {
-            this.$refs.scroller.reset()
-          })
+          // this.$nextTick(() => {
+          //   this.$refs.scroller.reset()
+          // })
         } else {
           this.$set('nobody', true)
         }
@@ -111,12 +136,29 @@ export default {
 </script>
 
 <style lang="less">
+.systemBg {
+  background-color: #eef3f6;
+}
+.system-white-side{
+  position: absolute;
+  top: 205px;
+  width: 100%;
+  height: 20px;
+  background-color: #fff;
+  z-index: 9999;
+}
+.wrapper{
+  width: 100%;
+  height: 227px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
 .system-view {
-  min-width: 100%;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
 
   .system-poster {
-    height: 227px;
+    height: 197px;
     padding-top: 30px;
 
     .system-poster-item {
@@ -140,7 +182,6 @@ export default {
       .system-item-date {
         font-size: 12px;
         line-height: 18px;
-        font-weight: lighter;
       }
     }
   }
@@ -156,12 +197,13 @@ export default {
     border-top: 1px solid #e7e7e7;
 
     .system-list-item {
+      display: block;
       width: 100%;
       height: 66px;
       line-height: 66px;
 
       .system-list-avatar {
-        flex: 0 0 72px;
+        float: left;
         box-sizing: border-box;
         padding-left: 16px;
 
@@ -177,25 +219,47 @@ export default {
         }
       }
       .system-list-summary {
+        height: 66px;
+        width: 80%;
+        float: right;
         border-bottom: 1px solid #f7f7f7;
 
         .system-list-title {
           color: #323232;
           font-size: 16px;
+          float: left;
         }
         .system-list-date {
-          flex: 0 0 80px;
           font-size: 14px;
           color: #bdbdbd;
+          float: right;
+          padding-right: 4%;
         }
         .system-list-arrow {
-          flex: 0 0 36px;
+          float: right;
+          padding-right: 6%;
 
           .ui-icon-sm {
             vertical-align: -3px;
           }
         }
       }
+    }
+  }
+
+  .nobaby{
+    padding-top: 170px;
+    text-align: center;
+
+    img{
+      width: 120px;
+      height: 168px;
+    }
+
+    p{
+      color: #b1b6b8;
+      font-size: 18px;
+      padding-top: 12px;
     }
   }
 }

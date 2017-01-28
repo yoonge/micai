@@ -2,19 +2,21 @@
   <div class="xg-homepage">
     <header class="xg-header">
       <loading :show="loading" :text="textLoading"></loading>
-      <div class="xg-avatar">
+      <div class="xg-avatar" v-link="'/home/employee/employeeCompany'">
         <span :style="{'background-image': 'url(' + headImg + ')'}" :alt="telphone"></span>
       </div>
-      <div class="xg-info">
-        <p class="xg-info-company">{{homepageInfo.companyName}}</p>
-        <p class="xg-info-title">{{homepageInfo.jobTitle}}</p>
-        <a class="xg-info-arrow" v-link="'/home/employee'">
+      <div class="xg-info" v-link="'/home/employee/employeeCompany'">
+        <p class="xg-info-company">{{currentCompanyName}}</p>
+        <!-- <i class="ui-icon ui-icon-md ui-icon-arrow-down-white"></i> -->
+        <p class="xg-info-title">{{currentJobTitle}}</p>
+        <!-- <a class="xg-info-arrow" v-link="'/home/employee'">
           <i class="ui-icon ui-icon-md ui-icon-arrow-right"></i>
-        </a>
+        </a> -->
       </div>
       <a class="xg-message" v-link="'/home/notice'">
         <i class="ui-icon ui-icon-md ui-icon-ring" :class="{'ui-icon-ring': !noticeNoRead, 'ui-icon-ring-dot': noticeNoRead}"></i>
       </a>
+      <div class="wave"></div>
     </header>
     <div class="xg-main">
       <flexbox :gutter="0">
@@ -49,8 +51,9 @@
       </flexbox>
     </div>
     <footer class="xg-footer">
-      <i class="ui-icon ui-icon-lg ui-icon-plus"></i>
+      <!-- <i class="ui-icon ui-icon-lg ui-icon-plus"></i> -->
       <span class="xg-footer-more">更多功能即将上线</span>
+      <p class="xg-footer-suggest">建议使用 iOS 9 及以上版本</p>
     </footer>
   </div>
 </template>
@@ -102,6 +105,7 @@ export default {
         u.cpUserId = res.data.cpUserId
         u.currentCompanyId = res.data.companyId
         u.currentCompanyName = res.data.companyName
+        u.partyId = res.data.partyId
         window.localStorage.setItem('userInfo', JSON.stringify(u))
         that.$set('homepageInfo', res.data)
         that.$set('loading', false)
@@ -126,6 +130,14 @@ export default {
         console.error(err.data)
       })
     }
+  },
+  computed: {
+    currentCompanyName () {
+      return $.trim(this.homepageInfo.companyName) !== '' ? $.trim(this.homepageInfo.companyName) : '暂无组织'
+    },
+    currentJobTitle () {
+      return $.trim(this.homepageInfo.jobTitle) !== '' ? $.trim(this.homepageInfo.jobTitle) : '暂无职位'
+    }
   }
 }
 </script>
@@ -139,11 +151,12 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 215px;
+  height: 163px;
   text-align: center;
   background: linear-gradient(right, #2e84ed 0%, #1cb8fb 100%);
   position: relative;
   padding-top: 36px;
+  padding-bottom: 52px;
 
   .xg-avatar {
     display: flex;
@@ -181,12 +194,12 @@ export default {
       color: #fff;
       font-size: 17px;
       width: 220px;
-      line-height: 1em;
-      text-overflow:ellipsis;
+      line-height: 1.5em;
+      text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       margin: 0 auto;
-      padding-bottom: 7px;
+      padding-bottom: 6px;
     }
     .xg-info-title {
       color: #fff;
@@ -210,6 +223,20 @@ export default {
     position: absolute;
     top: 16px;
     right: 20px;
+  }
+  .wave {
+    width: 100%;
+    height: 52px;
+    background-color: transparent;
+    background-image: url(~assets/img/wave@2x.png);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
   }
 }
 .xg-main {
@@ -257,19 +284,21 @@ export default {
 }
 
 .xg-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 70px;
+  text-align: center;
   background-color: #fff;
   margin-top: 16px;
+  padding-top: 10px;
 
   .xg-footer-more {
     color: #d6d6d6;
     font-size: 18px;
     line-height: 25px;
-    padding-left: 10px;
+  }
+  .xg-footer-suggest {
+    color: #d6d6d6;
+    font-size: 12px;
   }
 }
 </style>

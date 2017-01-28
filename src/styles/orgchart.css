@@ -536,3 +536,30 @@
   background-color: #fff!important;
 }
 
+
+.orgchart .nodes .active {
+  border-color: #73c6fd;
+  background-color: #f3f9fe;
+  color: #2aabfd !important;
+}
+.orgchart .active .title {
+  color: #2aabfd !important;
+}
+.orgchart .active .content {
+  color: #2aabfd !important;
+}
+.orgchart .active::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 66px;
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  border: 1px solid #addefd;
+  border-radius: 50%;
+  background: url(../assets/img/down.png) center center no-repeat;
+  background-color: #f3f9fe;
+  background-size: 17px 10px;
+}
+

@@ -6,7 +6,10 @@
         <address-item :address_info="address_item"></address-item>
       </template>
     </div>
-    <h3 v-if="nobody" class="nobody">抱歉，您通讯录还没有此人！</h3>
+    <div v-if="nobody" class="address-result-nobody">
+      <img src="../assets/img/phone-no.png">
+      <p>没有找到小伙伴额～</p>
+    </div>
   </div>
 </template>
 
@@ -74,9 +77,18 @@ export default {
 .list-view {
   background-color: #eef3f6;
 }
-.nobody {
-  font-weight: normal;
+.address-result-nobody{
   text-align: center;
-  padding-top: 24px;
+  padding-top: 154px;
+  img{
+    width: 116px;
+    height: 100px;
+  }
+  p{
+    padding-top: 20px;
+    color: #BDBDBD;
+    font-size: 16px;
+    line-height: 22px;
+  }
 }
 </style>

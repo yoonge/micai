@@ -7,8 +7,8 @@
       </span>
     </div>
     <div class="company-body">
-      <div class="body-company" v-for="item in otherCompany" @click="switchCompany($event)">
-        <span class="body-company-name" :data-cpid="item.ID">{{item.NAME}}</span>
+      <div class="body-company" v-for="item in otherCompany">
+        <span class="body-company-name" :data-cpid="item.ID" @click="switchCompany($event)">{{item.NAME}}</span>
       </div>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
@@ -64,7 +64,7 @@ export default {
       const that = this
       const u = JSON.parse(window.localStorage.getItem('userInfo'))
       const cps = that.allCompany
-      const id = $(e.target).find('span.body-company-name').attr('data-cpid') - 1 + 1
+      const id = $(e.target).attr('data-cpid') - 1 + 1
       this.$http({
         url: api.SelectACompany,
         params: {
@@ -108,13 +108,13 @@ export default {
 </script>
 
 <style lang="less">
-.company-main{
+.company-main {
   width: 100%;
   height: 100%;
   padding-top: 14px;
   background-color: #eef3f6;
 
-  .company-header{
+  .company-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -124,13 +124,13 @@ export default {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 
-    .header-company{
+    .header-company {
       font-size: 15px;
       color: #51A5F7;
       margin-left: 17px;
     }
 
-    .header-hook{
+    .header-hook {
       display: inline-block;
       width: 24px;
       height: 100%;
@@ -138,19 +138,23 @@ export default {
     }
   }
 
-  .company-body{
+  .company-body {
     width: 100%;
     margin-top: 17px;
     background-color: #fff;
     border-top: 1px solid #ddd;
 
-    .body-company{
+    .body-company {
       width: 100%;
       height: 48px;
-      line-height: 48px;
       border-bottom: 1px solid #ddd;
 
-      .body-company-name{
+      .body-company-name {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
         padding-left: 17px;
       }
     }

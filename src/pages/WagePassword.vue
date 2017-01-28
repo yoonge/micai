@@ -11,7 +11,7 @@
           <input type="text" v-model="smsCode" maxlength="4" placeholder="短信验证码" @input="listenSmsCode()">
         </flexbox-item>
         <flexbox-item style="flex: 0 0 96px; text-align: right;">
-          <button type="button" class="btn-link" :class="{'btn-link-disable': linkDisable}" @click="getSmsCode()">{{textLink}}</button>
+          <button type="button" class="btn-link" :class="{'btn-link-disable': linkDisable}" disabled="{{linkDisable}}" @click="getSmsCode()">{{textLink}}</button>
         </flexbox-item>
       </flexbox>
       <button class="password-btn weui_btn" :class="{'btn-disabled': btnDisabled}" disabled="{{btnDisabled}}" @click="checkSmsCode()">下一步</button>
@@ -49,6 +49,7 @@ export default {
     this.$set('openId', u.openId)
     this.$set('telphone', u.phone)
     this.$set('headImg', u.headImg)
+    this.getSmsCode()
   },
   methods: {
     getSmsCode () {
@@ -73,6 +74,7 @@ export default {
           } else {
             let txt = t + ' 秒后重发'
             that.$set('textLink', txt)
+            that.$set('linkDisable', true)
           }
         }, 1000)
       }).catch(err => {
@@ -116,7 +118,6 @@ export default {
   width: 100%;
   height: 100%;
   padding: 25px 5% 0 5%;
-  font-weight: lighter;
 
   .password-title {
     padding: 0;

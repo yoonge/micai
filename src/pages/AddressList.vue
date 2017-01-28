@@ -172,7 +172,10 @@
         </template>
       </div>
     </div>
-    <h3 v-if="nobody" class="nobody">您的通讯录里还没有联系人，赶快去人力地图添加吧！</h3>
+    <div v-if="nobody" class="address-nobody">
+      <img src="../assets/img/phone-no.png">
+      <p>请到<a v-link="'/home/map'" style="color: #38acfd;">人力地图</a>添加新的人员</p>
+    </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
 </template>
@@ -375,13 +378,20 @@ export default {
   text-align: center;
   padding-top: 24px;
 }
+.address-list {
+  padding-top: 64px;
+}
 .sticky {
   box-sizing: border-box;
+  width: 100%;
   height: 64px;
   text-align: center;
   border-bottom: 1px solid #dfe3e6;
   background-color: #fff;
   padding: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   .address-search-wrapper {
     box-sizing: border-box;
@@ -438,5 +448,20 @@ export default {
   height: 32px;
   line-height: 32px;
   padding: 0 12px;
+}
+.address-nobody {
+  padding-top: 154px;
+  text-align: center;
+
+  img {
+    width: 160px;
+    height: 94px;
+  }
+  p {
+    padding-top: 30px;
+    color: #bdbdbd;
+    font-size: 16px;
+    line-height: 22px;
+  }
 }
 </style>

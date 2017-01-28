@@ -12,3 +12,10 @@ export default {
   name: 'Employee'
 }
 </script>
+
+<style lang="less">
+.employee {
+  width: 100%;
+  height: 100%;
+}
+</style>
