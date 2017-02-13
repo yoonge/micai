@@ -130,6 +130,7 @@ export default {
       } else {
         this.$set('textToast', '搜索关键词不能为空。')
         this.$set('showToast', true)
+        return false
       }
     }
   }

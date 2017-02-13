@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     lastname () {
-      return this.employee_info.name.toString()[0]
+      return this.employee_info.name.toString().slice(-2)
     },
     bgColor () {
       const r = Math.floor(Math.random() * 4)
@@ -124,7 +124,7 @@ export default {
 
         span {
           color: #fff;
-          font-size: 20px;
+          font-size: 16px;
           display: inline-block;
           width: 45px;
           height: 45px;

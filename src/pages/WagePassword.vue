@@ -100,6 +100,7 @@ export default {
         method: 'GET'
       }).then(res => {
         if (!res.data.result) {
+          this.$set('textToast', '您输入的验证码有误，请重新输入！')
           this.$set('showToast', true)
         } else {
           that.$router.go('/home/wage/wageSetPassword')

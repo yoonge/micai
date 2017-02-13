@@ -1,5 +1,5 @@
 <template>
-  <div class="address-list">
+  <div class="address-list address-search-result">
     <loading :show="loading" :text="textLoading"></loading>
     <div v-if="result">
       <template v-for="address_item in address_list">
@@ -77,18 +77,22 @@ export default {
 .list-view {
   background-color: #eef3f6;
 }
-.address-result-nobody{
+.address-search-result {
+  padding-top: 0;
+}
+.address-result-nobody {
   text-align: center;
   padding-top: 154px;
-  img{
+
+  img {
     width: 116px;
     height: 100px;
   }
-  p{
-    padding-top: 20px;
-    color: #BDBDBD;
+  p {
+    color: #bdbdbd;
     font-size: 16px;
     line-height: 22px;
+    padding-top: 20px;
   }
 }
 </style>

@@ -9,6 +9,15 @@ import Employee from 'pages/Employee'
 import EmployeeCenter from 'pages/EmployeeCenter'
 import EmployeeCompany from 'pages/EmployeeCompany'
 
+import User from 'pages/User'
+import UserInfo from 'pages/UserInfo'
+import UserWork from 'pages/UserWork'
+import UserEducation from 'pages/UserEducation'
+import UserSocial from 'pages/UserSocial'
+
+import Edit from 'pages/Edit'
+import EditUserInfo from 'pages/EditUserInfo'
+
 import Map from 'pages/Map'
 import MapView from 'pages/MapView'
 import MapSearchResult from 'pages/MapSearchResult'
@@ -27,6 +36,7 @@ import WagePassword from 'pages/WagePassword'
 import WageSetPassword from 'pages/WageSetPassword'
 import WageSuccess from 'pages/WageSuccess'
 import WageInfo from 'pages/WageInfo'
+import WageInfoDynamic from 'pages/WageInfoDynamic'
 
 import Notice from 'pages/Notice'
 import NoticeView from 'pages/NoticeView'
@@ -122,6 +132,10 @@ const Routes = router => {
             'wageInfo': {
               name: 'home.wage.info',
               component: WageInfo
+            },
+            'wageInfo/:companyId/:companyName': {
+              name: 'home.wage.info.dynamic',
+              component: WageInfoDynamic
             }
           }
         },
@@ -136,6 +150,38 @@ const Routes = router => {
             '/employeeCompany': {
               name: 'home.employee.company',
               component: EmployeeCompany
+            }
+          }
+        },
+        '/user': {
+          name: 'home.user',
+          component: User,
+          subRoutes: {
+            '/userInfo': {
+              name: 'home.user.info',
+              component: UserInfo
+            },
+            '/userWork': {
+              name: 'home.user.work',
+              component: UserWork
+            },
+            '/userEducation': {
+              name: 'home.user.education',
+              component: UserEducation
+            },
+            '/userSocial': {
+              name: 'home.user.social',
+              component: UserSocial
+            }
+          }
+        },
+        '/edit': {
+          name: 'home.edit',
+          component: Edit,
+          subRoutes: {
+            '/editUserInfo': {
+              name: 'home.edit.userInfo',
+              component: EditUserInfo
             }
           }
         },
@@ -164,6 +210,7 @@ const Routes = router => {
     '/home/system': '/home/system/systemView',
     '/home/wage': '/home/wage/wageView',
     '/home/employee': '/home/employee/employeeCenter',
+    'home/user': '/home/user/userInfo',
     '/home/notice': '/home/notice/noticeView'
   })
 }

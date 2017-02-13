@@ -2,16 +2,16 @@
   <div class="xg-homepage">
     <header class="xg-header">
       <loading :show="loading" :text="textLoading"></loading>
-      <div class="xg-avatar" v-link="'/home/employee/employeeCompany'">
+      <div class="xg-avatar" v-link="'/home/employee/employeeCenter'">
         <span :style="{'background-image': 'url(' + headImg + ')'}" :alt="telphone"></span>
       </div>
-      <div class="xg-info" v-link="'/home/employee/employeeCompany'">
+      <div class="xg-info" v-link="'/home/employee/employeeCenter'">
         <p class="xg-info-company">{{currentCompanyName}}</p>
         <!-- <i class="ui-icon ui-icon-md ui-icon-arrow-down-white"></i> -->
         <p class="xg-info-title">{{currentJobTitle}}</p>
-        <!-- <a class="xg-info-arrow" v-link="'/home/employee'">
+        <a class="xg-info-arrow" v-link="'/home/employee/employeeCenter'">
           <i class="ui-icon ui-icon-md ui-icon-arrow-right"></i>
-        </a> -->
+        </a>
       </div>
       <a class="xg-message" v-link="'/home/notice'">
         <i class="ui-icon ui-icon-md ui-icon-ring" :class="{'ui-icon-ring': !noticeNoRead, 'ui-icon-ring-dot': noticeNoRead}"></i>
@@ -231,7 +231,7 @@ export default {
     background-image: url(~assets/img/wave@2x.png);
     background-repeat: no-repeat;
     background-position: center bottom;
-    background-size: cover;
+    background-size: 100% 100%;
     margin: 0;
     padding: 0;
     position: absolute;

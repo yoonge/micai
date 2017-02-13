@@ -5,7 +5,7 @@
       <template v-for="item in info">
         <div class="notice-list" :class="{'notice-noread':item.status}" v-link="{name: 'home.notice.info', params: { cpUserId: cpUserId, noticeId: item.id }}">
           <span class="notice-name">{{item.title}}</span>
-          <span class="notice-arrow">&nbsp</span>
+          <span class="notice-arrow">&nbsp;</span>
           <span class="notice-date">{{item.releaseTime}}</span>
         </div>
       </template>

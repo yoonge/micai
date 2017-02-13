@@ -2,7 +2,7 @@
   <div class="employee-main">
     <div class="employee-header">
       <span class="header-info">个人资料</span>
-      <a class="header-package" v-link="'/home/employee'">
+      <a class="header-package" v-link="'/home/user'">
         <span class="header-enter">进入</span>
         <span class="header-go">
           <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
