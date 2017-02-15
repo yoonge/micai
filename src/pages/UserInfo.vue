@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="userInfo-wrapper" :class="{'bottom-padding': userInfoStatus}">
+    <loading :show="loading" :text="textLoading"></loading>
     <div class="userInfo">
       <div class="userInfo-main">
         <div class="userInfo-main-compile" v-link="'/home/edit/editUserInfo'"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</div>
@@ -100,43 +101,66 @@
         </div>
       </div>
     </div>
-    <div class="user-info-btn" v-show="btnShow">
+    <div class="user-info-btn" v-show="userInfoStatus">
       <x-button>发送</x-button>
     </div>
   </div>
 </template>
 
 <script lang="babel">
-import { XButton } from 'vux-components'
+import * as api from 'src/api.js'
+import { Loading, XButton } from 'vux-components'
 
 export default {
   name: 'UserInfo',
   components: {
+    Loading,
     XButton
   },
   data () {
     return {
-      personalInfo: {},
-      btnShow: false
+      loading: true,
+      textLoading: 'Loading...',
+      cpUserId: '',
+      userInfoStatus: false,
+      personalInfo: {}
     }
   },
   ready () {
-    this.fetchDataInfo()
+    let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('cpUserId', u.cpUserId)
+    this.fetchPersonalInfo()
   },
   methods: {
-    fetchDataInfo () {
-      let o = JSON.parse(window.localStorage.getItem('userData'))
-      console.log(o)
-      if (o !== null) {
-        this.$set('personalInfo', o)
-        this.$set('btnShow', true)
-      }
+    fetchPersonalInfo () {
+      const that = this
+      that.$http({
+        url: api.showPersonalInfo,
+        params: {
+          memberLoginId: that.cpUserId
+        },
+        method: 'GET'
+      }).then(res => {
+        if (res.data.result) that.$set('personalInfo', res.data.personalList)
+        that.$set('loading', false)
+      }).catch(err => {
+        console.error(err.data)
+      })
     }
   }
 }
 </script>
 
 <style lang="less">
+.userInfo-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+
+  &.bottom-padding {
+    padding-bottom: 51px;
+  }
+}
 .userInfo {
   width: 100%;
   padding-top: 4%;
@@ -177,39 +201,38 @@ export default {
       }
 
       .userInfo-item-name {
-        font-size: 13px;
         color: #444343;
+        font-size: 13px;
         font-weight: lighter;
-        padding-left: ;
       }
     }
 
     .userInfo-main-compile {
+      color: #51a5f7;
+      font-size: 15px;
       position: absolute;
       top: 12px;
       right: 12px;
-      color: #51a5f7;
-      font-size: 15px;
     }
   }
 }
 .user-info-btn {
+  box-sizing: border-box;
+  width: 100%;
+  height: 66px;
+  border-top: 1px solid #f7f7f7;
+  background-color: #fff;
+  padding: 12px 18px;
   position: fixed;
   bottom: 0;
-  background-color: #fff;
-  border-top: 1px solid #f7f7f7;
-  width: 100%;
-  height: 67px;
-  box-sizing: border-box;
-  padding: 12px 18px;
 
   .weui_btn {
     margin-top: 0;
   }
 
   .weui_btn_default {
-    background-color: #38acfd;
     color: #fff;
+    background-color: #38acfd;
   }
 }
 </style>

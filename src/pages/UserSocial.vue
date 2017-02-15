@@ -1,4 +1,5 @@
 <template>
+  <div>社会经历</div>
 </template>
 
 <script lang="babel">

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="edit-wrapper">
+    <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group>
         <x-input title="姓名" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
@@ -53,7 +54,7 @@
         <popup-picker title="婚姻状况" :value.sync="personalInfo.marriageStatus" :data="marriages"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
       </group>
       <group>
-        <x-input title="籍贯" :value.sync="personalInfo.nativeProvince" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
+        <address title="籍贯" :value.sync="personalInfo.addressValue" raw-value :list="addressList" hide-district></address>
       </group>
       <group>
         <datetime title="出生日期" :value.sync="personalInfo.birthday" :min-year="minyear" confirm-text="确认" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></datetime>
@@ -68,11 +69,15 @@
 
 <script lang="babel">
 import $ from 'jquery'
-import { Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux'
+import * as api from 'src/api.js'
+import addressList from 'src/addressList.js'
+import { Loading, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
   name: 'EditUserInfo',
   components: {
+    Loading,
+    Address,
     Datetime,
     Group,
     XButton,
@@ -83,6 +88,10 @@ export default {
   },
   data () {
     return {
+      loading: true,
+      textLoading: 'Loading...',
+      cpUserId: '',
+      personalInfoJSON: {},
       personalInfo: {
         memberName: '',
         gender: [],
@@ -101,19 +110,66 @@ export default {
         address: '',
         politicalStatus: [],
         marriageStatus: [],
-        nativeProvince: '',
+        addressValue: [],
         birthday: ''
       },
       genders: [['男', '女']],
       certificates: [['身份证', '护照']],
       accounts: [['本地城镇', '本地农村', '外地城镇', '外地农村']],
-      nations: [['汉族', '蒙古族', '藏族', '满足', '回族', '维吾尔族', '朝鲜族']],
+      nations: [['汉族', '蒙古族', '回族', '藏族', '维吾尔族', '苗族', '彝族', '壮族', '布依族', '朝鲜族', '满族', '侗族', '瑶族', '白族', '土家族', '哈尼族', '哈萨克族', '傣族', '黎族', '傈僳族', '佤族', '畲族', '高山族', '拉祜族', '水族', '东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族', '达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族', '毛南族', '仡佬族', '锡伯族', '阿昌族', '普米族', '塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族', '独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族', '基诺族']],
       politics: [['群众', '共产党员', '民族党派', '无党派', '共产党预备党员']],
       marriages: [['未婚', '已婚', '离异']],
+      addressList: addressList,
       minyear: 1900
     }
   },
+  ready () {
+    let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('cpUserId', u.cpUserId)
+    this.fetchPersonalInfo()
+  },
   methods: {
+    fetchPersonalInfo () {
+      const that = this
+      this.$http({
+        url: api.showPersonalInfo,
+        params: {
+          memberLoginId: that.cpUserId
+        },
+        method: 'GET'
+      }).then(res => {
+        if (res.data.result) that.$set('personalInfoJSON', res.data.personalList)
+        let p1 = that.personalInfo // 表单双向绑定数据
+        let p2 = that.personalInfoJSON // 与后端交互的数据
+        console.log(JSON.stringify(p2))
+        if (p2 !== {}) {
+          for (let key in p2) {
+            console.log(JSON.stringify(p2[key]))
+            switch (key) {
+              case 'gender':
+              case 'certificationType':
+              case 'residenceType':
+              case 'nationality':
+              case 'politicalStatus':
+              case 'marriageStatus':
+                p1[key][0] = p2[key]
+                break
+              case 'nativeProvinceCode':
+                p1['addressValue'][0] = p2[key]
+                break
+              case 'nativeCityCode':
+                p1['addressValue'][1] = p2[key]
+                break
+              default:
+                p1[key] = p2[key]
+            }
+          }
+        }
+        that.$set('loading', false)
+      }).catch(err => {
+        console.error(err.data)
+      })
+    },
     submitInfo () {
       window.localStorage.setItem('userData', JSON.stringify(this.personalInfo))
       this.$router.go('/home/user/userInfo')
@@ -145,35 +201,6 @@ export default {
           console.log('正确了')
         }
       }
-    },
-    isIdCardNo (num) {
-      const len = num.length
-      let re
-      if (len === 15) {
-        re = new RegExp(/^(\d{6})()?(\d{2})(\d{2})(\d{2})(\d{2})(\w)$/)
-      } else if (len === 18) {
-        re = new RegExp(/^(\d{6})()?(\d{4})(\d{2})(\d{2})(\d{3})(\w)$/)
-      } else {
-        return false
-      }
-      const a = num.match(re)
-      let D, B
-      if (a !== null) {
-        if (len === 15) {
-          D = new Date('19' + a[3] + '/' + a[4] + '/' + a[5])
-          B = D.getYear() === a[3] && (D.getMonth() + 1) === a[4] && D.getDate() === a[5]
-        } else {
-          D = new Date(a[3] + '/' + a[4] + '/' + a[5])
-          B = D.getFullYear() === a[3] && (D.getMonth() + 1) === a[4] && D.getDate() === a[5]
-        }
-        if (!B) {
-          return false
-        }
-      }
-      if (!re.test(num)) {
-        return false
-      }
-      return true
     }
   },
   computed: {
@@ -198,14 +225,14 @@ export default {
 
 <style lang="less">
 .edit-user-info-btn {
-  position: fixed;
-  bottom: 0;
-  background-color: #fff;
-  border-top: 1px solid #f7f7f7;
+  box-sizing: border-box;
   width: 100%;
   height: 67px;
-  box-sizing: border-box;
+  border-top: 1px solid #f7f7f7;
+  background-color: #fff;
   padding: 12px 18px;
+  position: fixed;
+  bottom: 0;
 
   .weui_btn {
     margin-top: 0;

@@ -46,3 +46,8 @@ export const getNoticeList = config.apiPrefix + '/portal/weixinPublic/queryNotic
 export const getNoticeInfo = config.apiPrefix + '/portal/weixinPublic/queryNoticeDetail.do'
 
 export const getNoticeNoRead = config.apiPrefix + '/portal/weixinPublic/queryNoReadAmount.do'
+
+// userInfo
+export const showPersonalInfo = config.apiPrefix + '/portal/weixinPublic/showPersonalInfo.do'
+
+export const addPersonalInfo = config.apiPrefix + '/portal/weixinPublic/addPersonalInfo.do'

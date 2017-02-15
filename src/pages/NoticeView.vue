@@ -68,6 +68,8 @@ export default {
           that.$set('none', true)
         }
         that.$set('loading', false)
+      }).catch(err => {
+        console.error(err.data)
       })
     }
   }

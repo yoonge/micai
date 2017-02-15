@@ -123,9 +123,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        if (res.data.result && res.data.NoReadAmount > 0) {
-          that.$set('noticeNoRead', true)
-        }
+        if (res.data.result && res.data.NoReadAmount > 0) that.$set('noticeNoRead', true)
       }).catch(err => {
         console.error(err.data)
       })
