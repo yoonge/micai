@@ -119,7 +119,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       textLoading: 'Loading...',
       cpUserId: '',
       userInfoStatus: false,
@@ -139,7 +139,10 @@ export default {
         params: {
           memberLoginId: that.cpUserId
         },
-        method: 'GET'
+        method: 'GET',
+        beforeSend () {
+          that.$set('loading', true)
+        }
       }).then(res => {
         if (res.data.result) that.$set('personalInfo', res.data.personalList)
         that.$set('loading', false)

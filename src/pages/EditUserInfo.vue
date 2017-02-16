@@ -3,19 +3,19 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group>
-        <x-input title="姓名" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
+        <x-input title="姓名 *" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
       </group>
       <group>
-        <popup-picker title="性别" :value.sync="personalInfo.gender" :data="genders"></popup-picker>
+        <popup-picker title="性别 *" :value.sync="personalInfo.gender" :data="genders"></popup-picker>
       </group>
       <group>
-        <popup-picker title="证件类型" :value.sync="personalInfo.certificationType" :data="certificates"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
+        <popup-picker title="证件类型 *" :value.sync="personalInfo.certificationType" :data="certificates"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
       </group>
       <group>
-        <x-input title="证件号码" :value.sync="personalInfo.certificationNumber" placeholder="请输入" :show-clear="false" class="editCertificationNumber" @on-change="checkIdNumber"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
+        <x-input title="证件号码 *" :value.sync="personalInfo.certificationNumber" placeholder="请输入" :show-clear="false" class="editCertificationNumber" @on-change="checkIdNumber"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
       </group>
       <group>
-        <x-input name="mobile" title="手机" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" keyboard="number" @on-change="checkMobile" class="editMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
+        <x-input name="mobile" title="手机 *" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" keyboard="number" @on-change="checkMobile" class="editMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
       </group>
       <group>
         <x-input title="邮箱" :value.sync="personalInfo.email" placeholder="请输入" :show-clear="false" @on-change="checkEmail" class="editEmail" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
@@ -36,16 +36,16 @@
         <datetime title="参加工作时间" :value.sync="personalInfo.firstJobDate" confirm-text="确定" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></datetime>
       </group>
       <group>
-        <popup-picker title="户口性质" :value.sync="personalInfo.residenceType" :data="accounts"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
+        <popup-picker title="户口性质 *" :value.sync="personalInfo.residenceType" :data="accounts"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
       </group>
       <group>
         <x-input title="紧急联系电话" :value.sync="personalInfo.emergencyCall" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
       </group>
       <group>
-        <popup-picker title="民族" :value.sync="personalInfo.nationality" :data="nations"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
+        <popup-picker title="民族 *" :value.sync="personalInfo.nationality" :data="nations"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
       </group>
       <group>
-        <x-input title="住址" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
+        <x-input title="住址 *" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></x-input>
       </group>
       <group>
         <popup-picker title="政治面貌" :value.sync="personalInfo.politicalStatus" :data="politics"><i class="ui-icon ui-icon-sm ui-icon-pen-ugly-sm"></i></popup-picker>
@@ -61,22 +61,23 @@
       </group>
     </div>
     <div class="edit-user-info-btn">
-      <x-button @click="submitInfo" :disabled="checkBlank" :class="{ editBtnDisable: checkBlank }">保存</x-button>
+      <x-button @click="savePersonalInfo" :disabled="checkBlank" :class="{editBtnDisable: checkBlank}">保存</x-button>
     </div>
+    <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
-  
 </template>
 
 <script lang="babel">
 import $ from 'jquery'
 import * as api from 'src/api.js'
 import addressList from 'src/addressList.js'
-import { Loading, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
+import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
   name: 'EditUserInfo',
   components: {
     Loading,
+    Toast,
     Address,
     Datetime,
     Group,
@@ -88,10 +89,11 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       textLoading: 'Loading...',
+      textToast: '',
+      showToast: false,
       cpUserId: '',
-      personalInfoJSON: {},
       personalInfo: {
         memberName: '',
         gender: [],
@@ -113,6 +115,7 @@ export default {
         addressValue: [],
         birthday: ''
       },
+      personalInfoJSON: {},
       genders: [['男', '女']],
       certificates: [['身份证', '护照']],
       accounts: [['本地城镇', '本地农村', '外地城镇', '外地农村']],
@@ -136,7 +139,10 @@ export default {
         params: {
           memberLoginId: that.cpUserId
         },
-        method: 'GET'
+        method: 'GET',
+        beforeSend () {
+          that.$set('loading', true)
+        }
       }).then(res => {
         if (res.data.result) that.$set('personalInfoJSON', res.data.personalList)
         let p1 = that.personalInfo // 表单双向绑定数据
@@ -144,7 +150,7 @@ export default {
         console.log(JSON.stringify(p2))
         if (p2 !== {}) {
           for (let key in p2) {
-            console.log(JSON.stringify(p2[key]))
+            console.log(key + '----------' + p2[key].toString())
             switch (key) {
               case 'gender':
               case 'certificationType':
@@ -164,15 +170,62 @@ export default {
                 p1[key] = p2[key]
             }
           }
+          console.log(JSON.stringify(p1))
         }
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
       })
     },
-    submitInfo () {
-      window.localStorage.setItem('userData', JSON.stringify(this.personalInfo))
-      this.$router.go('/home/user/userInfo')
+    savePersonalInfo () {
+      const that = this
+      let jsonArray = []
+      let p1 = that.personalInfo // 表单双向绑定数据
+      let p2 = that.personalInfoJSON // 与后端交互的数据
+      for (let key in p1) {
+        console.log(JSON.stringify(p1[key]))
+        switch (key) {
+          case 'gender':
+          case 'certificationType':
+          case 'residenceType':
+          case 'nationality':
+          case 'politicalStatus':
+          case 'marriageStatus':
+            p2[key] = p1[key][0]
+            break
+          case 'addressValue':
+            p2['nativeProvinceCode'] = p1[key][0]
+            p2['nativeCityCode'] = p1[key][1]
+            break
+          default:
+            p2[key] = p1[key]
+        }
+      }
+      jsonArray[0] = p2
+      console.log(JSON.stringify(jsonArray))
+      that.$http({
+        url: api.addPersonalInfo,
+        params: {
+          memberLoginId: that.cpUserId,
+          json: JSON.stringify(jsonArray)
+        },
+        method: 'GET',
+        beforeSend () {
+          that.$set('loading', true)
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.result) {
+          that.$set('loading', false)
+          that.$router.go('/home/user/userInfo')
+        } else {
+          that.$set('loading', false)
+          that.$set('textToast', '保存失败，请检查网络后重试！')
+          that.$set('showToast', true)
+        }
+      }).catch(err => {
+        console.error(err.data)
+      })
     },
     checkMobile () {
       let reg = /^1(3|4|5|7|8)\d{9}$/
@@ -195,10 +248,10 @@ export default {
         let reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/
         if (!reg.test(this.personalInfo.certificationNumber)) {
           $('.editCertificationNumber .weui_icon_warn').eq(0).css({'display': 'block'})
-          console.log('错误')
+          console.log('Failed !')
         } else {
           $('.editCertificationNumber .weui_icon_warn').eq(0).css({'display': 'none'})
-          console.log('正确了')
+          console.log('Success !')
         }
       }
     }
@@ -224,6 +277,11 @@ export default {
 </script>
 
 <style lang="less">
+.edit-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 .edit-user-info-btn {
   box-sizing: border-box;
   width: 100%;
