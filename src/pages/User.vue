@@ -38,15 +38,15 @@ export default {
   text-align: right;
 }
 .vux-tab .vux-tab-item.vux-tab-selected {
-  color: #2AABFD!important;
+  color: #2aabfd!important;
 }
 .vux-tab-ink-bar-transition-forward {
-  background-color: #2AABFD!important;
+  background-color: #2aabfd!important;
   height: 2px!important;
   bottom: -1px;
 }
 .vux-tab-ink-bar-transition-backward {
-  background-color: #2AABFD!important;
+  background-color: #2aabfd!important;
   height: 2px!important;
   bottom: -1px;
 }

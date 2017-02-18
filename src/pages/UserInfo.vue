@@ -87,7 +87,7 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">籍贯</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.nativeProvince}}</span> 
+          <span class="userInfo-item-name">{{personalInfo.nativeProvince}}{{personalInfo.nativeCity}}</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">婚姻状况</span>
@@ -144,7 +144,8 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        if (res.data.result) that.$set('personalInfo', res.data.personalList)
+        console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
+        if (res.data.result) that.$set('personalInfo', res.data.personalList[0])
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
