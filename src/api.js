@@ -51,3 +51,5 @@ export const getNoticeNoRead = config.apiPrefix + '/portal/weixinPublic/queryNoR
 export const showPersonalInfo = config.apiPrefix + '/portal/weixinPublic/showPersonalInfo.do'
 
 export const addPersonalInfo = config.apiPrefix + '/portal/weixinPublic/addPersonalInfo.do'
+
+export const showEmployExperience = config.apiPrefix + '/portal/weixinPublic/showEmployExperience.do'

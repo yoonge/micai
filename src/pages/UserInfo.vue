@@ -144,7 +144,7 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
+        // console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
         if (res.data.result) that.$set('personalInfo', res.data.personalList[0])
         that.$set('loading', false)
       }).catch(err => {

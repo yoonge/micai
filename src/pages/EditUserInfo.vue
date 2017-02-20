@@ -284,7 +284,7 @@ export default {
   .weui_btn {
     margin-top: 0;
   }
-  .weui_btn:after{
+  .weui_btn:after {
     border: none;
     border-radius: 2px;
   }
