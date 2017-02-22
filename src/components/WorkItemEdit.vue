@@ -1,5 +1,14 @@
 <template>
-  <div class="work-item">
+  <div class="work-item-edit">
+    <a v-link="'/home/edit/userWorkList'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>修改</a>
+    <dl>
+      <dd>{{work_exp.beginDate}} - {{work_exp.endDate}}</dd>
+      <dd>{{work_exp.company}} / {{work_exp.xgPosition}}</dd>
+      <dd>{{work_exp.majorDuty}}</dd>
+      <dd>证明人：<span>{{work_exp.referee}}</span></dd>
+      <dd>证明电话：<span>{{work_exp.refereePhone}}</span></dd>
+      <dd>备注：<span>{{work_exp.note}}</span></dd>
+    </dl>
   </div>
 </template>
 
@@ -13,20 +22,48 @@ export default {
     FlexboxItem
   },
   props: {
-    work_info: {}
+    work_exp: {}
   },
   data () {
     return {
+      xgEmployeeExpId: ''
     }
-  },
-  computed: {
   }
 }
 </script>
 
 <style lang="less">
-.work-item {
+.work-item-edit {
+  box-sizing: border-box;
   width: 100%;
-  border-top: 1px solid #e4e4e4;
+  background-color: #fff;
+  padding: 16px 0;
+  position: relative;
+
+  + .work-item-edit {
+    border-top: 1px dashed rgba(151, 151, 151, .2);
+  }
+
+  .btn-link {
+    color: #51a5f7;
+    font-size: 15px;
+    position: absolute;
+    top: 12px;
+    right: -4px;
+  }
+
+  dl {
+    font-size: 14px;
+
+    dd {
+      line-height: 18px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+
+      span {
+        font-weight: lighter;
+      }
+    }
+  }
 }
 </style>

@@ -17,6 +17,9 @@ import UserSocial from 'pages/UserSocial'
 
 import Edit from 'pages/Edit'
 import EditUserInfo from 'pages/EditUserInfo'
+import UserWorkList from 'pages/UserWorkList'
+import AddUserWork from 'pages/AddUserWork'
+import EditUserWork from 'pages/EditUserWork'
 
 import Map from 'pages/Map'
 import MapView from 'pages/MapView'
@@ -182,6 +185,18 @@ const Routes = router => {
             '/editUserInfo': {
               name: 'home.edit.userInfo',
               component: EditUserInfo
+            },
+            '/userWorkList': {
+              name: 'home.edit.userWorkList',
+              component: UserWorkList
+            },
+            'addUserWork': {
+              name: 'home.edit.addUserWork',
+              component: AddUserWork
+            },
+            'editUserWork': {
+              name: 'home.edit.editUserWork',
+              component: EditUserWork
             }
           }
         },

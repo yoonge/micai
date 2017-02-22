@@ -101,8 +101,8 @@
         </div>
       </div>
     </div>
-    <div class="user-info-btn" v-show="userInfoStatus">
-      <x-button>发送</x-button>
+    <div class="btn-wrapper-fixed" v-show="userInfoStatus">
+      <x-button class="btn-send">发送</x-button>
     </div>
   </div>
 </template>
@@ -119,7 +119,7 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       textLoading: 'Loading...',
       cpUserId: '',
       userInfoStatus: false,
@@ -139,12 +139,9 @@ export default {
         params: {
           memberLoginId: that.cpUserId
         },
-        method: 'GET',
-        beforeSend () {
-          that.$set('loading', true)
-        }
+        method: 'GET'
       }).then(res => {
-        // console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
+        console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
         if (res.data.result) that.$set('personalInfo', res.data.personalList[0])
         that.$set('loading', false)
       }).catch(err => {
@@ -166,19 +163,18 @@ export default {
   }
 }
 .userInfo {
+  box-sizing: border-box;
   width: 100%;
-  padding-top: 4%;
-  padding-bottom: 4%;
+  padding: 16px;
   background-color: #eef3f6;
 
   .userInfo-main {
-    position: relative;
     box-sizing: border-box;
-    width: 92%;
+    width: 100%;
     background-color: #fff;
     margin: 0 auto;
-    padding-left: 20px;
-    padding-right : 20px;
+    padding: 12px 20px;
+    position: relative;
 
     .userInfo-main-item {
       padding-top: 5px;
@@ -215,28 +211,9 @@ export default {
       color: #51a5f7;
       font-size: 15px;
       position: absolute;
-      top: 12px;
+      top: 8px;
       right: 12px;
     }
-  }
-}
-.user-info-btn {
-  box-sizing: border-box;
-  width: 100%;
-  height: 66px;
-  border-top: 1px solid #f7f7f7;
-  background-color: #fff;
-  padding: 12px 18px;
-  position: fixed;
-  bottom: 0;
-
-  .weui_btn {
-    margin-top: 0;
-  }
-
-  .weui_btn_default {
-    color: #fff;
-    background-color: #38acfd;
   }
 }
 </style>

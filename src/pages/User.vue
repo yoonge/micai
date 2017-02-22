@@ -1,13 +1,13 @@
 <template>
   <div class="user">
-    <sticky scroll-box="vux_view_box_body">
-      <tab :line-width="1" class="user-header">
-        <tab-item selected v-link="'/home/user/userInfo'">个人信息</tab-item>
-        <tab-item v-link="'/home/user/userWork'">工作经历</tab-item>
-        <tab-item v-link="'/home/user/userEducation'">教育信息</tab-item>
-        <tab-item v-link="'/home/user/userSocial'">社会关系</tab-item>
+    <div class="user-header">
+      <tab :line-width="2" :animate="false">
+        <tab-item v-link="{ path: '/home/user/userInfo', activeClass: 'vux-tab-selected' }">个人信息</tab-item>
+        <tab-item v-link="{ path: '/home/user/userWork', activeClass: 'vux-tab-selected' }">工作经历</tab-item>
+        <tab-item v-link="{ path: '/home/user/userEducation', activeClass: 'vux-tab-selected' }">教育信息</tab-item>
+        <tab-item v-link="{ path: '/home/user/userSocial', activeClass: 'vux-tab-selected' }">社会关系</tab-item>
       </tab>
-    </sticky>
+    </div>
     <router-view
       transition="slide"
       transition-mode="out-in">
@@ -16,14 +16,13 @@
 </template>
 
 <script lang="babel">
-import { Tab, TabItem, Sticky, Datetime, Group, XButton, XInput, PopupPicker } from 'vux-components'
+import { Tab, TabItem, Datetime, Group, XButton, XInput, PopupPicker } from 'vux-components'
 
 export default {
   name: 'User',
   components: {
     Tab,
     TabItem,
-    Sticky,
     PopupPicker,
     Group,
     Datetime,
@@ -37,31 +36,72 @@ export default {
 .weui_input {
   text-align: right;
 }
-.vux-tab .vux-tab-item.vux-tab-selected {
-  color: #2aabfd!important;
-}
-.vux-tab-ink-bar-transition-forward {
-  background-color: #2aabfd!important;
-  height: 2px!important;
-  bottom: -1px;
-}
-.vux-tab-ink-bar-transition-backward {
-  background-color: #2aabfd!important;
-  height: 2px!important;
-  bottom: -1px;
-}
-.vux-tab {
-  height: 40px;
-}
-.vux-tab .vux-tab-item {
-  line-height: 40px;
-}
 .user {
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
+  background-color: #eff4f7;
+  padding-top: 40px;
+
+  .weui_btn {
+    margin-top: 0;
+  }
+  .weui_btn:after {
+    border: none;
+    border-radius: 2px;
+  }
+  .weui_btn_default {
+    color: #fff;
+    border-radius: 2px;
+    background-color: #38acfd;
+  }
 
   .user-header {
+    width: 100%;
+    height: 40px;
     box-shadow: 0px 2px 2px rgba(0,0,0,0.06);
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .vux-tab {
+      height: 40px;
+
+      .vux-tab-item {
+        color: #666!important;
+        line-height: 40px;
+
+        &.vux-tab-selected {
+          color: #2aabfd!important;
+          border-color: #2aabfd!important;
+        }
+      }
+    }
+  }
+  .btn-wrapper {
+    margin-top: 16px;
+
+    .btn-add-work-exp {
+      color: #fff;
+      display: block;
+      width: 100%;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      border-radius: 2px;
+      background-color: #38acfd;
+    }
+  }
+  .btn-wrapper-fixed {
+    box-sizing: border-box;
+    width: 100%;
+    height: 67px;
+    border-top: 1px solid #f7f7f7;
+    background-color: #fff;
+    padding: 12px 18px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
   }
 }
 </style>

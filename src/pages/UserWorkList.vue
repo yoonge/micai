@@ -1,18 +1,11 @@
 <template>
-  <div class="user-work" :class="{'bottom-padding': userInfoStatus}">
+  <div class="user-work-list">
     <loading :show="loading" :text="textLoading"></loading>
-    <div class="work-item-wrapper" v-if="result1">
-      <a v-link="'/home/edit/userWorkList'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</a>
-      <work-item v-for="workExp in workExpList" :work_exp="workExp"></work-item>
+    <div class="work-item-wrapper">
+      <work-item-edit v-for="workExp in workExpList" :work_exp="workExp"></work-item-edit>
     </div>
-    <div class="work-item-none" v-if="result2">
-      您还没有添加工作经历
-    </div>
-    <div class="btn-wrapper" v-if="result2">
-      <a v-link="'/home/edit/addUserWork'" class="btn-add-work-exp">现在去添加</a>
-    </div>
-    <div class="btn-wrapper-fixed" v-show="userInfoStatus">
-      <x-button class="btn-send">发送</x-button>
+    <div class="btn-wrapper">
+      <a v-link="'/home/edit/addUserWork'" class="btn-add-work-exp">添加更多工作经历</a>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -21,16 +14,16 @@
 <script lang="babel">
 import * as api from 'src/api.js'
 import { Loading, Toast, Sticky, XButton } from 'vux-components'
-import WorkItem from 'components/WorkItem'
+import WorkItemEdit from 'components/WorkItemEdit'
 
 export default {
-  name: 'UserWork',
+  name: 'UserWorkList',
   components: {
     Loading,
     Toast,
     Sticky,
     XButton,
-    WorkItem
+    WorkItemEdit
   },
   data () {
     return {
@@ -39,16 +32,13 @@ export default {
       textToast: '',
       showToast: false,
       cpUserId: '',
-      userInfoStatus: false,
-      result1: false,
-      result2: false,
       workExpList: [],
       workExp: {
         beginDate: '1900.01',
         endDate: '2020.12',
         company: '北京星河信果信息技术有限公司',
         xgPosition: '前端开发',
-        majorDuty: '00',
+        majorDuty: '带领团队',
         referee: '玛法里奥',
         refereePhone: '13800138000',
         note: '无'
@@ -70,15 +60,8 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        // console.log('工作经验列表 === ' + JSON.stringify(res.data))
-        if (res.data.result) {
-          that.$set('result1', true)
-          that.$set('result2', false)
-          that.$set('workExpList', res.data.personalList)
-        } else {
-          that.$set('result1', false)
-          that.$set('result2', true)
-        }
+        console.log('workExpList === ' + JSON.stringify(res.data))
+        that.$set('workExpList', res.data.personalList)
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
@@ -89,35 +72,39 @@ export default {
 </script>
 
 <style lang="less">
-.user-work {
+.user-work-list {
   box-sizing: border-box;
   width: 100%;
   padding: 16px;
 
-  &.bottom-padding {
-    padding-bottom: 51px;
+  .weui_btn {
+    margin-top: 0;
   }
-  
+  .weui_btn:after {
+    border: none;
+    border-radius: 2px;
+  }
+  .weui_btn_default {
+    color: #fff;
+    border-radius: 2px;
+    background-color: #38acfd;
+  }
   .work-item-wrapper {
+    box-sizing: border-box;
     width: 100%;
     background-color: #fff;
-    padding-top: 20px;
-    position: relative;
-
-    .btn-link {
-      color: #51a5f7;
-      font-size: 15px;
-      position: absolute;
-      top: 8px;
-      right: 12px;
-    }
+    padding: 0 16px;
   }
-  .work-item-none {
+  .btn-wrapper-fixed {
+    box-sizing: border-box;
     width: 100%;
-    height: 120px;
-    line-height: 120px;
-    text-align: center;
+    height: 67px;
+    border-top: 1px solid #f7f7f7;
     background-color: #fff;
+    padding: 12px 18px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
   }
 }
 </style>
