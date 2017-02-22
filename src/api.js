@@ -55,3 +55,6 @@ export const addPersonalInfo = config.apiPrefix + '/portal/weixinPublic/addPerso
 export const showEmployExperience = config.apiPrefix + '/portal/weixinPublic/showEmployExperience.do'
 
 export const addEmployExperience = config.apiPrefix + '/portal/weixinPublic/addEmployExperience.do'
+
+export const editEmployExperience = config.apiPrefix + '/portal/weixinPublic/editEmployExperience.do'
+

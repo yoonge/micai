@@ -190,11 +190,11 @@ const Routes = router => {
               name: 'home.edit.userWorkList',
               component: UserWorkList
             },
-            'addUserWork': {
+            '/addUserWork': {
               name: 'home.edit.addUserWork',
               component: AddUserWork
             },
-            'editUserWork': {
+            '/editUserWork/:workExpId': {
               name: 'home.edit.editUserWork',
               component: EditUserWork
             }

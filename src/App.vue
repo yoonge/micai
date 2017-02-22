@@ -24,6 +24,12 @@ export default {
   height: 100%;
 }
 
+.required .weui_label:after,
+.required .weui_cell_bd > p:after {
+  color: red;
+  content: ' *'
+}
+
 .weui_cells:before {
   border-top-width: 0;
 }

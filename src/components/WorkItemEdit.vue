@@ -1,10 +1,10 @@
 <template>
   <div class="work-item-edit">
-    <a v-link="'/home/edit/userWorkList'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>修改</a>
+    <a v-link="'/home/edit/editUserWork/' + work_exp.id" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>修改</a>
     <dl>
       <dd>{{work_exp.beginDate}} - {{work_exp.endDate}}</dd>
       <dd>{{work_exp.company}} / {{work_exp.xgPosition}}</dd>
-      <dd>{{work_exp.majorDuty}}</dd>
+      <dd v-if="work_exp.majorDuty == '00'">带领团队</dd>
       <dd>证明人：<span>{{work_exp.referee}}</span></dd>
       <dd>证明电话：<span>{{work_exp.refereePhone}}</span></dd>
       <dd>备注：<span>{{work_exp.note}}</span></dd>
@@ -16,7 +16,7 @@
 import { Flexbox, FlexboxItem } from 'vux-components'
 
 export default {
-  name: 'WorkItem',
+  name: 'WorkItemEdit',
   components: {
     Flexbox,
     FlexboxItem

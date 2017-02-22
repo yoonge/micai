@@ -2,20 +2,20 @@
   <div class="edit-wrapper">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
-      <group class="clearfix">
-        <x-input title="姓名 *" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="姓名" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
       </group>
-      <group class="clearfix">
-        <popup-picker title="性别 *" :value.sync="personalInfo.gender" :data="genders"></popup-picker>
+      <group class="required clearfix">
+        <popup-picker title="性别" :value.sync="personalInfo.gender" :data="genders"></popup-picker>
       </group>
-      <group class="clearfix">
-        <popup-picker title="证件类型 *" :value.sync="personalInfo.certificationType" :data="certificates"></popup-picker>
+      <group class="required clearfix">
+        <popup-picker title="证件类型" :value.sync="personalInfo.certificationType" :data="certificates"></popup-picker>
       </group>
-      <group class="clearfix">
-        <x-input title="证件号码 *" :value.sync="personalInfo.certificationNumber" placeholder="请输入" :show-clear="false" class="editCertificationNumber" @on-change="checkIdNumber"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm" v-show="idNumberStatus"></i><i class="ui-icon weui_icon weui_icon_warn" v-show="!idNumberStatus"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="证件号码" :value.sync="personalInfo.certificationNumber" placeholder="请输入" :show-clear="false" class="editCertificationNumber" @on-change="checkIdNumber"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm" v-show="idNumberStatus"></i><i class="ui-icon weui_icon weui_icon_warn" v-show="!idNumberStatus"></i></x-input>
       </group>
-      <group class="clearfix">
-        <x-input name="mobile" title="手机 *" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" keyboard="number" @on-change="checkMobile" class="editMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+      <group class="required clearfix">
+        <x-input name="mobile" title="手机" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" keyboard="number" @on-change="checkMobile" class="editMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
       </group>
       <group class="clearfix">
         <x-input title="邮箱" :value.sync="personalInfo.email" placeholder="请输入" :show-clear="false" @on-change="checkEmail" class="editEmail" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -35,17 +35,17 @@
       <group class="clearfix">
         <datetime title="参加工作时间" :value.sync="personalInfo.firstJobDate" format="YYYY.MM.DD" confirm-text="确定" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group>
-        <popup-picker title="户口性质 *" :value.sync="personalInfo.residenceType" :data="accounts"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
+      <group class="required">
+        <popup-picker title="户口性质" :value.sync="personalInfo.residenceType" :data="accounts"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
       </group>
       <group class="clearfix">
         <x-input title="紧急联系电话" :value.sync="personalInfo.emergencyPhoneNumber" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
-        <popup-picker title="民族 *" :value.sync="personalInfo.nationality" :data="nations"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
+      <group class="required clearfix">
+        <popup-picker title="民族" :value.sync="personalInfo.nationality" :data="nations"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
       </group>
-      <group class="clearfix">
-        <x-input title="住址 *" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="住址" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
       </group>
       <group class="clearfix">
         <popup-picker title="政治面貌" :value.sync="personalInfo.politicalStatus" :data="politics"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
@@ -183,7 +183,7 @@ export default {
       let p1 = that.personalInfo // 表单双向绑定数据
       let p2 = that.personalInfoJSON[0] // 与后端交互的数据
       for (let key in p1) {
-        console.log(key + ' === ' + JSON.stringify(p1[key]))
+        // console.log(key + ' === ' + JSON.stringify(p1[key]))
         switch (key) {
           case 'gender':
           case 'certificationType':

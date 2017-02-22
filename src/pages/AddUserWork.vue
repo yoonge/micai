@@ -93,7 +93,7 @@ export default {
         }
       }
       jsonArray[0] = w2
-      console.log('workExpItemJSON === ' + JSON.stringify(jsonArray))
+      // console.log('workExpItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
         url: api.addEmployExperience,
         params: {
@@ -105,7 +105,7 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
+        // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
           that.$router.go('/home/user/userWork')

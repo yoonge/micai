@@ -32,17 +32,7 @@ export default {
       textToast: '',
       showToast: false,
       cpUserId: '',
-      workExpList: [],
-      workExp: {
-        beginDate: '1900.01',
-        endDate: '2020.12',
-        company: '北京星河信果信息技术有限公司',
-        xgPosition: '前端开发',
-        majorDuty: '带领团队',
-        referee: '玛法里奥',
-        refereePhone: '13800138000',
-        note: '无'
-      }
+      workExpList: []
     }
   },
   ready () {
@@ -94,6 +84,10 @@ export default {
     width: 100%;
     background-color: #fff;
     padding: 0 16px;
+  }
+  .btn-wrapper {
+    padding-left: 0;
+    padding-right: 0;
   }
   .btn-wrapper-fixed {
     box-sizing: border-box;

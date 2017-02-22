@@ -24,7 +24,7 @@
         <x-input title="证明电话" :value.sync="workExpItem.refereePhone" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="备注" :value.sync="workExpItem.note" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="备注" :value.sync="workExpItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
     </div>
     <div class="btn-wrapper">
@@ -59,6 +59,7 @@ export default {
       textToast: '',
       showToast: false,
       cpUserId: '',
+      xgEmployExpId: '',
       workExpItem: {
         beginDate: '',
         endDate: '',
@@ -69,7 +70,7 @@ export default {
         refereePhone: '',
         note: ''
       },
-      personalInfoJSON: [{}],
+      workExpList: [{}],
       majorDuty: [['是', '否']],
       minyear: 1900
     }
@@ -77,6 +78,7 @@ export default {
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('cpUserId', u.cpUserId)
+    this.$set('xgEmployExpId', this.$route.params.workExpId)
     this.fetchWorkExpItem()
   },
   methods: {
@@ -89,10 +91,26 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        console.log('添加工作经验返回的数据 === ' + JSON.stringify(res.data))
-        if (res.data.result) that.$set('personalInfoJSON', res.data.personalList)
-        // let p1 = that.workExpItem // 表单双向绑定数据
-        // let p2 = that.personalInfoJSON[0] // 与后端交互的数据
+        // console.log('编辑工作经验返回的数据 === ' + JSON.stringify(res.data))
+        if (res.data.result) that.$set('workExpList', res.data.personalList)
+        let tempJSON = {}
+        let w1 = that.workExpItem // 表单双向绑定数据
+        let w2 = that.workExpList // 与后端交互的数据
+        for (let key in w2) {
+          // console.log('看看 key 的值 === ' + w2[key]['id'])
+          if (w2[key]['id'] === that.xgEmployExpId) {
+            tempJSON = w2[key]
+          }
+        }
+        // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
+        for (let key in tempJSON) {
+          if (key === 'majorDuty') {
+            tempJSON[key] === '00' ? w1[key] = ['是'] : w1[key] = ['否']
+          } else {
+            w1[key] = tempJSON[key]
+          }
+        }
+        // console.log('转换后 === ' + JSON.stringify(w1))
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
@@ -100,45 +118,33 @@ export default {
     },
     saveWorkExpItem () {
       const that = this
-      let jsonArray = []
-      let p1 = that.personalInfo // 表单双向绑定数据
-      let p2 = that.personalInfoJSON[0] // 与后端交互的数据
-      for (let key in p1) {
-        // console.log('key === ' + JSON.stringify(p1[key]))
-        switch (key) {
-          case 'gender':
-          case 'certificationType':
-          case 'residenceType':
-          case 'nationality':
-          case 'politicalStatus':
-          case 'marriageStatus':
-            p2[key] = p1[key][0]
-            break
-          case 'addressValue':
-            p2['nativeProvinceCode'] = p1[key][0]
-            p2['nativeCityCode'] = p1[key][1]
-            break
-          default:
-            p2[key] = p1[key]
+      let tempArray = [{}] // 提交给后端的 JSON
+      let w1 = that.workExpItem // 表单双向绑定数据
+      for (let key in w1) {
+        // console.log('key === ' + JSON.stringify(w1[key]))
+        if (key === 'majorDuty') {
+          w1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
+        } else {
+          tempArray[0][key] = w1[key]
         }
       }
-      jsonArray[0] = p2
-      // console.log('jsonArray === ' + JSON.stringify(jsonArray))
+      // console.log('tempArray === ' + JSON.stringify(tempArray))
       that.$http({
-        url: api.addPersonalInfo,
+        url: api.editEmployExperience,
         params: {
           memberLoginId: that.cpUserId,
-          json: JSON.stringify(jsonArray)
+          xgEmployExpId: that.xgEmployExpId,
+          json: JSON.stringify(tempArray)
         },
         method: 'GET',
         beforeSend () {
           that.$set('loading', true)
         }
       }).then(res => {
-        // console.log('savePersonalInfo res.data === ' + JSON.stringify(res.data))
+        // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/user/userInfo')
+          that.$router.go('/home/edit/userWorkList')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
@@ -147,20 +153,6 @@ export default {
       }).catch(err => {
         console.error(err.data)
       })
-    },
-    checkMobile () {
-      let reg = /^1(3|4|5|7|8)\d{9}$/
-      reg.test(this.personalInfo.mobile) ? this.$set('mobileStatus', true) : this.$set('mobileStatus', false)
-    },
-    checkEmail () {
-      let reg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
-      reg.test(this.personalInfo.email) ? this.$set('emailStatus', true) : this.$set('emailStatus', false)
-    },
-    checkIdNumber () {
-      if (this.personalInfo.certificationType[0] === '身份证') {
-        let reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/
-        reg.test(this.personalInfo.certificationNumber) ? this.$set('idNumberStatus', true) : this.$set('idNumberStatus', false)
-      }
     }
   },
   computed: {
