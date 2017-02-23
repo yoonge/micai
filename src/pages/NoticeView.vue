@@ -114,7 +114,7 @@ export default {
         font-size: 15px;
         color: #4F4F4F;
         float: left;
-        width: 196px;
+        width: 172px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -125,7 +125,7 @@ export default {
         float: right;
         font-size: 14px;
         color: #bcbcbc;
-        margin-right: 30px;
+        margin-right: 16px;
       }
 
       .notice-arrow {

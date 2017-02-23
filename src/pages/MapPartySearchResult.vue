@@ -32,6 +32,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      cpUserId: '',
       currentCompanyId: '',
       currentPartyId: '',
       result: false,
@@ -48,6 +49,7 @@ export default {
     fetchUserInfo () {
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
       let p = window.localStorage.getItem('currentPartyId')
+      this.$set('cpUserId', u.cpUserId)
       this.$set('currentCompanyId', u.currentCompanyId)
       this.$set('currentPartyId', p)
     },
@@ -55,11 +57,13 @@ export default {
       this.$http({
         url: api.hrMapPartySearch,
         params: {
+          xgCpUserId: this.cpUserId,
           companyId: this.currentCompanyId,
           partyId: this.currentPartyId
         },
         method: 'GET'
       }).then(res => {
+        // console.log(JSON.stringify(res.data))
         const cpUsers = res.data.cpUsers
         if (cpUsers.length !== 0) {
           this.$set('result', true)

@@ -72,6 +72,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        console.log(JSON.stringify(res.data))
         if (res.data.result) {
           for (let i = 0; i < cps.length; i++) {
             if (cps[i]['ID'] === id) {

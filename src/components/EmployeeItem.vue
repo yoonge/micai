@@ -19,7 +19,6 @@
         </div>
       </div>
       <div class="employee-detail" v-show="showDetail">
-        <div style="flex: 0 0 72px;"></div>
         <div>
           <ul class="employee-detail-list">
             <li class="employee-detail-email">{{employee_info.email}}</li>
@@ -131,7 +130,6 @@ export default {
           line-height: 45px;
           text-align: center;
           border-radius: 50%;
-          margin-right: 12px;
         }
       }
 
@@ -170,6 +168,7 @@ export default {
     }
     .employee-detail {
       position: relative;
+      padding-bottom: 32px;
 
       .btn-add-to-address {
         color: #38acfd;
@@ -203,7 +202,7 @@ export default {
         color: #333;
         line-height: 32px;
         border-top: 1px solid #e4e4e4;
-        padding: 12px 12px 12px 84px;
+        padding: 12px 12px 12px 72px;
 
         > li {
           word-break: break-all;

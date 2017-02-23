@@ -87,7 +87,6 @@ export default {
           line-height: 45px;
           text-align: center;
           border-radius: 50%;
-          margin-right: 12px;
         }
       }
 

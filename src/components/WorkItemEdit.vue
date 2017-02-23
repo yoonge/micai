@@ -23,11 +23,6 @@ export default {
   },
   props: {
     work_exp: {}
-  },
-  data () {
-    return {
-      xgEmployeeExpId: ''
-    }
   }
 }
 </script>

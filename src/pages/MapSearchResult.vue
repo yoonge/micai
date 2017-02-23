@@ -32,6 +32,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      cpUserId: '',
       currentCompanyId: '',
       mapSearchKeyword: '',
       result: false,
@@ -47,6 +48,7 @@ export default {
   methods: {
     fetchUserInfo () {
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.$set('cpUserId', u.cpUserId)
       this.$set('currentCompanyId', u.currentCompanyId)
       let m = window.localStorage.getItem('mapSearchKeyword')
       this.$set('mapSearchKeyword', m)
@@ -55,6 +57,7 @@ export default {
       this.$http({
         url: api.hrMapSearch,
         params: {
+          xgCpUserId: this.cpUserId,
           companyId: this.currentCompanyId,
           name: this.mapSearchKeyword
         },

@@ -160,10 +160,10 @@ export default {
                 p1[key].push(p2[key])
                 break
               case 'nativeProvinceCode':
-                tempArr.splice(0, 0, p2[key])
+                p2[key] !== '' ? tempArr.splice(0, 0, p2[key]) : tempArr = []
                 break
               case 'nativeCityCode':
-                tempArr.push(p2[key])
+                p2[key] !== '' ? tempArr.push(p2[key]) : tempArr = []
                 break
               default:
                 p1[key] = p2[key]

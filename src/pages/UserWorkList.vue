@@ -50,7 +50,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        console.log('workExpList === ' + JSON.stringify(res.data))
+        // console.log('workExpList === ' + JSON.stringify(res.data))
         that.$set('workExpList', res.data.personalList)
         that.$set('loading', false)
       }).catch(err => {

@@ -63,6 +63,7 @@ export default {
           },
           methed: 'GET'
         }).then(res => {
+          // console.log(JSON.stringify(res.data))
           this.$set('hrMapInfo', res.data)
           this.parseDataScoure()
           that.$set('mapYinc', true)

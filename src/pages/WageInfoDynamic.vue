@@ -78,6 +78,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        // console.log(JSON.stringify(res.data))
         if (res.data.result) {
           this.$set('result', true)
           this.$set('nobody', false)
