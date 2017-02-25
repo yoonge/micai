@@ -39,7 +39,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserWork',
+  name: 'EditUserEdu',
   components: {
     Loading,
     Toast,

@@ -39,7 +39,7 @@ export default {
 .user {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: #eff4f7;
   padding-top: 40px;
 

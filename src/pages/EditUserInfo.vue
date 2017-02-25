@@ -167,6 +167,7 @@ export default {
                 break
               default:
                 p1[key] = p2[key]
+                break
             }
           }
           p1['addressValue'] = tempArr
@@ -199,6 +200,7 @@ export default {
             break
           default:
             p2[key] = p1[key]
+            break
         }
       }
       jsonArray[0] = p2

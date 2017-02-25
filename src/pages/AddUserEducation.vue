@@ -3,32 +3,38 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group class="clearfix">
-        <datetime title="开始日期 *" :value.sync="workExpItem.beginDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="入学日期" :value.sync="eduInfoItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
-        <datetime title="结束日期 *" :value.sync="workExpItem.endDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="毕业日期" :value.sync="eduInfoItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
-        <x-input title="公司 *" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="学校" :value.sync="eduInfoItem.school" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="职位 *" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="学历" :value.sync="eduInfoItem.educationExp" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <popup-picker title="带领团队 *" :value.sync="workExpItem.majorDuty" :data="majorDutyStatus"></popup-picker>
+        <x-input title="专业" :value.sync="eduInfoItem.major" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="证明人 *" :value.sync="workExpItem.referee" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
       <group class="clearfix">
-        <x-input title="证明电话 *" :value.sync="workExpItem.refereePhone" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="备注" :value.sync="workExpItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
+      </group>
+      <group class="clearfix">
+        <popup-picker title="教育类型" :value.sync="eduInfoItem.educationType" :data="eduTypes"></popup-picker>
+      </group>
+      <group class="clearfix">
+        <x-input title="备注" :value.sync="eduInfoItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
     </div>
     <div class="btn-wrapper">
-      <x-button @click="saveWorkExpItem" :disabled="checkBlank" :class="{editBtnDisable: checkBlank}">保存</x-button>
+      <x-button @click="saveEduInfoItem" :disabled="checkBlank" :class="{editBtnDisable: checkBlank}">保存</x-button>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -36,20 +42,18 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
+import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
 export default {
-  name: 'AddUserWork',
+  name: 'AddUserEducation',
   components: {
     Loading,
     Toast,
-    Address,
     Datetime,
     Group,
     XButton,
     XInput,
     PopupPicker,
-    XAddress,
     Cell
   },
   data () {
@@ -59,18 +63,22 @@ export default {
       textToast: '',
       showToast: false,
       cpUserId: '',
-      workExpItem: {
+      eduInfoItem: {
         beginDate: '',
         endDate: '',
-        company: '',
-        xgPosition: '',
-        majorDuty: [],
-        referee: '',
-        refereePhone: '',
+        school: '',
+        educationExp: '',
+        major: '',
+        isHighestEdu: [],
+        degree: '',
+        isHighestDegree: [],
+        educationType: [],
         note: ''
       },
-      workExpItemJSON: {},
-      majorDutyStatus: [['是', '否']],
+      eduInfoItemJSON: {},
+      eduStatus: [['是', '否']],
+      degreeStatus: [['是', '否']],
+      eduTypes: [['全日制', '非全日制']],
       minyear: 1900
     }
   },
@@ -79,23 +87,30 @@ export default {
     this.$set('cpUserId', u.cpUserId)
   },
   methods: {
-    saveWorkExpItem () {
+    saveEduInfoItem () {
       const that = this
       let jsonArray = []
-      let w1 = that.workExpItem // 表单双向绑定数据
-      let w2 = that.workExpItemJSON // 与后端交互的数据
-      for (let key in w1) {
-        console.log('key === ' + JSON.stringify(w1[key]))
-        if (key === 'majorDuty') {
-          w1[key][0] === '是' ? w2[key] = '00' : w2[key] = '01'
-        } else {
-          w2[key] = w1[key]
+      let e1 = that.eduInfoItem // 表单双向绑定数据
+      let e2 = that.eduInfoItemJSON // 与后端交互的数据
+      for (let key in e1) {
+        console.log('key === ' + JSON.stringify(e1[key]))
+        switch (key) {
+          case 'isHighestEdu':
+          case 'isHighestDegree':
+            e1[key][0] === '是' ? e2[key] = '00' : e2[key] = '01'
+            break
+          case 'educationType':
+            e1[key][0] === '全日制' ? e2[key] = '01' : e2[key] = '02'
+            break
+          default:
+            e2[key] = e1[key]
+            break
         }
       }
-      jsonArray[0] = w2
-      // console.log('workExpItemJSON === ' + JSON.stringify(jsonArray))
+      jsonArray[0] = e2
+      console.log('eduInfoItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
-        url: api.addEmployExperience,
+        url: api.addEducationInfo,
         params: {
           memberLoginId: that.cpUserId,
           json: JSON.stringify(jsonArray)
@@ -105,10 +120,10 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
+        console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/user/userWork')
+          that.$router.go('/home/user/userEducation')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
@@ -121,13 +136,13 @@ export default {
   },
   computed: {
     checkBlank () {
-      const aU = this.workExpItem.beginDate !== ''
-      const bU = this.workExpItem.endDate !== ''
-      const cU = this.workExpItem.company !== ''
-      const dU = this.workExpItem.xgPosition !== ''
-      const eU = this.workExpItem.majorDuty !== []
-      const fU = this.workExpItem.referee !== ''
-      const gU = this.workExpItem.refereePhone !== ''
+      const aU = this.eduInfoItem.beginDate !== ''
+      const bU = this.eduInfoItem.endDate !== ''
+      const cU = this.eduInfoItem.school !== ''
+      const dU = this.eduInfoItem.educationExp !== ''
+      const eU = this.eduInfoItem.major !== ''
+      const fU = this.eduInfoItem.degree !== ''
+      const gU = this.eduInfoItem.educationType !== []
       if (aU && bU && cU && dU && eU && fU && gU) {
         return false
       } else {

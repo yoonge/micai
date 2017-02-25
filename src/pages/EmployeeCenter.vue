@@ -10,7 +10,7 @@
       </a>
     </div>
     <div class="employee-body">
-      <div class="body-phone body-public">
+      <!-- <div class="body-phone body-public">
         <span class="body-info">修改手机号</span>
         <a class="body-package" v-link="'/home/employee'">
           <span class="body-enter">{{telphone}}</span>
@@ -18,7 +18,7 @@
             <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
           </span>
         </a>
-      </div>
+      </div> -->
       <div class="body-company body-public">
         <div class="body-info">公司切换</div>
         <a class="body-package" v-link="'/home/employee/employeeCompany'">
@@ -28,7 +28,7 @@
           </span>
         </a>
       </div>
-      <div class="body-password body-public">
+      <!-- <div class="body-password body-public">
         <span class="body-info">密码设置</span>
         <a class="body-package" v-link="'/home/employee'">
           <span class="body-enter">修改</span>
@@ -36,7 +36,7 @@
             <i class="ui-icon ui-icon-sm ui-icon-arrow-right-sm"></i>
           </span>
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -94,7 +94,7 @@ export default {
 
       .header-enter {
         font-size: 14px;
-        color: #51A5F7;
+        color: #51a5F7;
       }
 
       .header-go {
@@ -108,12 +108,11 @@ export default {
   
   .employee-body {
     width: 100%;
-    height: 138px;
-    margin-top: 18px;
-    padding-left: 14px;
-    background-color: #fff;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    margin-top: 18px;
+    padding-left: 14px;
 
     .body-public {
       display: flex;
@@ -121,6 +120,11 @@ export default {
       width: 96.3%;
       height: 46px;
       line-height: 46px;
+      border-top: 1px solid #ddd;
+
+      &:first-child {
+        border-top: none;
+      }
 
       .body-info {
         font-size: 15px;
@@ -131,8 +135,8 @@ export default {
         height: 100%;
 
         .body-enter {
+          color: #6d6c6c;
           font-size: 14px;
-          color: #6D6C6C;
           display: inline-block;
         }
         .body-go {
@@ -142,10 +146,6 @@ export default {
           text-align: center;
         }
       }
-    }
-    .body-company {
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
     }
   }
 }

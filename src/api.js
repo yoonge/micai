@@ -58,3 +58,6 @@ export const addEmployExperience = config.apiPrefix + '/portal/weixinPublic/addE
 
 export const editEmployExperience = config.apiPrefix + '/portal/weixinPublic/editEmployExperience.do'
 
+export const showEducationInfo = config.apiPrefix + '/portal/weixinPublic/showEducationInfo.do'
+
+export const addEducationInfo = config.apiPrefix + '/portal/weixinPublic/addEducationInfo.do'

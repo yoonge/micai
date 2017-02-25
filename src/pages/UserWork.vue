@@ -20,7 +20,7 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Sticky, XButton } from 'vux-components'
+import { Loading, Toast, XButton } from 'vux-components'
 import WorkItem from 'components/WorkItem'
 
 export default {
@@ -28,7 +28,6 @@ export default {
   components: {
     Loading,
     Toast,
-    Sticky,
     XButton,
     WorkItem
   },
@@ -42,17 +41,7 @@ export default {
       userInfoStatus: false,
       result1: false,
       result2: false,
-      workExpList: [],
-      workExp: {
-        beginDate: '1900.01',
-        endDate: '2020.12',
-        company: '北京星河信果信息技术有限公司',
-        xgPosition: '前端开发',
-        majorDuty: '00',
-        referee: '玛法里奥',
-        refereePhone: '13800138000',
-        note: '无'
-      }
+      workExpList: []
     }
   },
   ready () {

@@ -156,7 +156,11 @@ export default {
         width: 100%;
         height: 48px;
         line-height: 48px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         padding-left: 17px;
+        padding-right: 16px;
       }
     }
   }
