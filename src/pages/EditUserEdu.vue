@@ -3,32 +3,38 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group class="clearfix">
-        <datetime title="开始日期" :value.sync="workExpItem.beginDate" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="入学日期" :value.sync="eduInfoItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
-        <datetime title="结束日期" :value.sync="workExpItem.endDate" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="毕业日期" :value.sync="eduInfoItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
-        <x-input title="公司" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="学校" :value.sync="eduInfoItem.school" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="职位" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="学历" :value.sync="eduInfoItem.educationExp" :data="educationExpList"></popup-picker>
       </group>
       <group class="clearfix">
-        <popup-picker title="带领团队" :value.sync="workExpItem.majorDuty" :data="majorDuty"></popup-picker>
+        <x-input title="专业" :value.sync="eduInfoItem.major" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="证明人" :value.sync="workExpItem.referee" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
       <group class="clearfix">
-        <x-input title="证明电话" :value.sync="workExpItem.refereePhone" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="备注" :value.sync="workExpItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
+      </group>
+      <group class="clearfix">
+        <popup-picker title="教育类型" :value.sync="eduInfoItem.educationType" :data="eduTypes"></popup-picker>
+      </group>
+      <group class="clearfix">
+        <x-input title="备注" :value.sync="eduInfoItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
     </div>
     <div class="btn-wrapper">
-      <x-button @click="saveWorkExpItem" :disabled="checkBlank" :class="{editBtnDisable: checkBlank}">保存</x-button>
+      <x-button @click="saveEduInfoItem" :disabled="checkBlank" :class="{editBtnDisable: checkBlank}">保存</x-button>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -59,81 +65,161 @@ export default {
       textToast: '',
       showToast: false,
       cpUserId: '',
-      xgEmployExpId: '',
-      workExpItem: {
+      xgEduInfoId: '',
+      eduInfoItem: {
         beginDate: '',
         endDate: '',
-        company: '',
-        xgPosition: '',
-        majorDuty: [],
-        referee: '',
-        refereePhone: '',
+        school: '',
+        educationExp: [],
+        major: '',
+        isHighestEdu: [],
+        degree: '',
+        isHighestDegree: [],
+        educationType: [],
         note: ''
       },
-      workExpList: [{}],
-      majorDuty: [['是', '否']],
+      eduInfoList: {},
+      educationExpList: [['博士研究生', '硕士研究生', '本科', '专科', '高职及中专', '高中', '初中', '小学', '其他']],
+      eduStatus: [['是', '否']],
+      degreeStatus: [['是', '否']],
+      eduTypes: [['全日制', '非全日制']],
       minyear: 1900
     }
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('cpUserId', u.cpUserId)
-    this.$set('xgEmployExpId', this.$route.params.workExpId)
-    this.fetchWorkExpItem()
+    this.$set('xgEduInfoId', this.$route.params.eduInfoId)
+    this.fetchEduInfoItem()
   },
   methods: {
-    fetchWorkExpItem () {
+    fetchEduInfoItem () {
       const that = this
       this.$http({
-        url: api.showEmployExperience,
+        url: api.showEducationInfo,
         params: {
           memberLoginId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
-        // console.log('编辑工作经验返回的数据 === ' + JSON.stringify(res.data))
-        if (res.data.result) that.$set('workExpList', res.data.personalList)
+        // console.log('编辑教育经历返回的数据 === ' + JSON.stringify(res.data))
+        if (res.data.result) that.$set('eduInfoList', res.data.personalList)
         let tempJSON = {}
-        let w1 = that.workExpItem // 表单双向绑定数据
-        let w2 = that.workExpList // 与后端交互的数据
-        for (let key in w2) {
-          // console.log('看看 key 的值 === ' + w2[key]['id'])
-          if (w2[key]['id'] === that.xgEmployExpId) {
-            tempJSON = w2[key]
+        let e1 = that.eduInfoItem // 表单双向绑定数据
+        let e2 = that.eduInfoList // 与后端交互的数据
+        for (let key in e2) {
+          // console.log('看看 key 的值 === ' + e2[key]['id'])
+          if (e2[key]['id'] === that.xgEduInfoId) {
+            tempJSON = e2[key]
           }
         }
         // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
         for (let key in tempJSON) {
-          if (key === 'majorDuty') {
-            tempJSON[key] === '00' ? w1[key] = ['是'] : w1[key] = ['否']
-          } else {
-            w1[key] = tempJSON[key]
+          switch (key) {
+            case 'educationExp':
+              switch (tempJSON[key]) {
+                case '01':
+                  e1[key] = ['博士研究生']
+                  break
+                case '02':
+                  e1[key] = ['硕士研究生']
+                  break
+                case '03':
+                  e1[key] = ['本科']
+                  break
+                case '04':
+                  e1[key] = ['专科']
+                  break
+                case '05':
+                  e1[key] = ['高职及中专']
+                  break
+                case '06':
+                  e1[key] = ['高中']
+                  break
+                case '07':
+                  e1[key] = ['初中']
+                  break
+                case '08':
+                  e1[key] = ['小学']
+                  break
+                default:
+                  e1[key] = ['其他']
+                  break
+              }
+              break
+            case 'isHighestEdu':
+            case 'isHighestDegree':
+              tempJSON[key] === '00' ? e1[key] = ['是'] : e1[key] = ['否']
+              break
+            case 'educationType':
+              tempJSON[key] === '01' ? e1[key] = ['全日制'] : e1[key] = ['非全日制']
+              break
+            default:
+              e1[key] = tempJSON[key]
           }
         }
-        // console.log('转换后 === ' + JSON.stringify(w1))
+        // console.log('转换后 === ' + JSON.stringify(e1))
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
       })
     },
-    saveWorkExpItem () {
+    saveEduInfoItem () {
       const that = this
       let tempArray = [{}] // 提交给后端的 JSON
-      let w1 = that.workExpItem // 表单双向绑定数据
-      for (let key in w1) {
-        // console.log('key === ' + JSON.stringify(w1[key]))
-        if (key === 'majorDuty') {
-          w1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
-        } else {
-          tempArray[0][key] = w1[key]
+      let e1 = that.eduInfoItem // 表单双向绑定数据
+      for (let key in e1) {
+        // console.log('key === ' + JSON.stringify(e1[key]))
+        switch (key) {
+          case 'educationExp':
+            switch (e1[key][0]) {
+              case '博士研究生':
+                tempArray[0][key] = '01'
+                break
+              case '硕士研究生':
+                tempArray[0][key] = '02'
+                break
+              case '本科':
+                tempArray[0][key] = '03'
+                break
+              case '专科':
+                tempArray[0][key] = '04'
+                break
+              case '高职及中专':
+                tempArray[0][key] = '05'
+                break
+              case '高中':
+                tempArray[0][key] = '06'
+                break
+              case '初中':
+                tempArray[0][key] = '07'
+                break
+              case '小学':
+                tempArray[0][key] = '08'
+                break
+              default:
+                tempArray[0][key] = '09'
+                break
+            }
+            break
+          case 'isHighestEdu':
+          case 'isHighestDegree':
+            e1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
+            break
+          case 'educationType':
+            e1[key][0] === '全日制' ? tempArray[0][key] = '01' : tempArray[0][key] = '02'
+            break
+          default:
+            tempArray[0][key] = e1[key]
+            break
         }
       }
       // console.log('tempArray === ' + JSON.stringify(tempArray))
       that.$http({
-        url: api.editEmployExperience,
+        url: api.editEducationInfo,
         params: {
           memberLoginId: that.cpUserId,
-          xgEmployExpId: that.xgEmployExpId,
+          xgEduInfoId: that.xgEduInfoId,
           json: JSON.stringify(tempArray)
         },
         method: 'GET',
@@ -141,10 +227,10 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
+        // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userWorkList')
+          that.$router.go('/home/edit/userEducationList')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
@@ -157,14 +243,16 @@ export default {
   },
   computed: {
     checkBlank () {
-      const aU = this.workExpItem.beginDate !== ''
-      const bU = this.workExpItem.endDate !== ''
-      const cU = this.workExpItem.company !== ''
-      const dU = this.workExpItem.xgPosition !== ''
-      const eU = this.workExpItem.majorDuty !== []
-      const fU = this.workExpItem.referee !== ''
-      const gU = this.workExpItem.refereePhone !== ''
-      if (aU && bU && cU && dU && eU && fU && gU) {
+      const aU = this.eduInfoItem.beginDate !== ''
+      const bU = this.eduInfoItem.endDate !== ''
+      const cU = this.eduInfoItem.school !== ''
+      const dU = this.eduInfoItem.educationExp !== ''
+      const eU = this.eduInfoItem.major !== ''
+      const fU = this.eduInfoItem.isHighestEdu !== []
+      const gU = this.eduInfoItem.degree !== ''
+      const hU = this.eduInfoItem.isHighestDegree !== []
+      const iU = this.eduInfoItem.educationType !== []
+      if (aU && bU && cU && dU && eU && fU && gU && hU && iU) {
         return false
       } else {
         return true

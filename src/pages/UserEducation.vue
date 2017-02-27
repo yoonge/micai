@@ -9,7 +9,7 @@
       您还没有添加教育经历
     </div>
     <div class="btn-wrapper" v-if="result2">
-      <a v-link="'/home/edit/addEduInfo'" class="btn-add-work-exp">现在去添加</a>
+      <a v-link="'/home/edit/addUserEducation'" class="btn-add-work-exp">现在去添加</a>
     </div>
     <div class="btn-wrapper-fixed" v-show="userInfoStatus">
       <x-button class="btn-send">发送</x-button>
@@ -59,7 +59,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        console.log('教育经历列表（编辑） === ' + JSON.stringify(res.data))
+        // console.log('教育经历列表（编辑） === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('result1', true)
           that.$set('result2', false)

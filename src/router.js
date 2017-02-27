@@ -26,6 +26,10 @@ import UserEducationList from 'pages/UserEducationList'
 import AddUserEducation from 'pages/AddUserEducation'
 import EditUserEdu from 'pages/EditUserEdu'
 
+import UserSocialRelationshipList from 'pages/UserSocialRelationshipList'
+import AddUserSocialRelationship from 'pages/AddUserSocialRelationship'
+import EditUserSocialRelationship from 'pages/EditUserSocialRelationship'
+
 import Map from 'pages/Map'
 import MapView from 'pages/MapView'
 import MapSearchResult from 'pages/MapSearchResult'
@@ -214,6 +218,18 @@ const Routes = router => {
             '/editUserEdu/:eduInfoId': {
               name: 'home.edit.editUserEdu',
               component: EditUserEdu
+            },
+            '/userSocialRelationshipList': {
+              name: 'home.edit.userSocialRelationshipList',
+              component: UserSocialRelationshipList
+            },
+            '/addUserSocialRelationship': {
+              name: 'home.edit.addUserSocialRelationship',
+              component: AddUserSocialRelationship
+            },
+            '/editUserSocialRelationship/:socialRelationshipId': {
+              name: 'home.edit.editUserSocialRelationship',
+              component: EditUserSocialRelationship
             }
           }
         },

@@ -12,7 +12,7 @@
         <x-input title="学校" :value.sync="eduInfoItem.school" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="学历" :value.sync="eduInfoItem.educationExp" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="学历" :value.sync="eduInfoItem.educationExp" :data="educationExpList"></popup-picker>
       </group>
       <group class="clearfix">
         <x-input title="专业" :value.sync="eduInfoItem.major" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -67,7 +67,7 @@ export default {
         beginDate: '',
         endDate: '',
         school: '',
-        educationExp: '',
+        educationExp: [],
         major: '',
         isHighestEdu: [],
         degree: '',
@@ -76,6 +76,7 @@ export default {
         note: ''
       },
       eduInfoItemJSON: {},
+      educationExpList: [['博士研究生', '硕士研究生', '本科', '专科', '高职及中专', '高中', '初中', '小学', '其他']],
       eduStatus: [['是', '否']],
       degreeStatus: [['是', '否']],
       eduTypes: [['全日制', '非全日制']],
@@ -93,8 +94,39 @@ export default {
       let e1 = that.eduInfoItem // 表单双向绑定数据
       let e2 = that.eduInfoItemJSON // 与后端交互的数据
       for (let key in e1) {
-        console.log('key === ' + JSON.stringify(e1[key]))
+        // console.log('key === ' + JSON.stringify(e1[key]))
         switch (key) {
+          case 'educationExp':
+            switch (e1[key][0]) {
+              case '博士研究生':
+                e2[key] = '01'
+                break
+              case '硕士研究生':
+                e2[key] = '02'
+                break
+              case '本科':
+                e2[key] = '03'
+                break
+              case '专科':
+                e2[key] = '04'
+                break
+              case '高职及中专':
+                e2[key] = '05'
+                break
+              case '高中':
+                e2[key] = '06'
+                break
+              case '初中':
+                e2[key] = '07'
+                break
+              case '小学':
+                e2[key] = '08'
+                break
+              default:
+                e2[key] = '09'
+                break
+            }
+            break
           case 'isHighestEdu':
           case 'isHighestDegree':
             e1[key][0] === '是' ? e2[key] = '00' : e2[key] = '01'
@@ -108,7 +140,7 @@ export default {
         }
       }
       jsonArray[0] = e2
-      console.log('eduInfoItemJSON === ' + JSON.stringify(jsonArray))
+      // console.log('eduInfoItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
         url: api.addEducationInfo,
         params: {
@@ -120,7 +152,7 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
+        // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
           that.$router.go('/home/user/userEducation')
@@ -141,9 +173,11 @@ export default {
       const cU = this.eduInfoItem.school !== ''
       const dU = this.eduInfoItem.educationExp !== ''
       const eU = this.eduInfoItem.major !== ''
-      const fU = this.eduInfoItem.degree !== ''
-      const gU = this.eduInfoItem.educationType !== []
-      if (aU && bU && cU && dU && eU && fU && gU) {
+      const fU = this.eduInfoItem.isHighestEdu !== []
+      const gU = this.eduInfoItem.degree !== ''
+      const hU = this.eduInfoItem.isHighestDegree !== []
+      const iU = this.eduInfoItem.educationType !== []
+      if (aU && bU && cU && dU && eU && fU && gU && hU && iU) {
         return false
       } else {
         return true

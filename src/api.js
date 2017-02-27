@@ -32,32 +32,31 @@ export const getDocumentAddress = config.apiPrefix + '/portal/weixinPublic/ReadD
 
 // wage
 export const checkWagePassword = config.apiPrefix + '/portal/weixinPublic/ValidateSalaryPassword.do'
-
 export const setWagePassword = config.apiPrefix + '/portal/weixinPublic/SalaryQuePassword.do'
-
 export const getWageInfo = config.apiPrefix + '/portal/weixinPublic/ShowSalaryInfo.do'
-
 export const checkWageSmsCode = config.apiPrefix + '/portal/weixinPublic/CheckTestGetCode.do'
-
 export const getWageSmsCode = config.apiPrefix + '/portal/weixinPublic/TestGetCode.do'
 
+// notice
 export const getNoticeList = config.apiPrefix + '/portal/weixinPublic/queryNotices.do'
-
 export const getNoticeInfo = config.apiPrefix + '/portal/weixinPublic/queryNoticeDetail.do'
-
 export const getNoticeNoRead = config.apiPrefix + '/portal/weixinPublic/queryNoReadAmount.do'
 
 // userInfo
 export const showPersonalInfo = config.apiPrefix + '/portal/weixinPublic/showPersonalInfo.do'
-
 export const addPersonalInfo = config.apiPrefix + '/portal/weixinPublic/addPersonalInfo.do'
 
+// userWrok
 export const showEmployExperience = config.apiPrefix + '/portal/weixinPublic/showEmployExperience.do'
-
 export const addEmployExperience = config.apiPrefix + '/portal/weixinPublic/addEmployExperience.do'
-
 export const editEmployExperience = config.apiPrefix + '/portal/weixinPublic/editEmployExperience.do'
 
+// userEducation
 export const showEducationInfo = config.apiPrefix + '/portal/weixinPublic/showEducationInfo.do'
-
 export const addEducationInfo = config.apiPrefix + '/portal/weixinPublic/addEducationInfo.do'
+export const editEducationInfo = config.apiPrefix + '/portal/weixinPublic/editEducationInfo.do'
+
+// userSocial
+export const showRelaInfo = config.apiPrefix + '/portal/weixinPublic/showRelaInfo.do'
+export const addRelaInfo = config.apiPrefix + '/portal/weixinPublic/addRelaInfo.do'
+export const editRelaInfo = config.apiPrefix + '/portal/weixinPublic/editRelaInfo.do'

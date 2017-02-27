@@ -2,26 +2,26 @@
   <div class="edit-wrapper">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
-      <group class="clearfix">
-        <datetime title="开始日期 *" :value.sync="workExpItem.beginDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+      <group class="required clearfix">
+        <datetime title="开始日期" :value.sync="workExpItem.beginDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
-        <datetime title="结束日期 *" :value.sync="workExpItem.endDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+      <group class="required clearfix">
+        <datetime title="结束日期" :value.sync="workExpItem.endDate" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
-        <x-input title="公司 *" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="公司" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
-        <x-input title="职位 *" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="职位" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
-        <popup-picker title="带领团队 *" :value.sync="workExpItem.majorDuty" :data="majorDutyStatus"></popup-picker>
+      <group class="required clearfix">
+        <popup-picker title="带领团队" :value.sync="workExpItem.majorDuty" :data="majorDutyStatus"></popup-picker>
       </group>
-      <group class="clearfix">
-        <x-input title="证明人 *" :value.sync="workExpItem.referee" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="证明人" :value.sync="workExpItem.referee" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
-        <x-input title="证明电话 *" :value.sync="workExpItem.refereePhone" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+      <group class="required clearfix">
+        <x-input title="证明电话" :value.sync="workExpItem.refereePhone" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
         <x-input title="备注" :value.sync="workExpItem.note" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>

@@ -101,7 +101,9 @@ export default {
         },
         method: 'GET'
       }).then(res => {
+        // console.log('首页信息' + JSON.stringify(res.data))
         that.$set('cpUserId', res.data.cpUserId)
+        u.memberLoginId = res.data.memberLoginId
         u.cpUserId = res.data.cpUserId
         u.currentCompanyId = res.data.companyId
         u.currentCompanyName = res.data.companyName
