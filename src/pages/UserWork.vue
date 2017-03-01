@@ -12,7 +12,7 @@
       <a v-link="'/home/edit/addUserWork'" class="btn-add-work-exp">现在去添加</a>
     </div>
     <div class="btn-wrapper-fixed" v-show="userInfoStatus">
-      <x-button class="btn-send">发送</x-button>
+      <x-button class="btn-send" :class="{'btn-disabled': auditStatusTemp}" :disabled="auditStatusTemp" @click="sendAllPersonalInfo()">发送</x-button>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -39,13 +39,22 @@ export default {
       showToast: false,
       memberLoginId: '',
       cpUserId: '',
+      auditStatus: null,
       userInfoStatus: false,
+      auditStatusTemp: false,
       result1: false,
       result2: false,
       workExpList: []
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
+    if (as === '01' || as === '03') {
+      this.$set('userInfoStatus', true)
+    } else {
+      this.$set('userInfoStatus', false)
+    }
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
@@ -72,6 +81,35 @@ export default {
           that.$set('result2', true)
         }
         that.$set('loading', false)
+      }).catch(err => {
+        console.error(err.data)
+      })
+    },
+    sendAllPersonalInfo () {
+      const that = this
+      that.$http({
+        url: api.sendAllPersonalInfo,
+        params: {
+          auditStatus: that.auditStatus,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
+        },
+        method: 'GET',
+        beforeSend () {
+          that.$set('loading', true)
+        }
+      }).then(res => {
+        console.log('发送结果 === ' + JSON.stringify(res.data))
+        if (res.data.result) {
+          that.$set('loading', false)
+          that.$set('auditStatusTemp', true)
+          that.$set('textToast', '发送成功，请耐心等待 HR 审核！')
+          that.$set('showToast', true)
+        } else {
+          that.$set('loading', false)
+          that.$set('textToast', '发送失败，请检查您的网络状态后重试。')
+          that.$set('showToast', true)
+        }
       }).catch(err => {
         console.error(err.data)
       })

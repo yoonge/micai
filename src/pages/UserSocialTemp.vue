@@ -1,15 +1,15 @@
 <template>
-  <div class="user-education" :class="{'bottom-padding': userInfoStatus}">
+  <div class="user-social" :class="{'bottom-padding': userInfoStatus}">
     <loading :show="loading" :text="textLoading"></loading>
-    <div class="edu-info-wrapper" v-if="result1">
-      <a v-link="'/home/edit/userEducationList'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</a>
-      <edu-item v-for="eduInfo in eduInfoList" :edu_info="eduInfo"></edu-item>
+    <div class="social-relationship-wrapper" v-if="result1">
+      <a v-link="'/home/edit/userSocialRelationshipListTemp'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</a>
+      <social-relationship v-for="socialRelationship in socialRelationshipList" :social_relationship="socialRelationship"></social-relationship>
     </div>
-    <div class="edu-info-none" v-if="result2">
-      您还没有添加教育经历
+    <div class="social-relationship-none" v-if="result2">
+      您还没有添加社会关系
     </div>
     <div class="btn-wrapper" v-if="result2">
-      <a v-link="'/home/edit/addUserEducation'" class="btn-add-work-exp">现在去添加</a>
+      <a v-link="'/home/edit/addUserSocialRelationshipTemp'" class="btn-add-work-exp">现在去添加</a>
     </div>
     <div class="btn-wrapper-fixed" v-show="userInfoStatus">
       <x-button class="btn-send" :class="{'btn-disabled': auditStatusTemp}" :disabled="auditStatusTemp" @click="sendAllPersonalInfo()">发送</x-button>
@@ -21,15 +21,15 @@
 <script lang="babel">
 import * as api from 'src/api.js'
 import { Loading, Toast, XButton } from 'vux-components'
-import EduItem from 'components/EduItem'
+import SocialRelationship from 'components/SocialRelationship'
 
 export default {
-  name: 'UserEducation',
+  name: 'UserSocial',
   components: {
     Loading,
     Toast,
     XButton,
-    EduItem
+    SocialRelationship
   },
   data () {
     return {
@@ -38,43 +38,46 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       auditStatus: null,
       userInfoStatus: false,
       auditStatusTemp: false,
       result1: false,
       result2: false,
-      eduInfoList: []
+      socialRelationshipList: []
     }
   },
   ready () {
-    let as = window.localStorage.getItem('auditStatus')
-    if (as === '01' || as === '03') {
-      this.$set('userInfoStatus', true)
-    } else {
-      this.$set('userInfoStatus', false)
-    }
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.fetchEduInfoList()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
+    this.fetchSocialRelationshipList()
   },
   methods: {
-    fetchEduInfoList () {
+    fetchSocialRelationshipList () {
       const that = this
+      let as = window.localStorage.getItem('auditStatus')
+      this.$set('auditStatus', as)
       that.$http({
-        url: api.showEducationInfo,
+        url: api.showRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
-        // console.log('教育经历列表（编辑） === ' + JSON.stringify(res.data))
+        // console.log('工作经验列表 === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('result1', true)
           that.$set('result2', false)
-          that.$set('eduInfoList', res.data.personalList)
+          that.$set('socialRelationshipList', res.data.personalList)
+          if ((as === '01' || as === '03') && res.data.threeTablesStatus !== '00') {
+            this.$set('userInfoStatus', true)
+          } else {
+            this.$set('userInfoStatus', false)
+          }
         } else {
           that.$set('result1', false)
           that.$set('result2', true)
@@ -91,7 +94,7 @@ export default {
         params: {
           auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET',
         beforeSend () {
@@ -118,7 +121,7 @@ export default {
 </script>
 
 <style lang="less">
-.user-education {
+.user-social {
   box-sizing: border-box;
   width: 100%;
   padding: 16px;
@@ -127,7 +130,7 @@ export default {
     padding-bottom: 51px;
   }
   
-  .edu-info-wrapper {
+  .social-relationship-wrapper {
     box-sizing: border-box;
     width: 100%;
     background-color: #fff;
@@ -144,7 +147,7 @@ export default {
       z-index: 9999;
     }
   }
-  .edu-info-none {
+  .social-relationship-none {
     width: 100%;
     height: 120px;
     line-height: 120px;

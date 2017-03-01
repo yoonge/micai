@@ -128,10 +128,7 @@ export default {
       const bU = this.workExpItem.endDate !== ''
       const cU = this.workExpItem.company !== ''
       const dU = this.workExpItem.xgPosition !== ''
-      const eU = this.workExpItem.majorDuty !== []
-      const fU = this.workExpItem.referee !== ''
-      const gU = this.workExpItem.refereePhone !== ''
-      if (aU && bU && cU && dU && eU && fU && gU) {
+      if (aU && bU && cU && dU) {
         return false
       } else {
         return true

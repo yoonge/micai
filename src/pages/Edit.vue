@@ -31,6 +31,10 @@ export default {
     color: #fff;
     border-radius: 2px;
     background-color: #38acfd;
+
+    &.btn-disabled {
+      background-color: #dcdcdc;
+    }
   }
   .btn-wrapper {
     box-sizing: border-box;

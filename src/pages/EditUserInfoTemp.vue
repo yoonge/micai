@@ -73,7 +73,7 @@ import addressList from 'src/addressList.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserInfo',
+  name: 'EditUserInfoTemp',
   components: {
     Loading,
     Toast,
@@ -93,7 +93,8 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
+      auditStatus: null,
       personalInfo: {
         accumulationFundNumber: '',
         address: '',
@@ -130,6 +131,8 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     this.fetchPersonalInfo()
   },
   methods: {
@@ -137,12 +140,14 @@ export default {
       const that = this
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
       that.$set('memberLoginId', u.memberLoginId)
-      that.$set('cpUserId', u.cpUserId)
+      let c = window.localStorage.getItem('cpUserIdTemp')
+      that.$set('cpUserIdTemp', c)
       that.$http({
         url: api.showPersonalInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
@@ -211,8 +216,9 @@ export default {
       that.$http({
         url: api.addAndEditPersonalInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
+          xgCpUserBaseId: that.cpUserIdTemp,
           json: JSON.stringify(jsonArray)
         },
         method: 'GET'
@@ -220,7 +226,7 @@ export default {
         // console.log('savePersonalInfo res.data === ' + res.data)
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/user/userInfo')
+          that.$router.go('/home/userTemp/userInfoTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

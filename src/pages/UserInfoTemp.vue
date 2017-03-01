@@ -3,7 +3,7 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="userInfo">
       <div class="userInfo-main">
-        <div class="userInfo-main-compile" v-link="'/home/edit/editUserInfo'"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</div>
+        <div class="userInfo-main-compile" v-link="'/home/edit/editUserInfoTemp'"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">姓名</span>
           <span>：</span>
@@ -110,23 +110,21 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Toast, Loading, XButton } from 'vux-components'
+import { Loading, Toast, XButton } from 'vux-components'
 
 export default {
   name: 'UserInfo',
   components: {
-    Toast,
     Loading,
+    Toast,
     XButton
   },
   data () {
     return {
-      showToast: false,
-      textToast: '',
       loading: true,
       textLoading: 'Loading...',
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       auditStatus: null,
       userInfoStatus: false,
       auditStatusTemp: false,
@@ -141,19 +139,25 @@ export default {
       const that = this
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
       that.$set('memberLoginId', u.memberLoginId)
-      that.$set('cpUserId', u.cpUserId)
+      if (that.$route.params.cpUserIdTemp) {
+        that.$set('cpUserIdTemp', that.$route.params.cpUserIdTemp)
+        window.localStorage.setItem('cpUserIdTemp', this.$route.params.cpUserIdTemp)
+      } else {
+        let c = window.localStorage.getItem('cpUserIdTemp')
+        that.$set('cpUserIdTemp', c)
+      }
       that.$http({
         url: api.showPersonalInfo,
         params: {
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
         // console.log('获取个人信息数据 === ' + JSON.stringify(res.data))
         that.$set('auditStatus', res.data.auditStatus)
         window.localStorage.setItem('auditStatus', res.data.auditStatus)
-        if (res.data.auditStatus === '01' || res.data.auditStatus === '03') {
+        if ((res.data.auditStatus === '01' || res.data.auditStatus === '03') && res.data.threeTablesStatus !== '00') {
           that.$set('userInfoStatus', true)
         } else {
           that.$set('userInfoStatus', false)
@@ -171,14 +175,14 @@ export default {
         params: {
           auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET',
         beforeSend () {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('UserInfo 发送结果 === ' + JSON.stringify(res.data))
+        console.log('UserInfoTemp 发送结果 === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
           that.$set('auditStatusTemp', true)

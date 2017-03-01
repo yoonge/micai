@@ -1,11 +1,11 @@
 <template>
-  <div class="user-social-relationship-list">
+  <div class="user-education-list">
     <loading :show="loading" :text="textLoading"></loading>
-    <div class="social-relationship-wrapper">
-      <social-relationship-edit v-for="socialRelationship in socialRelationshipList" :social_relationship="socialRelationship"></social-relationship-edit>
+    <div class="edu-item-wrapper">
+      <edu-item-edit-temp v-for="eduInfo in eduInfoList" :edu_info="eduInfo"></edu-item-edit-temp>
     </div>
     <div class="btn-wrapper">
-      <a v-link="'/home/edit/addUserSocialRelationship'" class="btn-add-work-exp">添加更多社会关系</a>
+      <a v-link="'/home/edit/addUserEducationTemp'" class="btn-add-work-exp">添加更多教育经历</a>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -13,16 +13,15 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Sticky } from 'vux-components'
-import SocialRelationshipEdit from 'components/SocialRelationshipEdit'
+import { Loading, Toast } from 'vux-components'
+import EduItemEditTemp from 'components/EduItemEditTemp'
 
 export default {
-  name: 'UserSocialRelationshipList',
+  name: 'UserEducationListTemp',
   components: {
     Loading,
     Toast,
-    Sticky,
-    SocialRelationshipEdit
+    EduItemEditTemp
   },
   data () {
     return {
@@ -31,29 +30,34 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
-      socialRelationshipList: []
+      cpUserIdTemp: '',
+      auditStatus: null,
+      eduInfoList: []
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.fetchSocialRelationshipList()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
+    this.fetchEduInfoList()
   },
   methods: {
-    fetchSocialRelationshipList () {
+    fetchEduInfoList () {
       const that = this
       that.$http({
-        url: api.showRelaInfo,
+        url: api.showEducationInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
-        // console.log('socialRelationshipList === ' + JSON.stringify(res.data))
-        that.$set('socialRelationshipList', res.data.personalList)
+        // console.log('教育经历列表（修改） === ' + JSON.stringify(res.data))
+        that.$set('eduInfoList', res.data.personalList)
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
@@ -64,24 +68,12 @@ export default {
 </script>
 
 <style lang="less">
-.user-social-relationship-list {
+.user-education-list {
   box-sizing: border-box;
   width: 100%;
   padding: 16px;
 
-  .weui_btn {
-    margin-top: 0;
-  }
-  .weui_btn:after {
-    border: none;
-    border-radius: 2px;
-  }
-  .weui_btn_default {
-    color: #fff;
-    border-radius: 2px;
-    background-color: #38acfd;
-  }
-  .social-relationship-wrapper {
+  .edu-item-wrapper {
     box-sizing: border-box;
     width: 100%;
     background-color: #fff;

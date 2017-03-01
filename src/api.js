@@ -60,3 +60,6 @@ export const editEducationInfo = config.apiPrefix + '/portal/weixinPublic/editEd
 export const showRelaInfo = config.apiPrefix + '/portal/weixinPublic/showRelaInfo.do'
 export const addRelaInfo = config.apiPrefix + '/portal/weixinPublic/addRelaInfo.do'
 export const editRelaInfo = config.apiPrefix + '/portal/weixinPublic/editRelaInfo.do'
+
+// sendAllPersonalInfo
+export const sendAllPersonalInfo = config.apiPrefix + '/portal/weixinPublic/sendAllPersonalInfo.do'

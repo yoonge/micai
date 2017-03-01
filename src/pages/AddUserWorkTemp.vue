@@ -15,7 +15,7 @@
         <x-input title="职位" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <popup-picker title="带领团队" :value.sync="workExpItem.majorDuty" :data="majorDuty"></popup-picker>
+        <popup-picker title="带领团队" :value.sync="workExpItem.majorDuty" :data="majorDutyStatus"></popup-picker>
       </group>
       <group class="clearfix">
         <x-input title="证明人" :value.sync="workExpItem.referee" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -39,7 +39,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserWork',
+  name: 'AddUserWorkTemp',
   components: {
     Loading,
     Toast,
@@ -54,13 +54,13 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
-      xgEmployExpId: '',
+      cpUserIdTemp: '',
+      auditStatus: null,
       workExpItem: {
         beginDate: '',
         endDate: '',
@@ -71,74 +71,42 @@ export default {
         refereePhone: '',
         note: ''
       },
-      workExpList: [{}],
-      majorDuty: [['是', '否']],
+      workExpItemJSON: {},
+      majorDutyStatus: [['是', '否']],
       minyear: 1900
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.$set('xgEmployExpId', this.$route.params.workExpId)
-    this.fetchWorkExpItem()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
   },
   methods: {
-    fetchWorkExpItem () {
-      const that = this
-      this.$http({
-        url: api.showEmployExperience,
-        params: {
-          memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
-        },
-        method: 'GET'
-      }).then(res => {
-        // console.log('编辑工作经验返回的数据 === ' + JSON.stringify(res.data))
-        if (res.data.result) that.$set('workExpList', res.data.personalList)
-        let tempJSON = {}
-        let w1 = that.workExpItem // 表单双向绑定数据
-        let w2 = that.workExpList // 与后端交互的数据
-        for (let key in w2) {
-          // console.log('看看 key 的值 === ' + w2[key]['id'])
-          if (w2[key]['id'] === that.xgEmployExpId) {
-            tempJSON = w2[key]
-          }
-        }
-        // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
-        for (let key in tempJSON) {
-          if (key === 'majorDuty') {
-            tempJSON[key] === '00' ? w1[key] = ['是'] : w1[key] = ['否']
-          } else {
-            w1[key] = tempJSON[key]
-          }
-        }
-        // console.log('转换后 === ' + JSON.stringify(w1))
-        that.$set('loading', false)
-      }).catch(err => {
-        console.error(err.data)
-      })
-    },
     saveWorkExpItem () {
       const that = this
-      let tempArray = [{}] // 提交给后端的 JSON
+      let jsonArray = []
       let w1 = that.workExpItem // 表单双向绑定数据
+      let w2 = that.workExpItemJSON // 与后端交互的数据
       for (let key in w1) {
-        // console.log('key === ' + JSON.stringify(w1[key]))
+        console.log('key === ' + JSON.stringify(w1[key]))
         if (key === 'majorDuty') {
-          w1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
+          w1[key][0] === '是' ? w2[key] = '00' : w2[key] = '01'
         } else {
-          tempArray[0][key] = w1[key]
+          w2[key] = w1[key]
         }
       }
-      // console.log('tempArray === ' + JSON.stringify(tempArray))
+      jsonArray[0] = w2
+      // console.log('workExpItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
-        url: api.editEmployExperience,
+        url: api.addEmployExperience,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
-          xgEmployExpId: that.xgEmployExpId,
-          json: JSON.stringify(tempArray)
+          xgCpUserBaseId: that.cpUserIdTemp,
+          json: JSON.stringify(jsonArray)
         },
         method: 'GET',
         beforeSend () {
@@ -148,7 +116,7 @@ export default {
         // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userWorkList')
+          that.$router.go('/home/userTemp/userWorkTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

@@ -39,7 +39,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserSocialRelationship',
+  name: 'AddUserSocialRelationshipTemp',
   components: {
     Loading,
     Toast,
@@ -52,13 +52,13 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
-      xgRelationInfoId: '',
+      cpUserIdTemp: '',
+      auditStatus: null,
       socialRelationshipItem: {
         relationType: [],
         name: '',
@@ -69,124 +69,67 @@ export default {
         xgPosition: '',
         note: ''
       },
-      socialRelationshipList: {},
+      socialRelationshipItemJSON: {},
       relationTypeList: [['父亲', '母亲', '配偶', '子女', '兄弟姐妹', '朋友', '同事', '其他']],
       minyear: 1900
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.$set('xgRelationInfoId', this.$route.params.socialRelationshipId)
-    this.fetchSocialRelationshipItem()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
   },
   methods: {
-    fetchSocialRelationshipItem () {
-      const that = this
-      this.$http({
-        url: api.showRelaInfo,
-        params: {
-          memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
-        },
-        method: 'GET'
-      }).then(res => {
-        // console.log('编辑社会关系返回的数据 === ' + JSON.stringify(res.data))
-        if (res.data.result) that.$set('socialRelationshipList', res.data.personalList)
-        let tempJSON = {}
-        let s1 = that.socialRelationshipItem // 表单双向绑定数据
-        let s2 = that.socialRelationshipList // 与后端交互的数据
-        for (let key in s2) {
-          console.log('看看 key 的值 === ' + s2[key]['id'])
-          if (s2[key]['id'] === that.xgRelationInfoId) {
-            tempJSON = s2[key]
-          }
-        }
-        // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
-        for (let key in tempJSON) {
-          if (key === 'relationType') {
-            switch (tempJSON[key]) {
-              case '01':
-                s1[key] = ['父亲']
-                break
-              case '02':
-                s1[key] = ['母亲']
-                break
-              case '03':
-                s1[key] = ['配偶']
-                break
-              case '04':
-                s1[key] = ['子女']
-                break
-              case '05':
-                s1[key] = ['兄弟姐妹']
-                break
-              case '06':
-                s1[key] = ['朋友']
-                break
-              case '07':
-                s1[key] = ['同事']
-                break
-              default:
-                s1[key] = ['其他']
-                break
-            }
-          } else {
-            s1[key] = tempJSON[key]
-          }
-        }
-        // console.log('转换后 === ' + JSON.stringify(s1))
-        that.$set('loading', false)
-      }).catch(err => {
-        console.error(err.data)
-      })
-    },
     saveSocialRelationshipItem () {
       const that = this
-      let tempArray = [{}] // 提交给后端的 JSON
-      let s1 = that.socialRelationshipItem // 表单双向绑定数据
-      for (let key in s1) {
-        // console.log('key === ' + JSON.stringify(s1[key]))
+      let jsonArray = []
+      let e1 = that.socialRelationshipItem // 表单双向绑定数据
+      let e2 = that.socialRelationshipItemJSON // 与后端交互的数据
+      for (let key in e1) {
+        // console.log('key === ' + JSON.stringify(e1[key]))
         if (key === 'relationType') {
-          switch (s1[key][0]) {
+          switch (e1[key][0]) {
             case '父亲':
-              tempArray[0][key] = '01'
+              e2[key] = '01'
               break
             case '母亲':
-              tempArray[0][key] = '02'
+              e2[key] = '02'
               break
             case '配偶':
-              tempArray[0][key] = '03'
+              e2[key] = '03'
               break
             case '子女':
-              tempArray[0][key] = '04'
+              e2[key] = '04'
               break
             case '兄弟姐妹':
-              tempArray[0][key] = '05'
+              e2[key] = '05'
               break
             case '朋友':
-              tempArray[0][key] = '06'
+              e2[key] = '06'
               break
             case '同事':
-              tempArray[0][key] = '07'
+              e2[key] = '07'
               break
             default:
-              tempArray[0][key] = '09'
+              e2[key] = '08'
               break
           }
         } else {
-          tempArray[0][key] = s1[key]
+          e2[key] = e1[key]
         }
       }
-      // console.log('tempArray === ' + JSON.stringify(tempArray))
+      jsonArray[0] = e2
+      // console.log('socialRelationshipItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
-        url: api.editRelaInfo,
+        url: api.addRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
-          xgRelationInfoId: that.xgRelationInfoId,
-          json: JSON.stringify(tempArray)
+          xgCpUserBaseId: that.cpUserIdTemp,
+          json: JSON.stringify(jsonArray)
         },
         method: 'GET',
         beforeSend () {
@@ -196,7 +139,7 @@ export default {
         // console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userSocialRelationshipList')
+          that.$router.go('/home/userTemp/userSocialTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

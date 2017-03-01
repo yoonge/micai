@@ -45,7 +45,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserEdu',
+  name: 'EditUserEduTemp',
   components: {
     Loading,
     Toast,
@@ -65,8 +65,9 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       xgEduInfoId: '',
+      auditStatus: null,
       eduInfoItem: {
         beginDate: '',
         endDate: '',
@@ -88,9 +89,12 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
     this.$set('xgEduInfoId', this.$route.params.eduInfoId)
     this.fetchEduInfoItem()
   },
@@ -100,8 +104,9 @@ export default {
       this.$http({
         url: api.showEducationInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
@@ -221,8 +226,9 @@ export default {
       that.$http({
         url: api.editEducationInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
+          xgCpUserBaseId: that.cpUserIdTemp,
           xgEduInfoId: that.xgEduInfoId,
           json: JSON.stringify(tempArray)
         },
@@ -234,7 +240,7 @@ export default {
         // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userEducationList')
+          that.$router.go('/home/edit/userEducationListTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

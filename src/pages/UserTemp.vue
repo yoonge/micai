@@ -2,10 +2,10 @@
   <div class="user">
     <div class="user-header">
       <tab :line-width="2" :animate="false">
-        <tab-item v-link="{ path: '/home/user/userInfo', activeClass: 'vux-tab-selected' }">个人信息</tab-item>
-        <tab-item v-link="{ path: '/home/user/userWork', activeClass: 'vux-tab-selected' }">工作经历</tab-item>
-        <tab-item v-link="{ path: '/home/user/userEducation', activeClass: 'vux-tab-selected' }">教育信息</tab-item>
-        <tab-item v-link="{ path: '/home/user/userSocial', activeClass: 'vux-tab-selected' }">社会关系</tab-item>
+        <tab-item v-link="{ path: '/home/userTemp/userInfoTemp', activeClass: 'vux-tab-selected' }">个人信息</tab-item>
+        <tab-item v-link="{ path: '/home/userTemp/userWorkTemp', activeClass: 'vux-tab-selected' }">工作经历</tab-item>
+        <tab-item v-link="{ path: '/home/userTemp/userEducationTemp', activeClass: 'vux-tab-selected' }">教育信息</tab-item>
+        <tab-item v-link="{ path: '/home/userTemp/userSocialTemp', activeClass: 'vux-tab-selected' }">社会关系</tab-item>
       </tab>
     </div>
     <router-view

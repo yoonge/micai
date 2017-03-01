@@ -1,11 +1,11 @@
 <template>
-  <div class="user-social-relationship-list">
+  <div class="user-work-list">
     <loading :show="loading" :text="textLoading"></loading>
-    <div class="social-relationship-wrapper">
-      <social-relationship-edit v-for="socialRelationship in socialRelationshipList" :social_relationship="socialRelationship"></social-relationship-edit>
+    <div class="work-item-wrapper">
+      <work-item-edit-temp v-for="workExp in workExpList" :work_exp="workExp"></work-item-edit-temp>
     </div>
     <div class="btn-wrapper">
-      <a v-link="'/home/edit/addUserSocialRelationship'" class="btn-add-work-exp">添加更多社会关系</a>
+      <a v-link="'/home/edit/addUserWorkTemp'" class="btn-add-work-exp">添加更多工作经历</a>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -13,16 +13,15 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Sticky } from 'vux-components'
-import SocialRelationshipEdit from 'components/SocialRelationshipEdit'
+import { Loading, Toast } from 'vux-components'
+import WorkItemEditTemp from 'components/WorkItemEditTemp'
 
 export default {
-  name: 'UserSocialRelationshipList',
+  name: 'UserWorkListTemp',
   components: {
     Loading,
     Toast,
-    Sticky,
-    SocialRelationshipEdit
+    WorkItemEditTemp
   },
   data () {
     return {
@@ -31,29 +30,34 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
-      socialRelationshipList: []
+      cpUserIdTemp: '',
+      auditStatus: null,
+      workExpList: []
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.fetchSocialRelationshipList()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
+    this.fetchWorkExpList()
   },
   methods: {
-    fetchSocialRelationshipList () {
+    fetchWorkExpList () {
       const that = this
       that.$http({
-        url: api.showRelaInfo,
+        url: api.showEmployExperience,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
-        // console.log('socialRelationshipList === ' + JSON.stringify(res.data))
-        that.$set('socialRelationshipList', res.data.personalList)
+        // console.log('workExpList === ' + JSON.stringify(res.data))
+        that.$set('workExpList', res.data.personalList)
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
@@ -64,7 +68,7 @@ export default {
 </script>
 
 <style lang="less">
-.user-social-relationship-list {
+.user-work-list {
   box-sizing: border-box;
   width: 100%;
   padding: 16px;
@@ -81,7 +85,7 @@ export default {
     border-radius: 2px;
     background-color: #38acfd;
   }
-  .social-relationship-wrapper {
+  .work-item-wrapper {
     box-sizing: border-box;
     width: 100%;
     background-color: #fff;

@@ -2,10 +2,10 @@
   <div class="user-social-relationship-list">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="social-relationship-wrapper">
-      <social-relationship-edit v-for="socialRelationship in socialRelationshipList" :social_relationship="socialRelationship"></social-relationship-edit>
+      <social-relationship-edit-temp v-for="socialRelationship in socialRelationshipList" :social_relationship="socialRelationship"></social-relationship-edit-temp>
     </div>
     <div class="btn-wrapper">
-      <a v-link="'/home/edit/addUserSocialRelationship'" class="btn-add-work-exp">添加更多社会关系</a>
+      <a v-link="'/home/edit/addUserSocialRelationshipTemp'" class="btn-add-work-exp">添加更多社会关系</a>
     </div>
     <toast :show.sync="showToast" type="text" width="12em">{{textToast}}</toast>
   </div>
@@ -13,16 +13,15 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Sticky } from 'vux-components'
-import SocialRelationshipEdit from 'components/SocialRelationshipEdit'
+import { Loading, Toast } from 'vux-components'
+import SocialRelationshipEditTemp from 'components/SocialRelationshipEditTemp'
 
 export default {
-  name: 'UserSocialRelationshipList',
+  name: 'UserSocialRelationshipListTemp',
   components: {
     Loading,
     Toast,
-    Sticky,
-    SocialRelationshipEdit
+    SocialRelationshipEditTemp
   },
   data () {
     return {
@@ -31,14 +30,18 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
+      auditStatus: null,
       socialRelationshipList: []
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
     this.fetchSocialRelationshipList()
   },
   methods: {
@@ -47,8 +50,9 @@ export default {
       that.$http({
         url: api.showRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {

@@ -42,31 +42,29 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
+import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserEdu',
+  name: 'AddUserEducationTemp',
   components: {
     Loading,
     Toast,
-    Address,
     Datetime,
     Group,
     XButton,
     XInput,
     PopupPicker,
-    XAddress,
     Cell
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
-      xgEduInfoId: '',
+      cpUserIdTemp: '',
+      auditStatus: null,
       eduInfoItem: {
         beginDate: '',
         endDate: '',
@@ -79,7 +77,7 @@ export default {
         educationType: [],
         note: ''
       },
-      eduInfoList: {},
+      eduInfoItemJSON: {},
       educationExpList: [['博士研究生', '硕士研究生', '本科', '专科', '高职及中专', '高中', '初中', '小学', '其他']],
       eduStatus: [['是', '否']],
       degreeStatus: [['是', '否']],
@@ -88,143 +86,74 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
-    this.$set('xgEduInfoId', this.$route.params.eduInfoId)
-    this.fetchEduInfoItem()
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
   },
   methods: {
-    fetchEduInfoItem () {
-      const that = this
-      this.$http({
-        url: api.showEducationInfo,
-        params: {
-          memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
-        },
-        method: 'GET'
-      }).then(res => {
-        // console.log('编辑教育经历返回的数据 === ' + JSON.stringify(res.data))
-        if (res.data.result) that.$set('eduInfoList', res.data.personalList)
-        let tempJSON = {}
-        let e1 = that.eduInfoItem // 表单双向绑定数据
-        let e2 = that.eduInfoList // 与后端交互的数据
-        for (let key in e2) {
-          // console.log('看看 key 的值 === ' + e2[key]['id'])
-          if (e2[key]['id'] === that.xgEduInfoId) {
-            tempJSON = e2[key]
-          }
-        }
-        // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
-        for (let key in tempJSON) {
-          switch (key) {
-            case 'educationExp':
-              switch (tempJSON[key]) {
-                case '01':
-                  e1[key] = ['博士研究生']
-                  break
-                case '02':
-                  e1[key] = ['硕士研究生']
-                  break
-                case '03':
-                  e1[key] = ['本科']
-                  break
-                case '04':
-                  e1[key] = ['专科']
-                  break
-                case '05':
-                  e1[key] = ['高职及中专']
-                  break
-                case '06':
-                  e1[key] = ['高中']
-                  break
-                case '07':
-                  e1[key] = ['初中']
-                  break
-                case '08':
-                  e1[key] = ['小学']
-                  break
-                default:
-                  e1[key] = ['其他']
-                  break
-              }
-              break
-            case 'isHighestEdu':
-            case 'isHighestDegree':
-              tempJSON[key] === '00' ? e1[key] = ['是'] : e1[key] = ['否']
-              break
-            case 'educationType':
-              tempJSON[key] === '01' ? e1[key] = ['全日制'] : e1[key] = ['非全日制']
-              break
-            default:
-              e1[key] = tempJSON[key]
-          }
-        }
-        // console.log('转换后 === ' + JSON.stringify(e1))
-        that.$set('loading', false)
-      }).catch(err => {
-        console.error(err.data)
-      })
-    },
     saveEduInfoItem () {
       const that = this
-      let tempArray = [{}] // 提交给后端的 JSON
+      let jsonArray = []
       let e1 = that.eduInfoItem // 表单双向绑定数据
+      let e2 = that.eduInfoItemJSON // 与后端交互的数据
       for (let key in e1) {
         // console.log('key === ' + JSON.stringify(e1[key]))
         switch (key) {
           case 'educationExp':
             switch (e1[key][0]) {
               case '博士研究生':
-                tempArray[0][key] = '01'
+                e2[key] = '01'
                 break
               case '硕士研究生':
-                tempArray[0][key] = '02'
+                e2[key] = '02'
                 break
               case '本科':
-                tempArray[0][key] = '03'
+                e2[key] = '03'
                 break
               case '专科':
-                tempArray[0][key] = '04'
+                e2[key] = '04'
                 break
               case '高职及中专':
-                tempArray[0][key] = '05'
+                e2[key] = '05'
                 break
               case '高中':
-                tempArray[0][key] = '06'
+                e2[key] = '06'
                 break
               case '初中':
-                tempArray[0][key] = '07'
+                e2[key] = '07'
                 break
               case '小学':
-                tempArray[0][key] = '08'
+                e2[key] = '08'
                 break
               default:
-                tempArray[0][key] = '09'
+                e2[key] = '09'
                 break
             }
             break
           case 'isHighestEdu':
           case 'isHighestDegree':
-            e1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
+            e1[key][0] === '是' ? e2[key] = '00' : e2[key] = '01'
             break
           case 'educationType':
-            e1[key][0] === '全日制' ? tempArray[0][key] = '01' : tempArray[0][key] = '02'
+            e1[key][0] === '全日制' ? e2[key] = '01' : e2[key] = '02'
             break
           default:
-            tempArray[0][key] = e1[key]
+            e2[key] = e1[key]
             break
         }
       }
-      // console.log('tempArray === ' + JSON.stringify(tempArray))
+      jsonArray[0] = e2
+      // console.log('eduInfoItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
-        url: api.editEducationInfo,
+        url: api.addEducationInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
-          xgEduInfoId: that.xgEduInfoId,
-          json: JSON.stringify(tempArray)
+          xgCpUserBaseId: that.cpUserIdTemp,
+          json: JSON.stringify(jsonArray)
         },
         method: 'GET',
         beforeSend () {
@@ -234,7 +163,7 @@ export default {
         // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userEducationList')
+          that.$router.go('/home/userTemp/userEducationListTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

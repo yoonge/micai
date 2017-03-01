@@ -13,7 +13,7 @@
 
 <script lang="babel">
 import * as api from 'src/api.js'
-import { Loading, Toast, Sticky, XButton } from 'vux-components'
+import { Loading, Toast } from 'vux-components'
 import WorkItemEdit from 'components/WorkItemEdit'
 
 export default {
@@ -21,8 +21,6 @@ export default {
   components: {
     Loading,
     Toast,
-    Sticky,
-    XButton,
     WorkItemEdit
   },
   data () {

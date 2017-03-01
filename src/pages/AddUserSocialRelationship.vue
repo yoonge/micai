@@ -8,10 +8,10 @@
       <group class="required clearfix">
         <x-input title="关系人姓名" :value.sync="socialRelationshipItem.name" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <x-input title="电话" :value.sync="socialRelationshipItem.phoneNo" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <x-input title="通讯地址" :value.sync="socialRelationshipItem.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
@@ -149,9 +149,7 @@ export default {
     checkBlank () {
       const aU = this.socialRelationshipItem.relationType !== ''
       const bU = this.socialRelationshipItem.name !== ''
-      const cU = this.socialRelationshipItem.phoneNo !== ''
-      const dU = this.socialRelationshipItem.address !== ''
-      if (aU && bU && cU && dU) {
+      if (aU && bU) {
         return false
       } else {
         return true

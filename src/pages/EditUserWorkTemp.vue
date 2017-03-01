@@ -39,7 +39,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserWork',
+  name: 'EditUserWorkTemp',
   components: {
     Loading,
     Toast,
@@ -59,8 +59,9 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       xgEmployExpId: '',
+      auditStatus: null,
       workExpItem: {
         beginDate: '',
         endDate: '',
@@ -77,9 +78,12 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
     this.$set('xgEmployExpId', this.$route.params.workExpId)
     this.fetchWorkExpItem()
   },
@@ -89,8 +93,9 @@ export default {
       this.$http({
         url: api.showEmployExperience,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
@@ -135,8 +140,9 @@ export default {
       that.$http({
         url: api.editEmployExperience,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
+          xgCpUserBaseId: that.cpUserIdTemp,
           xgEmployExpId: that.xgEmployExpId,
           json: JSON.stringify(tempArray)
         },
@@ -148,7 +154,7 @@ export default {
         // console.log('saveWorkExpItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userWorkList')
+          that.$router.go('/home/edit/userWorkListTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')

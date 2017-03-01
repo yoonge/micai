@@ -2,14 +2,14 @@
   <div class="user-education" :class="{'bottom-padding': userInfoStatus}">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edu-info-wrapper" v-if="result1">
-      <a v-link="'/home/edit/userEducationList'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</a>
+      <a v-link="'/home/edit/userEducationListTemp'" class="btn-link btn-link-edit"><i class="ui-icon ui-icon-sm ui-icon-pen-blue-sm"></i>编辑</a>
       <edu-item v-for="eduInfo in eduInfoList" :edu_info="eduInfo"></edu-item>
     </div>
     <div class="edu-info-none" v-if="result2">
       您还没有添加教育经历
     </div>
     <div class="btn-wrapper" v-if="result2">
-      <a v-link="'/home/edit/addUserEducation'" class="btn-add-work-exp">现在去添加</a>
+      <a v-link="'/home/edit/addUserEducationTemp'" class="btn-add-work-exp">现在去添加</a>
     </div>
     <div class="btn-wrapper-fixed" v-show="userInfoStatus">
       <x-button class="btn-send" :class="{'btn-disabled': auditStatusTemp}" :disabled="auditStatusTemp" @click="sendAllPersonalInfo()">发送</x-button>
@@ -24,7 +24,7 @@ import { Loading, Toast, XButton } from 'vux-components'
 import EduItem from 'components/EduItem'
 
 export default {
-  name: 'UserEducation',
+  name: 'UserEducationTemp',
   components: {
     Loading,
     Toast,
@@ -38,7 +38,7 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       auditStatus: null,
       userInfoStatus: false,
       auditStatusTemp: false,
@@ -48,25 +48,23 @@ export default {
     }
   },
   ready () {
-    let as = window.localStorage.getItem('auditStatus')
-    if (as === '01' || as === '03') {
-      this.$set('userInfoStatus', true)
-    } else {
-      this.$set('userInfoStatus', false)
-    }
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
     this.fetchEduInfoList()
   },
   methods: {
     fetchEduInfoList () {
       const that = this
+      let as = window.localStorage.getItem('auditStatus')
+      this.$set('auditStatus', as)
       that.$http({
         url: api.showEducationInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
@@ -75,6 +73,11 @@ export default {
           that.$set('result1', true)
           that.$set('result2', false)
           that.$set('eduInfoList', res.data.personalList)
+          if ((as === '01' || as === '03') && res.data.threeTablesStatus !== '00') {
+            this.$set('userInfoStatus', true)
+          } else {
+            this.$set('userInfoStatus', false)
+          }
         } else {
           that.$set('result1', false)
           that.$set('result2', true)
@@ -91,7 +94,7 @@ export default {
         params: {
           auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET',
         beforeSend () {

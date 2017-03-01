@@ -10,25 +10,40 @@ import EmployeeCenter from 'pages/EmployeeCenter'
 import EmployeeCompany from 'pages/EmployeeCompany'
 
 import User from 'pages/User'
+import UserTemp from 'pages/UserTemp'
 import UserInfo from 'pages/UserInfo'
+import UserInfoTemp from 'pages/UserInfoTemp'
 import UserWork from 'pages/UserWork'
+import UserWorkTemp from 'pages/UserWorkTemp'
 import UserEducation from 'pages/UserEducation'
+import UserEducationTemp from 'pages/UserEducationTemp'
 import UserSocial from 'pages/UserSocial'
+import UserSocialTemp from 'pages/UserSocialTemp'
 
 import Edit from 'pages/Edit'
 import EditUserInfo from 'pages/EditUserInfo'
+import EditUserInfoTemp from 'pages/EditUserInfoTemp'
 
 import UserWorkList from 'pages/UserWorkList'
+import UserWorkListTemp from 'pages/UserWorkListTemp'
 import AddUserWork from 'pages/AddUserWork'
+import AddUserWorkTemp from 'pages/AddUserWorkTemp'
 import EditUserWork from 'pages/EditUserWork'
+import EditUserWorkTemp from 'pages/EditUserWorkTemp'
 
 import UserEducationList from 'pages/UserEducationList'
+import UserEducationListTemp from 'pages/UserEducationListTemp'
 import AddUserEducation from 'pages/AddUserEducation'
+import AddUserEducationTemp from 'pages/AddUserEducationTemp'
 import EditUserEdu from 'pages/EditUserEdu'
+import EditUserEduTemp from 'pages/EditUserEduTemp'
 
 import UserSocialRelationshipList from 'pages/UserSocialRelationshipList'
+import UserSocialRelationshipListTemp from 'pages/UserSocialRelationshipListTemp'
 import AddUserSocialRelationship from 'pages/AddUserSocialRelationship'
+import AddUserSocialRelationshipTemp from 'pages/AddUserSocialRelationshipTemp'
 import EditUserSocialRelationship from 'pages/EditUserSocialRelationship'
+import EditUserSocialRelationshipTemp from 'pages/EditUserSocialRelationshipTemp'
 
 import Map from 'pages/Map'
 import MapView from 'pages/MapView'
@@ -187,6 +202,32 @@ const Routes = router => {
             }
           }
         },
+        '/userTemp': {
+          name: 'home.userTemp',
+          component: UserTemp,
+          subRoutes: {
+            '/userInfoTemp/:cpUserIdTemp': {
+              name: 'home.user.info.temp.dynamic',
+              component: UserInfoTemp
+            },
+            '/userInfoTemp': {
+              name: 'home.user.info.temp',
+              component: UserInfoTemp
+            },
+            '/userWorkTemp': {
+              name: 'home.user.work.temp',
+              component: UserWorkTemp
+            },
+            '/userEducationTemp': {
+              name: 'home.user.education.temp',
+              component: UserEducationTemp
+            },
+            '/userSocialTemp': {
+              name: 'home.user.social.temp',
+              component: UserSocialTemp
+            }
+          }
+        },
         '/edit': {
           name: 'home.edit',
           component: Edit,
@@ -195,41 +236,81 @@ const Routes = router => {
               name: 'home.edit.userInfo',
               component: EditUserInfo
             },
+            '/editUserInfoTemp': {
+              name: 'home.edit.userInfoTemp',
+              component: EditUserInfoTemp
+            },
             '/userWorkList': {
               name: 'home.edit.userWorkList',
               component: UserWorkList
+            },
+            '/userWorkListTemp': {
+              name: 'home.edit.userWorkListTemp',
+              component: UserWorkListTemp
             },
             '/addUserWork': {
               name: 'home.edit.addUserWork',
               component: AddUserWork
             },
+            '/addUserWorkTemp': {
+              name: 'home.edit.addUserWorkTemp',
+              component: AddUserWorkTemp
+            },
             '/editUserWork/:workExpId': {
               name: 'home.edit.editUserWork',
               component: EditUserWork
+            },
+            '/editUserWorkTemp/:workExpId': {
+              name: 'home.edit.editUserWorkTemp',
+              component: EditUserWorkTemp
             },
             '/userEducationList': {
               name: 'home.edit.userEducationList',
               component: UserEducationList
             },
+            '/userEducationListTemp': {
+              name: 'home.edit.userEducationListTemp',
+              component: UserEducationListTemp
+            },
             '/addUserEducation': {
               name: 'home.edit.addUserEducation',
               component: AddUserEducation
+            },
+            '/addUserEducationTemp': {
+              name: 'home.edit.addUserEducationTemp',
+              component: AddUserEducationTemp
             },
             '/editUserEdu/:eduInfoId': {
               name: 'home.edit.editUserEdu',
               component: EditUserEdu
             },
+            '/editUserEduTemp/:eduInfoId': {
+              name: 'home.edit.editUserEduTemp',
+              component: EditUserEduTemp
+            },
             '/userSocialRelationshipList': {
               name: 'home.edit.userSocialRelationshipList',
               component: UserSocialRelationshipList
+            },
+            '/userSocialRelationshipListTemp': {
+              name: 'home.edit.userSocialRelationshipListTemp',
+              component: UserSocialRelationshipListTemp
             },
             '/addUserSocialRelationship': {
               name: 'home.edit.addUserSocialRelationship',
               component: AddUserSocialRelationship
             },
+            '/addUserSocialRelationshipTemp': {
+              name: 'home.edit.addUserSocialRelationshipTemp',
+              component: AddUserSocialRelationshipTemp
+            },
             '/editUserSocialRelationship/:socialRelationshipId': {
               name: 'home.edit.editUserSocialRelationship',
               component: EditUserSocialRelationship
+            },
+            '/editUserSocialRelationshipTemp/:socialRelationshipId': {
+              name: 'home.edit.editUserSocialRelationshipTemp',
+              component: EditUserSocialRelationshipTemp
             }
           }
         },

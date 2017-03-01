@@ -14,16 +14,16 @@
       <group class="required clearfix">
         <popup-picker title="学历" :value.sync="eduInfoItem.educationExp" :data="educationExpList"></popup-picker>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <x-input title="专业" :value.sync="eduInfoItem.major" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="required clearfix">
+      <group class="clearfix">
         <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
       </group>
       <group class="clearfix">
@@ -158,7 +158,7 @@ export default {
         // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/user/userEducation')
+          that.$router.go('/home/user/userEducationList')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
@@ -175,12 +175,7 @@ export default {
       const bU = this.eduInfoItem.endDate !== ''
       const cU = this.eduInfoItem.school !== ''
       const dU = this.eduInfoItem.educationExp !== ''
-      const eU = this.eduInfoItem.major !== ''
-      const fU = this.eduInfoItem.isHighestEdu !== []
-      const gU = this.eduInfoItem.degree !== ''
-      const hU = this.eduInfoItem.isHighestDegree !== []
-      const iU = this.eduInfoItem.educationType !== []
-      if (aU && bU && cU && dU && eU && fU && gU && hU && iU) {
+      if (aU && bU && cU && dU) {
         return false
       } else {
         return true

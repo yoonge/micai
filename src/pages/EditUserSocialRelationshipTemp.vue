@@ -39,7 +39,7 @@ import * as api from 'src/api.js'
 import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
 export default {
-  name: 'EditUserSocialRelationship',
+  name: 'EditUserSocialRelationshipTemp',
   components: {
     Loading,
     Toast,
@@ -57,8 +57,9 @@ export default {
       textToast: '',
       showToast: false,
       memberLoginId: '',
-      cpUserId: '',
+      cpUserIdTemp: '',
       xgRelationInfoId: '',
+      auditStatus: null,
       socialRelationshipItem: {
         relationType: [],
         name: '',
@@ -75,9 +76,12 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
-    this.$set('cpUserId', u.cpUserId)
+    let c = window.localStorage.getItem('cpUserIdTemp')
+    this.$set('cpUserIdTemp', c)
     this.$set('xgRelationInfoId', this.$route.params.socialRelationshipId)
     this.fetchSocialRelationshipItem()
   },
@@ -87,8 +91,9 @@ export default {
       this.$http({
         url: api.showRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId
+          xgCpUserBaseId: that.cpUserIdTemp
         },
         method: 'GET'
       }).then(res => {
@@ -183,8 +188,9 @@ export default {
       that.$http({
         url: api.editRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
-          xgCpUserBaseId: that.cpUserId,
+          xgCpUserBaseId: that.cpUserIdTemp,
           xgRelationInfoId: that.xgRelationInfoId,
           json: JSON.stringify(tempArray)
         },
@@ -196,7 +202,7 @@ export default {
         // console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/edit/userSocialRelationshipList')
+          that.$router.go('/home/edit/userSocialRelationshipListTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
