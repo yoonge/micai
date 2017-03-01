@@ -31,12 +31,14 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       workExpList: []
     }
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.fetchWorkExpList()
   },
@@ -46,7 +48,8 @@ export default {
       that.$http({
         url: api.showEmployExperience,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {

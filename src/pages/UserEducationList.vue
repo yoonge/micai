@@ -29,12 +29,14 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       eduInfoList: []
     }
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.fetchEduInfoList()
   },
@@ -44,7 +46,8 @@ export default {
       that.$http({
         url: api.showEducationInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {

@@ -2,16 +2,16 @@
   <div class="edit-wrapper">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
-      <group class="clearfix">
-        <datetime title="开始日期" :value.sync="workExpItem.beginDate" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+      <group class="required clearfix">
+        <datetime title="开始日期" :value.sync="workExpItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
-        <datetime title="结束日期" :value.sync="workExpItem.endDate" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+      <group class="required clearfix">
+        <datetime title="结束日期" :value.sync="workExpItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <x-input title="公司" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <x-input title="职位" :value.sync="workExpItem.xgPosition" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
@@ -58,6 +58,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       xgEmployExpId: '',
       workExpItem: {
@@ -77,6 +78,7 @@ export default {
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.$set('xgEmployExpId', this.$route.params.workExpId)
     this.fetchWorkExpItem()
@@ -87,7 +89,8 @@ export default {
       this.$http({
         url: api.showEmployExperience,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
@@ -132,7 +135,8 @@ export default {
       that.$http({
         url: api.editEmployExperience,
         params: {
-          memberLoginId: that.cpUserId,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId,
           xgEmployExpId: that.xgEmployExpId,
           json: JSON.stringify(tempArray)
         },

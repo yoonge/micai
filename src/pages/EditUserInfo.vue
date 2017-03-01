@@ -92,7 +92,9 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
+      // auditStatus: '',
       personalInfo: {
         accumulationFundNumber: '',
         address: '',
@@ -129,20 +131,29 @@ export default {
     }
   },
   ready () {
-    let u = JSON.parse(window.localStorage.getItem('userInfo'))
-    this.$set('cpUserId', u.cpUserId)
     this.fetchPersonalInfo()
   },
   methods: {
     fetchPersonalInfo () {
       const that = this
-      this.$http({
+      let u = JSON.parse(window.localStorage.getItem('userInfo'))
+      that.$set('memberLoginId', u.memberLoginId)
+      that.$set('cpUserId', u.cpUserId)
+      that.$http({
         url: api.showPersonalInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
+        // if (res.data.auditStatus && res.data.auditStatus !== '') {
+        //   window.localStorage.setItem('auditStatus', res.data.auditStatus)
+        //   that.$set('auditStatus', res.data.auditStatus)
+        // } else {
+        //   window.localStorage.setItem('auditStatus', '')
+        //   that.$set('auditStatus', '')
+        // }
         if (res.data.result) that.$set('personalInfoJSON', res.data.personalList)
         let p1 = that.personalInfo // 表单双向绑定数据
         let p2 = that.personalInfoJSON[0] // 与后端交互的数据
@@ -206,14 +217,16 @@ export default {
       jsonArray[0] = p2
       // console.log('jsonArray === ' + JSON.stringify(jsonArray))
       that.$http({
-        url: api.addPersonalInfo,
+        url: api.addAndEditPersonalInfo,
         params: {
-          memberLoginId: that.cpUserId,
+          // auditStatus: that.auditStatus,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId,
           json: JSON.stringify(jsonArray)
         },
         method: 'GET'
       }).then(res => {
-        // console.log('savePersonalInfo res.data === ' + JSON.stringify(res.data))
+        // console.log('savePersonalInfo res.data === ' + res.data)
         if (res.data.result) {
           that.$set('loading', false)
           that.$router.go('/home/user/userInfo')

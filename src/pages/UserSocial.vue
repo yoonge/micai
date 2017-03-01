@@ -37,6 +37,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       userInfoStatus: false,
       result1: false,
@@ -46,6 +47,7 @@ export default {
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.fetchSocialRelationshipList()
   },
@@ -55,7 +57,8 @@ export default {
       that.$http({
         url: api.showRelaInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {

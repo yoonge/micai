@@ -2,28 +2,28 @@
   <div class="edit-wrapper">
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
-      <group class="clearfix">
+      <group class="required clearfix">
         <datetime title="入学日期" :value.sync="eduInfoItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <datetime title="毕业日期" :value.sync="eduInfoItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <x-input title="学校" :value.sync="eduInfoItem.school" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <popup-picker title="学历" :value.sync="eduInfoItem.educationExp" :data="educationExpList"></popup-picker>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <x-input title="专业" :value.sync="eduInfoItem.major" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
-      <group class="clearfix">
+      <group class="required clearfix">
         <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
       </group>
       <group class="clearfix">
@@ -64,6 +64,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       xgEduInfoId: '',
       eduInfoItem: {
@@ -88,6 +89,7 @@ export default {
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.$set('xgEduInfoId', this.$route.params.eduInfoId)
     this.fetchEduInfoItem()
@@ -98,7 +100,8 @@ export default {
       this.$http({
         url: api.showEducationInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
@@ -218,7 +221,8 @@ export default {
       that.$http({
         url: api.editEducationInfo,
         params: {
-          memberLoginId: that.cpUserId,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId,
           xgEduInfoId: that.xgEduInfoId,
           json: JSON.stringify(tempArray)
         },

@@ -30,12 +30,14 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       socialRelationshipList: []
     }
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.fetchSocialRelationshipList()
   },
@@ -45,11 +47,12 @@ export default {
       that.$http({
         url: api.showRelaInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
-        console.log('socialRelationshipList === ' + JSON.stringify(res.data))
+        // console.log('socialRelationshipList === ' + JSON.stringify(res.data))
         that.$set('socialRelationshipList', res.data.personalList)
         that.$set('loading', false)
       }).catch(err => {

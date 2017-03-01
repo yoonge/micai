@@ -121,27 +121,35 @@ export default {
     return {
       loading: true,
       textLoading: 'Loading...',
+      memberLoginId: '',
       cpUserId: '',
       userInfoStatus: false,
       personalInfo: {}
     }
   },
   ready () {
-    let u = JSON.parse(window.localStorage.getItem('userInfo'))
-    this.$set('cpUserId', u.cpUserId)
     this.fetchPersonalInfo()
   },
   methods: {
     fetchPersonalInfo () {
       const that = this
+      let u = JSON.parse(window.localStorage.getItem('userInfo'))
+      that.$set('memberLoginId', u.memberLoginId)
+      that.$set('cpUserId', u.cpUserId)
       that.$http({
         url: api.showPersonalInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
-        // console.log('返回的数据 ---- ' + JSON.stringify(res.data.personalList))
+        // console.log('获取个人信息数据 === ' + JSON.stringify(res.data))
+        // if (res.data.auditStatus && res.data.auditStatus !== '') {
+        //   window.localStorage.setItem('auditStatus', res.data.auditStatus)
+        // } else {
+        //   window.localStorage.setItem('auditStatus', '')
+        // }
         if (res.data.result) that.$set('personalInfo', res.data.personalList[0])
         that.$set('loading', false)
       }).catch(err => {

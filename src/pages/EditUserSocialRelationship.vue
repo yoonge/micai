@@ -15,7 +15,7 @@
         <x-input title="通讯地址" :value.sync="socialRelationshipItem.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <datetime title="出生日期" :value.sync="socialRelationshipItem.birthday" format="YYYY.MM.DD" confirm-text="完成" cancel-text="取消" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="出生日期" :value.sync="socialRelationshipItem.birthday" :min-year="minyear" format="YYYY.MM.DD" confirm-text="完成" cancel-text="取消" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
         <x-input title="工作单位" :value.sync="socialRelationshipItem.workUnit" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -56,6 +56,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       xgRelationInfoId: '',
       socialRelationshipItem: {
@@ -75,6 +76,7 @@ export default {
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
     this.$set('xgRelationInfoId', this.$route.params.socialRelationshipId)
     this.fetchSocialRelationshipItem()
@@ -85,11 +87,12 @@ export default {
       this.$http({
         url: api.showRelaInfo,
         params: {
-          memberLoginId: that.cpUserId
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId
         },
         method: 'GET'
       }).then(res => {
-        console.log('编辑社会关系返回的数据 === ' + JSON.stringify(res.data))
+        // console.log('编辑社会关系返回的数据 === ' + JSON.stringify(res.data))
         if (res.data.result) that.$set('socialRelationshipList', res.data.personalList)
         let tempJSON = {}
         let s1 = that.socialRelationshipItem // 表单双向绑定数据
@@ -100,7 +103,7 @@ export default {
             tempJSON = s2[key]
           }
         }
-        console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
+        // console.log('当前编辑的条目 === ' + JSON.stringify(tempJSON))
         for (let key in tempJSON) {
           if (key === 'relationType') {
             switch (tempJSON[key]) {
@@ -133,7 +136,7 @@ export default {
             s1[key] = tempJSON[key]
           }
         }
-        console.log('转换后 === ' + JSON.stringify(s1))
+        // console.log('转换后 === ' + JSON.stringify(s1))
         that.$set('loading', false)
       }).catch(err => {
         console.error(err.data)
@@ -144,7 +147,7 @@ export default {
       let tempArray = [{}] // 提交给后端的 JSON
       let s1 = that.socialRelationshipItem // 表单双向绑定数据
       for (let key in s1) {
-        console.log('key === ' + JSON.stringify(s1[key]))
+        // console.log('key === ' + JSON.stringify(s1[key]))
         if (key === 'relationType') {
           switch (s1[key][0]) {
             case '父亲':
@@ -176,11 +179,12 @@ export default {
           tempArray[0][key] = s1[key]
         }
       }
-      console.log('tempArray === ' + JSON.stringify(tempArray))
+      // console.log('tempArray === ' + JSON.stringify(tempArray))
       that.$http({
         url: api.editRelaInfo,
         params: {
-          memberLoginId: that.cpUserId,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId,
           xgRelationInfoId: that.xgRelationInfoId,
           json: JSON.stringify(tempArray)
         },
@@ -189,7 +193,7 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
+        // console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
           that.$router.go('/home/edit/userSocialRelationshipList')

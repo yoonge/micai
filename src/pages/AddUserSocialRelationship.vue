@@ -15,7 +15,7 @@
         <x-input title="通讯地址" :value.sync="socialRelationshipItem.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
-        <datetime title="出生日期" :value.sync="socialRelationshipItem.birthday" format="YYYY.MM.DD" confirm-text="完成" cancel-text="取消" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="出生日期" :value.sync="socialRelationshipItem.birthday" :min-year="minyear" format="YYYY.MM.DD" confirm-text="完成" cancel-text="取消" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="clearfix">
         <x-input title="工作单位" :value.sync="socialRelationshipItem.workUnit" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -56,6 +56,7 @@ export default {
       textLoading: 'Loading...',
       textToast: '',
       showToast: false,
+      memberLoginId: '',
       cpUserId: '',
       socialRelationshipItem: {
         relationType: [],
@@ -74,6 +75,7 @@ export default {
   },
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
   },
   methods: {
@@ -83,7 +85,7 @@ export default {
       let e1 = that.socialRelationshipItem // 表单双向绑定数据
       let e2 = that.socialRelationshipItemJSON // 与后端交互的数据
       for (let key in e1) {
-        console.log('key === ' + JSON.stringify(e1[key]))
+        // console.log('key === ' + JSON.stringify(e1[key]))
         if (key === 'relationType') {
           switch (e1[key][0]) {
             case '父亲':
@@ -116,11 +118,12 @@ export default {
         }
       }
       jsonArray[0] = e2
-      console.log('socialRelationshipItemJSON === ' + JSON.stringify(jsonArray))
+      // console.log('socialRelationshipItemJSON === ' + JSON.stringify(jsonArray))
       that.$http({
         url: api.addRelaInfo,
         params: {
-          memberLoginId: that.cpUserId,
+          memberLoginId: that.memberLoginId,
+          xgCpUserBaseId: that.cpUserId,
           json: JSON.stringify(jsonArray)
         },
         method: 'GET',
@@ -128,7 +131,7 @@ export default {
           that.$set('loading', true)
         }
       }).then(res => {
-        console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
+        // console.log('saveSocialRelationshipItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
           that.$router.go('/home/user/userSocial')
