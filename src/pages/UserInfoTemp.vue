@@ -164,6 +164,7 @@ export default {
       const that = this
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
       that.$set('memberLoginId', u.memberLoginId)
+      // console.log(that.$route.params)
       if (that.$route.params.cpUserIdTemp) {
         that.$set('cpUserIdTemp', that.$route.params.cpUserIdTemp)
         window.localStorage.setItem('cpUserIdTemp', this.$route.params.cpUserIdTemp)
@@ -213,6 +214,7 @@ export default {
           that.$set('auditStatusTemp', true)
           that.$set('textToast', '发送成功，请耐心等待 HR 审核！')
           that.$set('showToast', true)
+          window.localStorage.setItem('auditStatus', null)
         } else {
           that.$set('loading', false)
           that.$set('textToast', '发送失败，请检查您的网络状态后重试。')
