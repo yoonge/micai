@@ -35,6 +35,7 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
@@ -131,8 +132,8 @@ export default {
     checkBlank () {
       const aU = this.workExpItem.beginDate !== ''
       const bU = this.workExpItem.endDate !== ''
-      const cU = this.workExpItem.company !== ''
-      const dU = this.workExpItem.xgPosition !== ''
+      const cU = $.trim(this.workExpItem.company) !== ''
+      const dU = $.trim(this.workExpItem.xgPosition) !== ''
       if (aU && bU && cU && dU) {
         return false
       } else {

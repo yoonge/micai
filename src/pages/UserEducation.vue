@@ -48,12 +48,6 @@ export default {
     }
   },
   ready () {
-    let as = window.localStorage.getItem('auditStatus')
-    if (as === '01' || as === '03') {
-      this.$set('userInfoStatus', true)
-    } else {
-      this.$set('userInfoStatus', false)
-    }
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
@@ -62,6 +56,8 @@ export default {
   methods: {
     fetchEduInfoList () {
       const that = this
+      let as = window.localStorage.getItem('auditStatus')
+      that.$set('auditStatus', as)
       that.$http({
         url: api.showEducationInfo,
         params: {
@@ -75,6 +71,11 @@ export default {
           that.$set('result1', true)
           that.$set('result2', false)
           that.$set('eduInfoList', res.data.personalList)
+          if ((as === '01' || as === '03') && res.data.threeTablesStatus !== '00') {
+            that.$set('userInfoStatus', true)
+          } else {
+            that.$set('userInfoStatus', false)
+          }
         } else {
           that.$set('result1', false)
           that.$set('result2', true)
@@ -124,7 +125,7 @@ export default {
   padding: 16px;
 
   &.bottom-padding {
-    padding-bottom: 51px;
+    padding-bottom: 67px;
   }
   
   .edu-info-wrapper {

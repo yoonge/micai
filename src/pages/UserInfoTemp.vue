@@ -12,12 +12,16 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">性别</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.gender}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.gender === '01'">男</span>
+          <span class="userInfo-item-name" v-if="personalInfo.gender === '02'">女</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">证件类型</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.certificationType}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN01'">身份证</span>
+          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN02'">护照</span>
+          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN03'">驾照</span>
+          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN04'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">证件号码</span>
@@ -62,7 +66,11 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">户口性质</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.residenceType}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.residenceType === '01'">本地城镇</span>
+          <span class="userInfo-item-name" v-if="personalInfo.residenceType === '02'">本地农村</span>
+          <span class="userInfo-item-name" v-if="personalInfo.residenceType === '03'">外地城镇</span>
+          <span class="userInfo-item-name" v-if="personalInfo.residenceType === '04'">外地农村</span>
+          <span class="userInfo-item-name" v-if="personalInfo.residenceType === '05'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">紧急联系电话</span>
@@ -72,7 +80,14 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">民族</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.nationality}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '01'">汉族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '02'">蒙古族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '03'">藏族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '04'">满族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '05'">回族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '06'">维吾尔族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '07'">朝鲜族</span>
+          <span class="userInfo-item-name" v-if="personalInfo.nationality === '08'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">住址</span>
@@ -82,7 +97,12 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">政治面貌</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.politicalStatus}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '01'">群众</span>
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '02'">共产党员</span>
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '03'">民族党派</span>
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '04'">无党派</span>
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '05'">共产党预备党员</span>
+          <span class="userInfo-item-name" v-if="personalInfo.politicalStatus === '06'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">籍贯</span>
@@ -92,7 +112,10 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">婚姻状况</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.marriageStatus}}</span> 
+          <span class="userInfo-item-name" v-if="personalInfo.marriageStatus === '01'">未婚</span>
+          <span class="userInfo-item-name" v-if="personalInfo.marriageStatus === '02'">已婚</span>
+          <span class="userInfo-item-name" v-if="personalInfo.marriageStatus === '03'">离异</span>
+          <span class="userInfo-item-name" v-if="personalInfo.marriageStatus === '04'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">出生日期</span>
@@ -121,6 +144,8 @@ export default {
   },
   data () {
     return {
+      showToast: false,
+      textToast: '',
       loading: true,
       textLoading: 'Loading...',
       memberLoginId: '',
@@ -208,7 +233,7 @@ export default {
   position: relative;
 
   &.bottom-padding {
-    padding-bottom: 51px;
+    padding-bottom: 67px;
   }
 }
 .userInfo {

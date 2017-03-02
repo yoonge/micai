@@ -3,7 +3,7 @@
     <dl>
       <dt>{{work_exp.beginDate}} - {{work_exp.endDate}}</dt>
       <dd>{{work_exp.company}} / {{work_exp.xgPosition}}</dd>
-      <dd v-if="work_exp.majorDuty === '00'">带领团队</dd>
+      <dd>带领团队：<span v-if="work_exp.majorDuty === '00'">是</span><span v-if="work_exp.majorDuty === '01'">否</span></dd>
       <dd>证明人：<span>{{work_exp.referee}}</span></dd>
       <dd>证明电话：<span>{{work_exp.refereePhone}}</span></dd>
       <dd>备注：<span>{{work_exp.note}}</span></dd>

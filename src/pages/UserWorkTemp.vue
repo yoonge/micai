@@ -124,10 +124,10 @@ export default {
 .user-work {
   box-sizing: border-box;
   width: 100%;
-  padding: 16px;
+  position: relative;
 
   &.bottom-padding {
-    padding-bottom: 51px;
+    padding-bottom: 67px;
   }
   
   .work-item-wrapper {

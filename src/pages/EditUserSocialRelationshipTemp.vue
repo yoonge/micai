@@ -35,6 +35,7 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
@@ -215,8 +216,8 @@ export default {
   },
   computed: {
     checkBlank () {
-      const aU = this.socialRelationshipItem.relationType !== ''
-      const bU = this.socialRelationshipItem.name !== ''
+      const aU = this.socialRelationshipItem.relationType !== []
+      const bU = $.trim(this.socialRelationshipItem.name) !== ''
       if (aU && bU) {
         return false
       } else {

@@ -21,7 +21,7 @@
         <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
       <group class="clearfix">
-        <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="学位" :value.sync="eduInfoItem.degree" :data="degreeList"></popup-picker>
       </group>
       <group class="clearfix">
         <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
@@ -41,6 +41,7 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Loading, Toast, Datetime, Group, XButton, XInput, PopupPicker, Cell } from 'vux-components'
 
@@ -80,6 +81,7 @@ export default {
       eduInfoItemJSON: {},
       educationExpList: [['博士研究生', '硕士研究生', '本科', '专科', '高职及中专', '高中', '初中', '小学', '其他']],
       eduStatus: [['是', '否']],
+      degreeList: [['学士', '硕士', '博士', '其他']],
       degreeStatus: [['是', '否']],
       eduTypes: [['全日制', '非全日制']],
       minyear: 1900
@@ -133,6 +135,22 @@ export default {
                 break
             }
             break
+          case 'degree':
+            switch (e1[key][0]) {
+              case '学士':
+                e2[key] = '01'
+                break
+              case '硕士':
+                e2[key] = '02'
+                break
+              case '博士':
+                e2[key] = '03'
+                break
+              default:
+                e2[key] = '04'
+                break
+            }
+            break
           case 'isHighestEdu':
           case 'isHighestDegree':
             e1[key][0] === '是' ? e2[key] = '00' : e2[key] = '01'
@@ -163,7 +181,7 @@ export default {
         // console.log('saveEduInfoItem res.data === ' + JSON.stringify(res.data))
         if (res.data.result) {
           that.$set('loading', false)
-          that.$router.go('/home/userTemp/userEducationListTemp')
+          that.$router.go('/home/edit/userEducationListTemp')
         } else {
           that.$set('loading', false)
           that.$set('textToast', '保存失败，请检查网络后重试！')
@@ -178,8 +196,8 @@ export default {
     checkBlank () {
       const aU = this.eduInfoItem.beginDate !== ''
       const bU = this.eduInfoItem.endDate !== ''
-      const cU = this.eduInfoItem.school !== ''
-      const dU = this.eduInfoItem.educationExp !== ''
+      const cU = $.trim(this.eduInfoItem.school) !== ''
+      const dU = this.eduInfoItem.educationExp !== []
       if (aU && bU && cU && dU) {
         return false
       } else {

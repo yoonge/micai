@@ -18,9 +18,12 @@
         <span v-if="edu_info.isHighestEdu === '00'"> · 最高学历</span>
       </dd>
       <dd>
-        <span>{{edu_info.degree}} · </span>
-        <span v-if="edu_info.educationType === '01'">全日制</span>
-        <span v-else>非全日制</span>
+        <span v-if="edu_info.degree === '01'">学士</span>
+        <span v-if="edu_info.degree === '02'">硕士</span>
+        <span v-if="edu_info.degree === '03'">博士</span>
+        <span v-if="edu_info.degree === '04'">其他</span>
+        <span v-if="edu_info.educationType === '01'"> · 全日制</span>
+        <span v-else> · 非全日制</span>
         <span v-if="edu_info.isHighestDegree === '00'"> · 最高学位</span>
       </dd>
       <dd>备注：<span>{{edu_info.note}}</span></dd>

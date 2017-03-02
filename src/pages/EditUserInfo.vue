@@ -35,7 +35,7 @@
       <group class="clearfix">
         <datetime title="参加工作时间" :value.sync="personalInfo.firstJobDate" format="YYYY.MM.DD" confirm-text="确定" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
-      <group class="required">
+      <group class="required clearfix">
         <popup-picker title="户口性质" :value.sync="personalInfo.residenceType" :data="accounts"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
       </group>
       <group class="clearfix">
@@ -68,6 +68,7 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
 import * as api from 'src/api.js'
 import addressList from 'src/addressList.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
@@ -117,11 +118,11 @@ export default {
       },
       personalInfoJSON: [{}],
       genders: [['男', '女']],
-      certificates: [['身份证', '护照']],
-      accounts: [['本地城镇', '本地农村', '外地城镇', '外地农村']],
-      nations: [['汉族', '蒙古族', '回族', '藏族', '维吾尔族', '苗族', '彝族', '壮族', '布依族', '朝鲜族', '满族', '侗族', '瑶族', '白族', '土家族', '哈尼族', '哈萨克族', '傣族', '黎族', '傈僳族', '佤族', '畲族', '高山族', '拉祜族', '水族', '东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族', '达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族', '毛南族', '仡佬族', '锡伯族', '阿昌族', '普米族', '塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族', '独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族', '基诺族']],
-      politics: [['群众', '共产党员', '民族党派', '无党派', '共产党预备党员']],
-      marriages: [['未婚', '已婚', '离异']],
+      certificates: [['身份证', '护照', '驾照', '其他']],
+      accounts: [['本地城镇', '本地农村', '外地城镇', '外地农村', '其他']],
+      nations: [['汉族', '蒙古族', '藏族', '满族', '回族', '维吾尔族', '朝鲜族', '其他']],
+      politics: [['群众', '共产党员', '民族党派', '无党派', '共产党预备党员', '其他']],
+      marriages: [['未婚', '已婚', '离异', '其他']],
       addressList: addressList,
       minyear: 1900,
       mobileStatus: true,
@@ -155,18 +156,121 @@ export default {
             // console.log(key + ' === ' + p2[key].toString())
             switch (key) {
               case 'gender':
+                switch (p2[key]) {
+                  case '01':
+                    p1[key] = ['男']
+                    break
+                  case '02':
+                    p1[key] = ['女']
+                    break
+                }
+                break
               case 'certificationType':
+                switch (p2[key]) {
+                  case 'CN01':
+                    p1[key] = ['身份证']
+                    break
+                  case 'CN02':
+                    p1[key] = ['护照']
+                    break
+                  case 'CN03':
+                    p1[key] = ['驾照']
+                    break
+                  case 'CN04':
+                    p1[key] = ['其他']
+                    break
+                }
+                break
               case 'residenceType':
+                switch (p2[key]) {
+                  case '01':
+                    p1[key] = ['本地城镇']
+                    break
+                  case '02':
+                    p1[key] = ['本地农村']
+                    break
+                  case '03':
+                    p1[key] = ['外地城镇']
+                    break
+                  case '04':
+                    p1[key] = ['外地农村']
+                    break
+                  case '05':
+                    p1[key] = ['其他']
+                    break
+                }
+                break
               case 'nationality':
+                switch (p2[key]) {
+                  case '01':
+                    p1[key] = ['汉族']
+                    break
+                  case '02':
+                    p1[key] = ['蒙古族']
+                    break
+                  case '03':
+                    p1[key] = ['藏族']
+                    break
+                  case '04':
+                    p1[key] = ['满族']
+                    break
+                  case '05':
+                    p1[key] = ['回族']
+                    break
+                  case '06':
+                    p1[key] = ['维吾尔族']
+                    break
+                  case '07':
+                    p1[key] = ['朝鲜族']
+                    break
+                  case '08':
+                    p1[key] = ['其他']
+                    break
+                }
+                break
               case 'politicalStatus':
-              case 'marriageStatus':
-                p1[key].push(p2[key])
+                switch (p2[key]) {
+                  case '01':
+                    p1[key] = ['群众']
+                    break
+                  case '02':
+                    p1[key] = ['共产党员']
+                    break
+                  case '03':
+                    p1[key] = ['民族党派']
+                    break
+                  case '04':
+                    p1[key] = ['无党派']
+                    break
+                  case '05':
+                    p1[key] = ['共产党预备党员']
+                    break
+                  case '06':
+                    p1[key] = ['其他']
+                    break
+                }
                 break
               case 'nativeProvinceCode':
                 p2[key] !== '' ? tempArr.splice(0, 0, p2[key]) : tempArr = []
                 break
               case 'nativeCityCode':
                 p2[key] !== '' ? tempArr.push(p2[key]) : tempArr = []
+                break
+              case 'marriageStatus':
+                switch (p2[key]) {
+                  case '01':
+                    p1[key] = ['未婚']
+                    break
+                  case '02':
+                    p1[key] = ['已婚']
+                    break
+                  case '03':
+                    p1[key] = ['离异']
+                    break
+                  case '04':
+                    p1[key] = ['其他']
+                    break
+                }
                 break
               default:
                 p1[key] = p2[key]
@@ -190,16 +294,119 @@ export default {
         // console.log(key + ' === ' + JSON.stringify(p1[key]))
         switch (key) {
           case 'gender':
+            switch (p1[key][0]) {
+              case '男':
+                p2[key] = '01'
+                break
+              case '女':
+                p2[key] = '02'
+                break
+            }
+            break
           case 'certificationType':
+            switch (p1[key][0]) {
+              case '身份证':
+                p2[key] = 'CN01'
+                break
+              case '护照':
+                p2[key] = 'CN02'
+                break
+              case '驾照':
+                p2[key] = 'CN03'
+                break
+              case '其他':
+                p2[key] = 'CN04'
+                break
+            }
+            break
           case 'residenceType':
+            switch (p1[key][0]) {
+              case '本地城镇':
+                p2[key] = '01'
+                break
+              case '本地农村':
+                p2[key] = '02'
+                break
+              case '外地城镇':
+                p2[key] = '03'
+                break
+              case '外地农村':
+                p2[key] = '04'
+                break
+              case '其他':
+                p2[key] = '05'
+                break
+            }
+            break
           case 'nationality':
+            switch (p1[key][0]) {
+              case '汉族':
+                p2[key] = '01'
+                break
+              case '蒙古族':
+                p2[key] = '02'
+                break
+              case '藏族':
+                p2[key] = '03'
+                break
+              case '满族':
+                p2[key] = '04'
+                break
+              case '回族':
+                p2[key] = '05'
+                break
+              case '维吾尔族':
+                p2[key] = '06'
+                break
+              case '朝鲜族':
+                p2[key] = '07'
+                break
+              case '其他':
+                p2[key] = '08'
+                break
+            }
+            break
           case 'politicalStatus':
-          case 'marriageStatus':
-            p2[key] = p1[key][0]
+            switch (p1[key][0]) {
+              case '群众':
+                p2[key] = '01'
+                break
+              case '共产党员':
+                p2[key] = '02'
+                break
+              case '民族党派':
+                p2[key] = '03'
+                break
+              case '无党派':
+                p2[key] = '04'
+                break
+              case '共产党预备党员':
+                p2[key] = '05'
+                break
+              case '其他':
+                p2[key] = '06'
+                break
+            }
             break
           case 'addressValue':
             p2['nativeProvinceCode'] = p1[key][0]
             p2['nativeCityCode'] = p1[key][1]
+            break
+          case 'marriageStatus':
+            switch (p1[key][0]) {
+              case '未婚':
+                p2[key] = '01'
+                break
+              case '已婚':
+                p2[key] = '02'
+                break
+              case '离异':
+                p2[key] = '03'
+                break
+              case '其他':
+                p2[key] = '04'
+                break
+            }
             break
           default:
             p2[key] = p1[key]
@@ -247,14 +454,14 @@ export default {
   },
   computed: {
     checkBlank () {
-      const aU = this.personalInfo.memberName !== ''
+      const aU = $.trim(this.personalInfo.memberName) !== ''
       const bU = this.personalInfo.gender !== []
       const cU = this.personalInfo.certificationType !== []
-      const dU = this.personalInfo.certificationNumber !== ''
-      const eU = this.personalInfo.mobile !== ''
+      const dU = $.trim(this.personalInfo.certificationNumber) !== ''
+      const eU = $.trim(this.personalInfo.mobile) !== ''
       const fU = this.personalInfo.residenceType !== []
       const gU = this.personalInfo.nationality !== []
-      const hU = this.personalInfo.address !== ''
+      const hU = $.trim(this.personalInfo.address) !== ''
       if (aU && bU && cU && dU && eU && fU && gU && hU) {
         return false
       } else {

@@ -127,7 +127,7 @@ export default {
   padding: 16px;
 
   &.bottom-padding {
-    padding-bottom: 51px;
+    padding-bottom: 67px;
   }
   
   .social-relationship-wrapper {

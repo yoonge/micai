@@ -21,7 +21,7 @@
         <popup-picker title="是否最高学历" :value.sync="eduInfoItem.isHighestEdu" :data="eduStatus"></popup-picker>
       </group>
       <group class="clearfix">
-        <x-input title="学位" :value.sync="eduInfoItem.degree" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <popup-picker title="学位" :value.sync="eduInfoItem.degree" :data="degreeList"></popup-picker>
       </group>
       <group class="clearfix">
         <popup-picker title="是否最高学位" :value.sync="eduInfoItem.isHighestDegree" :data="degreeStatus"></popup-picker>
@@ -41,6 +41,7 @@
 </template>
 
 <script lang="babel">
+import $ from 'jquery'
 import * as api from 'src/api.js'
 import { Loading, Toast, Address, Datetime, Group, XButton, XInput, PopupPicker, XAddress, Cell } from 'vux-components'
 
@@ -75,7 +76,7 @@ export default {
         educationExp: [],
         major: '',
         isHighestEdu: [],
-        degree: '',
+        degree: [],
         isHighestDegree: [],
         educationType: [],
         note: ''
@@ -83,6 +84,7 @@ export default {
       eduInfoList: {},
       educationExpList: [['博士研究生', '硕士研究生', '本科', '专科', '高职及中专', '高中', '初中', '小学', '其他']],
       eduStatus: [['是', '否']],
+      degreeList: [['学士', '硕士', '博士', '其他']],
       degreeStatus: [['是', '否']],
       eduTypes: [['全日制', '非全日制']],
       minyear: 1900
@@ -155,6 +157,22 @@ export default {
                   break
               }
               break
+            case 'degree':
+              switch (tempJSON[key]) {
+                case '01':
+                  e1[key] = ['学士']
+                  break
+                case '02':
+                  e1[key] = ['硕士']
+                  break
+                case '03':
+                  e1[key] = ['博士']
+                  break
+                default:
+                  e1[key] = ['其他']
+                  break
+              }
+              break
             case 'isHighestEdu':
             case 'isHighestDegree':
               tempJSON[key] === '00' ? e1[key] = ['是'] : e1[key] = ['否']
@@ -210,6 +228,22 @@ export default {
                 break
             }
             break
+          case 'degree':
+            switch (e1[key][0]) {
+              case '学士':
+                tempArray[0][key] = '01'
+                break
+              case '硕士':
+                tempArray[0][key] = '02'
+                break
+              case '博士':
+                tempArray[0][key] = '03'
+                break
+              default:
+                tempArray[0][key] = '04'
+                break
+            }
+            break
           case 'isHighestEdu':
           case 'isHighestDegree':
             e1[key][0] === '是' ? tempArray[0][key] = '00' : tempArray[0][key] = '01'
@@ -255,8 +289,8 @@ export default {
     checkBlank () {
       const aU = this.eduInfoItem.beginDate !== ''
       const bU = this.eduInfoItem.endDate !== ''
-      const cU = this.eduInfoItem.school !== ''
-      const dU = this.eduInfoItem.educationExp !== ''
+      const cU = $.trim(this.eduInfoItem.school) !== ''
+      const dU = $.trim(this.eduInfoItem.educationExp) !== ''
       if (aU && bU && cU && dU) {
         return false
       } else {

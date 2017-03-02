@@ -48,13 +48,6 @@ export default {
     }
   },
   ready () {
-    let as = window.localStorage.getItem('auditStatus')
-    this.$set('auditStatus', as)
-    if (as === '01' || as === '03') {
-      this.$set('userInfoStatus', true)
-    } else {
-      this.$set('userInfoStatus', false)
-    }
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
@@ -63,6 +56,8 @@ export default {
   methods: {
     fetchWorkExpList () {
       const that = this
+      let as = window.localStorage.getItem('auditStatus')
+      that.$set('auditStatus', as)
       that.$http({
         url: api.showEmployExperience,
         params: {
@@ -72,6 +67,11 @@ export default {
         method: 'GET'
       }).then(res => {
         // console.log('工作经验列表 === ' + JSON.stringify(res.data))
+        if ((as === '01' || as === '03') && res.data.threeTablesStatus !== '00') {
+          that.$set('userInfoStatus', true)
+        } else {
+          that.$set('userInfoStatus', false)
+        }
         if (res.data.result) {
           that.$set('result1', true)
           that.$set('result2', false)
@@ -123,9 +123,10 @@ export default {
   box-sizing: border-box;
   width: 100%;
   padding: 16px;
+  position: relative;
 
   &.bottom-padding {
-    padding-bottom: 51px;
+    padding-bottom: 67px;
   }
   
   .work-item-wrapper {
