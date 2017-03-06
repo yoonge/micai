@@ -20,8 +20,6 @@
           <span>：</span>
           <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN01'">身份证</span>
           <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN02'">护照</span>
-          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN03'">驾照</span>
-          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN04'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">证件号码</span>
@@ -75,7 +73,7 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">紧急联系电话</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.emergencyCall}}</span> 
+          <span class="userInfo-item-name">{{personalInfo.emergencyPhoneNumber}}</span> 
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">民族</span>
@@ -163,7 +161,14 @@ export default {
     fetchPersonalInfo () {
       const that = this
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
-      that.$set('memberLoginId', u.memberLoginId)
+      if (u) {
+        that.$set('memberLoginId', u.memberLoginId)
+      } else {
+        that.$set('memberLoginId', that.$route.params.memberLoginId)
+        let u = {}
+        u.memberLoginId = that.$route.params.memberLoginId
+        window.localStorage.setItem('userInfo', JSON.stringify(u))
+      }
       // console.log(that.$route.params)
       if (that.$route.params.cpUserIdTemp) {
         that.$set('cpUserIdTemp', that.$route.params.cpUserIdTemp)
@@ -180,7 +185,7 @@ export default {
         },
         method: 'GET'
       }).then(res => {
-        // console.log('获取个人信息数据 === ' + JSON.stringify(res.data))
+        console.log('获取个人信息数据 TEMP === ' + JSON.stringify(res.data))
         that.$set('auditStatus', res.data.auditStatus)
         window.localStorage.setItem('auditStatus', res.data.auditStatus)
         if ((res.data.auditStatus === '01' || res.data.auditStatus === '03') && res.data.threeTablesStatus !== '00') {

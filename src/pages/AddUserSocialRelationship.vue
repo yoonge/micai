@@ -75,6 +75,8 @@ export default {
     }
   },
   ready () {
+    let as = window.localStorage.getItem('auditStatus')
+    this.$set('auditStatus', as)
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('memberLoginId', u.memberLoginId)
     this.$set('cpUserId', u.cpUserId)
@@ -123,6 +125,7 @@ export default {
       that.$http({
         url: api.addRelaInfo,
         params: {
+          auditStatus: that.auditStatus,
           memberLoginId: that.memberLoginId,
           xgCpUserBaseId: that.cpUserId,
           json: JSON.stringify(jsonArray)

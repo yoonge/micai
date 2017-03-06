@@ -206,7 +206,7 @@ const Routes = router => {
           name: 'home.userTemp',
           component: UserTemp,
           subRoutes: {
-            '/userInfoTemp/:cpUserIdTemp': {
+            '/userInfoTemp/:memberLoginId/:cpUserIdTemp': {
               name: 'home.user.info.temp.dynamic',
               component: UserInfoTemp
             },

@@ -73,7 +73,7 @@ export default {
         educationExp: [],
         major: '',
         isHighestEdu: [],
-        degree: '',
+        degree: [],
         isHighestDegree: [],
         educationType: [],
         note: ''

@@ -119,7 +119,7 @@ export default {
       },
       personalInfoJSON: [{}],
       genders: [['男', '女']],
-      certificates: [['身份证', '护照', '驾照', '其他']],
+      certificates: [['身份证', '护照']],
       accounts: [['本地城镇', '本地农村', '外地城镇', '外地农村', '其他']],
       nations: [['汉族', '蒙古族', '藏族', '满族', '回族', '维吾尔族', '朝鲜族', '其他']],
       politics: [['群众', '共产党员', '民族党派', '无党派', '共产党预备党员', '其他']],
@@ -177,12 +177,6 @@ export default {
                     break
                   case 'CN02':
                     p1[key] = ['护照']
-                    break
-                  case 'CN03':
-                    p1[key] = ['驾照']
-                    break
-                  case 'CN04':
-                    p1[key] = ['其他']
                     break
                 }
                 break
@@ -315,12 +309,6 @@ export default {
                 break
               case '护照':
                 p2[key] = 'CN02'
-                break
-              case '驾照':
-                p2[key] = 'CN03'
-                break
-              case '其他':
-                p2[key] = 'CN04'
                 break
             }
             break

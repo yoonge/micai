@@ -20,8 +20,6 @@
           <span>：</span>
           <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN01'">身份证</span>
           <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN02'">护照</span>
-          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN03'">驾照</span>
-          <span class="userInfo-item-name" v-if="personalInfo.certificationType === 'CN04'">其他</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">证件号码</span>
@@ -75,7 +73,7 @@
         <div class="userInfo-main-item">
           <span class="userInfo-item-title">紧急联系电话</span>
           <span>：</span>
-          <span class="userInfo-item-name">{{personalInfo.emergencyCall}}</span> 
+          <span class="userInfo-item-name">{{personalInfo.emergencyPhoneNumber}}</span>
         </div>
         <div class="userInfo-main-item">
           <span class="userInfo-item-title userInfo-item-ident">民族</span>
