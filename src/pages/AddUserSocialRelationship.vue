@@ -112,7 +112,7 @@ export default {
             case '同事':
               e2[key] = '07'
               break
-            default:
+            case '其他':
               e2[key] = '08'
               break
           }

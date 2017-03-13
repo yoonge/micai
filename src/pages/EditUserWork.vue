@@ -3,10 +3,10 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group class="required clearfix">
-        <datetime title="开始日期" :value.sync="workExpItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="开始日期" :value.sync="workExpItem.beginDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消" @on-change="checkBeginDate()"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="required clearfix">
-        <datetime title="结束日期" :value.sync="workExpItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
+        <datetime title="结束日期" :value.sync="workExpItem.endDate" :min-year="minyear" format="YYYY.MM" confirm-text="完成" cancel-text="取消" @on-change="checkEndDate()"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></datetime>
       </group>
       <group class="required clearfix">
         <x-input title="公司" :value.sync="workExpItem.company" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -158,6 +158,34 @@ export default {
       }).catch(err => {
         console.error(err.data)
       })
+    },
+    checkBeginDate () {
+      let b1 = this.workExpItem.beginDate.slice(0, 4)
+      let b2 = this.workExpItem.beginDate.slice(-2)
+      let e = this.workExpItem.endDate
+      if (e !== '') {
+        let e1 = e.slice(0, 4)
+        let e2 = e.slice(-2)
+        if (b1 > e1 || (b1 === e1 && b2 > e2)) {
+          this.workExpItem.beginDate = ''
+          this.$set('textToast', '开始日期不能大于结束日期！')
+          this.$set('showToast', true)
+        }
+      }
+    },
+    checkEndDate () {
+      let e1 = this.workExpItem.endDate.slice(0, 4)
+      let e2 = this.workExpItem.endDate.slice(-2)
+      let b = this.workExpItem.beginDate
+      if (b !== '') {
+        let b1 = b.slice(0, 4)
+        let b2 = b.slice(-2)
+        if (e1 < b1 || (e1 === b1 && e2 < b2)) {
+          this.workExpItem.endDate = ''
+          this.$set('textToast', '结束日期不能小于开始日期！')
+          this.$set('showToast', true)
+        }
+      }
     }
   },
   computed: {

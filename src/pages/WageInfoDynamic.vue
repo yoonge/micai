@@ -45,9 +45,9 @@ export default {
   ready () {
     let u = JSON.parse(window.localStorage.getItem('userInfo'))
     this.$set('openId', u.openId)
-    this.$set('cpUserId', u.cpUserId)
     let p = this.$route.params
     this.$set('companyId', p.companyId)
+    this.$set('cpUserId', p.cpUserId)
     this.$set('companyName', p.companyName)
     this.getDate()
     this.getWageInfo()

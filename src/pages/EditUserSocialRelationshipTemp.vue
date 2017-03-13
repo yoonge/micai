@@ -134,7 +134,7 @@ export default {
               case '07':
                 s1[key] = ['同事']
                 break
-              default:
+              case '08':
                 s1[key] = ['其他']
                 break
             }
@@ -177,8 +177,8 @@ export default {
             case '同事':
               tempArray[0][key] = '07'
               break
-            default:
-              tempArray[0][key] = '09'
+            case '其他':
+              tempArray[0][key] = '08'
               break
           }
         } else {

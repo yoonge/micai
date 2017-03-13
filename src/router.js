@@ -160,7 +160,7 @@ const Routes = router => {
               name: 'home.wage.info',
               component: WageInfo
             },
-            'wageInfo/:companyId/:companyName': {
+            'wageInfo/:companyId/:cpUserId/:companyName': {
               name: 'home.wage.info.dynamic',
               component: WageInfoDynamic
             }

@@ -3,7 +3,7 @@
     <loading :show="loading" :text="textLoading"></loading>
     <div class="edit-user-info">
       <group class="required clearfix">
-        <x-input title="姓名" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+        <x-input title="姓名" :value.sync="personalInfo.memberName" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="required clearfix">
         <popup-picker title="性别" :value.sync="personalInfo.gender" :data="genders"></popup-picker>
@@ -15,10 +15,10 @@
         <x-input title="证件号码" :value.sync="personalInfo.certificationNumber" placeholder="请输入" :show-clear="false" class="editCertificationNumber" @on-change="checkIdNumber"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm" v-show="idNumberStatus"></i><i class="ui-icon weui_icon weui_icon_warn" v-show="!idNumberStatus"></i></x-input>
       </group>
       <group class="required clearfix">
-        <x-input name="mobile" title="手机" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" keyboard="number" @on-change="checkMobile" class="editMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+        <x-input name="mobile" title="手机" :value.sync="personalInfo.mobile" placeholder="请输入" :show-clear="false" :required="false" @on-change="checkMobile"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm" v-show="mobileStatus"></i><i class="ui-icon weui_icon weui_icon_warn" v-show="!mobileStatus"></i></x-input>
       </group>
       <group class="clearfix">
-        <x-input title="邮箱" :value.sync="personalInfo.email" placeholder="请输入" :show-clear="false" @on-change="checkEmail" class="editEmail" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
+        <x-input title="邮箱" :value.sync="personalInfo.email" placeholder="请输入" :show-clear="false" :required="false" @on-change="checkEmail"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm" v-show="emailStatus"></i><i class="ui-icon weui_icon weui_icon_warn" v-show="!emailStatus"></i></x-input>
       </group>
       <group class="clearfix">
         <x-input title="社保账号" :value.sync="personalInfo.socialSecurityNumber" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
@@ -45,7 +45,7 @@
         <popup-picker title="民族" :value.sync="personalInfo.nationality" :data="nations"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
       </group>
       <group class="required clearfix">
-        <x-input title="住址" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i><i class="ui-icon weui_icon weui_icon_warn" style="display: none;"></i></x-input>
+        <x-input title="住址" :value.sync="personalInfo.address" placeholder="请输入" :show-clear="false" :required="false"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></x-input>
       </group>
       <group class="clearfix">
         <popup-picker title="政治面貌" :value.sync="personalInfo.politicalStatus" :data="politics"><i class="ui-icon ui-icon-sm ui-icon-pen-gray-sm"></i></popup-picker>
@@ -431,12 +431,17 @@ export default {
     },
     checkEmail () {
       let reg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
-      reg.test(this.personalInfo.email) ? this.$set('emailStatus', true) : this.$set('emailStatus', false)
+      reg.test(this.personalInfo.email) || this.personalInfo.email === '' ? this.$set('emailStatus', true) : this.$set('emailStatus', false)
     },
     checkIdNumber () {
       if (this.personalInfo.certificationType[0] === '身份证') {
         let reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/
-        reg.test(this.personalInfo.certificationNumber) ? this.$set('idNumberStatus', true) : this.$set('idNumberStatus', false)
+        if (reg.test(this.personalInfo.certificationNumber)) {
+          this.$set('idNumberStatus', true)
+          if (this.personalInfo.socialSecurityNumber === '') this.personalInfo.socialSecurityNumber = this.personalInfo.certificationNumber
+        } else {
+          this.$set('idNumberStatus', false)
+        }
       }
     }
   },
@@ -445,12 +450,12 @@ export default {
       const aU = $.trim(this.personalInfo.memberName) !== ''
       const bU = this.personalInfo.gender !== []
       const cU = this.personalInfo.certificationType !== []
-      const dU = $.trim(this.personalInfo.certificationNumber) !== ''
-      const eU = $.trim(this.personalInfo.mobile) !== ''
+      const dU = $.trim(this.personalInfo.certificationNumber) !== '' && this.idNumberStatus
+      const eU = $.trim(this.personalInfo.mobile) !== '' && this.mobileStatus
       const fU = this.personalInfo.residenceType !== []
       const gU = this.personalInfo.nationality !== []
       const hU = $.trim(this.personalInfo.address) !== ''
-      if (aU && bU && cU && dU && eU && fU && gU && hU) {
+      if (aU && bU && cU && dU && eU && fU && gU && hU && this.emailStatus) {
         return false
       } else {
         return true
@@ -487,8 +492,12 @@ export default {
     top: 50%;
     right: 4%;
 
-    &.weui_icon_warn:before {
-      font-size: 16px;
+    &.weui_icon_warn {
+      margin-top: -10px;
+
+      &:before {
+        font-size: 16px;
+      }
     }
   }
 

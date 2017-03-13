@@ -16,7 +16,7 @@
       <div class="notice-main-message">
         <div class="notice-main-content">
           <i class="notice-content-bg"></i>
-          <p>{{ info.content }}</p>
+          <pre>{{ info.content }}</pre>
         </div>
       </div>
     </div>
@@ -135,11 +135,17 @@ export default {
           background: url(../assets/img/notice-content.png) no-repeat;
           background-size: 18px 18px;
         }
-        p {
-          padding: 0;
+
+        > pre {
+          color: #4b4b4b;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", "Helvetica", "Arial", "PingFang SC", "PingFang TC", "Hiragino Sans GB", "Microsoft YaHei", "Microsoft JhengHei", sans-serif !important;
           font-size: 14px;
           line-height: 20px;
-          color: #4b4b4b;
+          word-break: break-all;
+          white-space: pre-wrap;       
+          white-space: -moz-pre-wrap;  
+          white-space: -pre-wrap;      
+          white-space: -o-pre-wrap;
         }
       }
 

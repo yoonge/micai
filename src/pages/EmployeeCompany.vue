@@ -27,7 +27,7 @@ export default {
   },
   data () {
     return {
-      telphone: '',
+      memberLoginId: '',
       currentCompanyId: '',
       currentCompanyName: '',
       allCompany: [],
@@ -42,7 +42,7 @@ export default {
   methods: {
     fetchUserInfo () {
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
-      this.$set('telphone', u.phone)
+      this.$set('memberLoginId', u.memberLoginId)
       this.$set('currentCompanyId', u.currentCompanyId)
       this.$set('currentCompanyName', u.currentCompanyName)
     },
@@ -51,7 +51,7 @@ export default {
       this.$http({
         url: api.getAllCompany,
         params: {
-          userName: that.telphone
+          userBaseId: that.memberLoginId
         },
         method: 'GET'
       }).then(res => {
