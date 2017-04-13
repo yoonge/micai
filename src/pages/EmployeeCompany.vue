@@ -27,6 +27,7 @@ export default {
   },
   data () {
     return {
+      openId: '',
       memberLoginId: '',
       currentCompanyId: '',
       currentCompanyName: '',
@@ -42,6 +43,7 @@ export default {
   methods: {
     fetchUserInfo () {
       let u = JSON.parse(window.localStorage.getItem('userInfo'))
+      this.$set('openId', u.openId)
       this.$set('memberLoginId', u.memberLoginId)
       this.$set('currentCompanyId', u.currentCompanyId)
       this.$set('currentCompanyName', u.currentCompanyName)
@@ -68,6 +70,7 @@ export default {
       this.$http({
         url: api.SelectACompany,
         params: {
+          openId: that.openId,
           companyId: id
         },
         method: 'GET'
