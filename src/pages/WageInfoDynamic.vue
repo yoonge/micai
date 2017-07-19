@@ -168,7 +168,6 @@ export default {
       font-size: 16px;
       color: #FFF;
       font-weight: 300;
-      padding-left: 10px;
     }
   }
 

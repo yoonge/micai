@@ -33,7 +33,7 @@ export default {
     background-color: #38acfd;
 
     &.btn-disabled {
-      background-color: #dcdcdc;
+      background-color: #dcdcdc !important;
     }
   }
   .btn-wrapper {

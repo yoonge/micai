@@ -16,18 +16,13 @@
 </template>
 
 <script lang="babel">
-import { Tab, TabItem, Datetime, Group, XButton, XInput, PopupPicker } from 'vux-components'
+import { Tab, TabItem } from 'vux-components'
 
 export default {
   name: 'User',
   components: {
     Tab,
-    TabItem,
-    PopupPicker,
-    Group,
-    Datetime,
-    XButton,
-    XInput
+    TabItem
   }
 }
 </script>

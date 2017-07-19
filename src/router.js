@@ -62,12 +62,27 @@ import WageView from 'pages/WageView'
 import WagePassword from 'pages/WagePassword'
 import WageSetPassword from 'pages/WageSetPassword'
 import WageSuccess from 'pages/WageSuccess'
+import WageWrapper from 'pages/WageWrapper'
+import WageMonthly from 'pages/WageMonthly'
+import WageWeekly from 'pages/WageWeekly'
+import WageDaily from 'pages/WageDaily'
 import WageInfo from 'pages/WageInfo'
 import WageInfoDynamic from 'pages/WageInfoDynamic'
 
 import Notice from 'pages/Notice'
 import NoticeView from 'pages/NoticeView'
 import NoticeInfo from 'pages/NoticeInfo'
+
+import Attendance from 'pages/Attendance'
+import AttendanceView from 'pages/AttendanceView'
+import AttendanceVacate from 'pages/AttendanceVacate'
+import AttendanceOvertime from 'pages/AttendanceOvertime'
+import AttendanceRepunch from 'pages/AttendanceRepunch'
+import AttendanceBusinessTrip from 'pages/AttendanceBusinessTrip'
+import AttendanceOfficialBusinessTrip from 'pages/AttendanceOfficialBusinessTrip'
+
+import Approval from 'pages/Approval'
+import ApprovalView from 'pages/ApprovalView'
 
 Vue.use(Router)
 
@@ -156,11 +171,29 @@ const Routes = router => {
               name: 'home.wage.success',
               component: WageSuccess
             },
-            'wageInfo': {
+            '/wageWrapper': {
+              name: 'home.wage.wrapper',
+              component: WageWrapper,
+              subRoutes: {
+                '/wageMonthly': {
+                  name: 'home.wage.wrapper.monthly',
+                  component: WageMonthly
+                },
+                '/wageWeekly': {
+                  name: 'home.wage.wrapper.weekly',
+                  component: WageWeekly
+                },
+                '/wageDaily': {
+                  name: 'home.wage.wrapper.daily',
+                  component: WageDaily
+                }
+              }
+            },
+            '/wageInfo': {
               name: 'home.wage.info',
               component: WageInfo
             },
-            'wageInfo/:companyId/:cpUserId/:companyName': {
+            '/wageInfo/:companyId/:cpUserId/:companyName': {
               name: 'home.wage.info.dynamic',
               component: WageInfoDynamic
             }
@@ -327,6 +360,46 @@ const Routes = router => {
               component: NoticeInfo
             }
           }
+        },
+        '/attendance': {
+          name: 'home.attendance',
+          component: Attendance,
+          subRoutes: {
+            '/attendanceView': {
+              name: 'home.attendance.view',
+              component: AttendanceView
+            },
+            '/attendanceVacate': {
+              name: 'home.attendance.vacate',
+              component: AttendanceVacate
+            },
+            '/attendanceOvertime': {
+              name: 'home.attendance.overtime',
+              component: AttendanceOvertime
+            },
+            '/attendanceRepunch': {
+              name: 'home.attendance.repunch',
+              component: AttendanceRepunch
+            },
+            '/attendanceBusinessTrip': {
+              name: 'home.attendance.businessTrip',
+              component: AttendanceBusinessTrip
+            },
+            '/attendanceOfficialBusinessTrip': {
+              name: 'home.attendance.officialBusinessTrip',
+              component: AttendanceOfficialBusinessTrip
+            }
+          }
+        },
+        '/approval': {
+          name: 'home.approval',
+          component: Approval,
+          subRoutes: {
+            '/approvalView': {
+              name: 'home.approval.view',
+              component: ApprovalView
+            }
+          }
         }
       }
     }
@@ -340,7 +413,10 @@ const Routes = router => {
     '/home/wage': '/home/wage/wageView',
     '/home/employee': '/home/employee/employeeCenter',
     'home/user': '/home/user/userInfo',
-    '/home/notice': '/home/notice/noticeView'
+    '/home/notice': '/home/notice/noticeView',
+    '/home/attendance': '/home/attendance/attendanceView',
+    '/home/approval': '/home/approval/approvalView',
+    '/home/wage/wageWrapper': '/home/wage/wageWrapper/wageMonthly'
   })
 }
 

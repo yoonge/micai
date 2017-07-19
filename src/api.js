@@ -36,6 +36,8 @@ export const setWagePassword = config.apiPrefix + '/portal/weixinPublic/SalaryQu
 export const getWageInfo = config.apiPrefix + '/portal/weixinPublic/ShowSalaryInfo.do'
 export const checkWageSmsCode = config.apiPrefix + '/portal/weixinPublic/CheckTestGetCode.do'
 export const getWageSmsCode = config.apiPrefix + '/portal/weixinPublic/TestGetCode.do'
+export const getWeekSalary = config.apiPrefix + '/portal/weixinPublic/getWeekSalary.do'
+export const getAttendanceStatus = config.apiPrefix + '/portal/weixinPublic/getAttendanceStatus.do'
 
 // notice
 export const getNoticeList = config.apiPrefix + '/portal/weixinPublic/queryNotices.do'

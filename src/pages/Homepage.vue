@@ -48,6 +48,18 @@
         </flexbox-item>
         <flexbox-item></flexbox-item>
         <flexbox-item></flexbox-item>
+        <!-- <flexbox-item class="xg-item">
+          <a class="xg-item-attendance" v-link="'/home/attendance'">
+            <i class="ui-icon ui-icon-xlg ui-icon-attendance"></i>
+          </a>
+          <p>考勤</p>
+        </flexbox-item>
+        <flexbox-item class="xg-item">
+          <a class="xg-item-approval" v-link="'/home/approval'">
+            <i class="ui-icon ui-icon-xlg ui-icon-approval"></i>
+          </a>
+          <p>审批</p>
+        </flexbox-item> -->
       </flexbox>
     </div>
     <footer class="xg-footer">
@@ -282,10 +294,18 @@ export default {
   background: linear-gradient(top, #288ff4 0%, #71aafb 100%);
   box-shadow: 0px 0px 4px #bfd9f3;
 }
+.xg-item-attendance {
+  background: linear-gradient(top, #ff6e46 0%, #ff8f7c 100%);
+  box-shadow: 0px 0px 4px #ff714b;
+}
+.xg-item-approval {
+  background: linear-gradient(top, #288ff4 0%, #71aafb 100%);
+  box-shadow: 0px 0px 4px #bfd9f3;
+}
 
 .xg-footer {
   width: 100%;
-  height: 70px;
+  height: 64px;
   text-align: center;
   background-color: #fff;
   margin-top: 16px;

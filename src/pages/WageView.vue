@@ -5,7 +5,7 @@
     </div>
     <p class="wage-title">{{currentCompanyName}}</p>
     <input type="password" class="input-wage" placeholder="请输入查询密码" v-model="password" @input="listenPassword()">
-    <button type="button" class="btn-wage weui_btn" :class="{'btn-disabled': btnDisabled}" disabled="{{btnDisabled}}" @click="checkWagePassword()">查询工资</button>
+    <button type="button" class="btn-wage weui_btn" :class="{'btn-disabled': btnDisabled}" :disabled="btnDisabled" @click="checkWagePassword()">查询工资</button>
     <!-- <p class="wage-retrieve">找回密码</p> -->
     <a class="wage-set" v-link="'/home/wage/wagePassword'">
       <span class="wage-set-password">没有密码？请设置密码</span>
@@ -62,7 +62,7 @@ export default {
         method: 'GET'
       }).then(res => {
         if (res.data.result) {
-          that.$router.go('/home/wage/wageInfo')
+          that.$router.go('/home/wage/wageWrapper')
         } else {
           that.$set('showToast', true)
         }
@@ -78,7 +78,6 @@ export default {
 .wageView {
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
   min-height: 568px;
   background-color: #fff;
   padding: 44px 10% 0 10%;

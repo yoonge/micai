@@ -1,9 +1,9 @@
 <template>
   <div class="wage-info">
+    <loading :show="loading" :text="textLoading"></loading>
     <div class="wage-info-title">
       <i class="ui-icon ui-icon-md ui-icon-arrow-left-white wage-i-left" @click="subMonth()"></i>
-      <span class="info-year">{{yearData}}</span>
-      <span class="info-month">{{monthData}}</span>
+      <span class="info-year">{{yearData}}</span><span class="info-month">{{monthData}}</span>
       <i class="ui-icon ui-icon-md ui-icon-arrow-right-white wage-i-right" @click="addMonth()"></i>
     </div>
     <div class="wage-info-bill">
@@ -16,7 +16,7 @@
           <span class="bill-article-val">{{v}}</span>
         </div>
       </div>
-      <h3 class="nobody" v-if="nobody">暂无本月工资数据</h3>
+      <h3 class="nobody" v-if="nobody">暂无工资数据</h3>
     </div>
     <div class="bill-bg"></div>
   </div>  
@@ -24,11 +24,17 @@
 
 <script>
 import * as api from 'src/api.js'
+import { Loading } from 'vux-components'
 
 export default {
-  name: 'WageInfo',
+  name: 'WageMonthly',
+  components: {
+    Loading
+  },
   data () {
     return {
+      loading: true,
+      textLoading: 'Loading...',
       openId: '',
       cpUserId: '',
       companyId: '',
@@ -50,8 +56,12 @@ export default {
     this.$set('companyName', u.currentCompanyName)
     this.getDate()
     this.getWageInfo()
-    this.$set('yearData', this.year + '年')
-    this.$set('monthData', this.month + '月份工资单')
+    this.$set('yearData', this.year + '-')
+    if (this.month < 10) {
+      this.$set('monthData', '0' + this.month)
+    } else {
+      this.$set('monthData', this.month)
+    }
   },
   methods: {
     getDate () {
@@ -68,6 +78,7 @@ export default {
     getWageInfo () {
       const that = this
       const dataStr = this.year + '-' + this.formatMonth
+      this.$set('loading', true)
       this.$http({
         url: api.getWageInfo,
         params: {
@@ -100,6 +111,7 @@ export default {
           let blankObj = {}
           that.$set('wageInfo', blankObj)
         }
+        that.$set('loading', false)
       })
     },
     addMonth () {
@@ -109,8 +121,12 @@ export default {
         this.year ++
       }
       this.getWageInfo()
-      this.$set('yearData', this.year + '年')
-      this.$set('monthData', this.month + '月份工资单')
+      this.$set('yearData', this.year + '-')
+      if (this.month < 10) {
+        this.$set('monthData', '0' + this.month)
+      } else {
+        this.$set('monthData', this.month)
+      }
     },
     subMonth () {
       this.month --
@@ -119,8 +135,12 @@ export default {
         this.year --
       }
       this.getWageInfo()
-      this.$set('yearData', this.year + '年')
-      this.$set('monthData', this.month + '月份工资单')
+      this.$set('yearData', this.year + '-')
+      if (this.month < 10) {
+        this.$set('monthData', '0' + this.month)
+      } else {
+        this.$set('monthData', this.month)
+      }
     }
   },
   computed: {
@@ -160,11 +180,11 @@ export default {
     }
     .info-year {
       font-size: 16px;
-      color: #FFF;
+      color: #fff;
     }
     .info-month {
       font-size: 16px;
-      color: #FFF;
+      color: #fff;
       font-weight: 300;
     }
   }
@@ -212,6 +232,17 @@ export default {
         }
       }
     }
+    .nobody {
+      color: #bdbdbd;
+      font-size: 14px;
+      font-weight: normal;
+      text-align: center;
+      background-image: url(../assets/img/no-data@2x.png);
+      background-repeat: no-repeat;
+      background-position: center 48px;
+      background-size: 50% 50%;
+      padding-top: 180px;
+    }
   }
   .bill-bg {
     height: 80px;
@@ -220,11 +251,6 @@ export default {
     background: url(../assets/img/billbg.png) 0 top no-repeat;
     background-size: 100%;
   }
-}
-.nobody {
-  font-weight: normal;
-  text-align: center;
-  padding-top: 24px;
 }
 </style>
 
